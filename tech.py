@@ -39,7 +39,8 @@ class tech:
 		self.Y = tmpY
 				
 		self.fromKWH2KW = tmpFromKWH2KW
-			
+		
+		# Technology distribution in time
 		self.techNRGdist = [0] * tmpTotTime
 		self.techKWHdist = [0] * tmpTotTime
 		self.techKWdist = [0] * tmpTotTime

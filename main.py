@@ -10,17 +10,19 @@ try:
 except:
 	print "Usage:",sys.argv[0], "Error in the parameter introduction"; sys.exit(1)
 	
-varParList = [50, 100, 200, 300, 400, 500, 600]
-nSeed = 25
+varParList = [50]
+nSeed = 2
 nTech = 3
 
 for sngParam in varParList:
 
 	# Initialize environment
-	envi = en.environment(StrPath, sngParam)
+	envi = en.environment(StrPath)
+	# Create folder simulation and store initial conditions
+	envi.createFolderAndSaveInitialConditions(sngParam)
 	envi.printParams()
 
-	# FOr each seed
+	# For each seed
 	for ns in range(nSeed):
 	
 		envi.createPopulation()
@@ -39,6 +41,8 @@ for sngParam in varParList:
 			envi.newTechAssessment(gen)
 		# Save results on file 
 		envi.saveOnFile(ns)
+		envi.saveAgentsOnFile(ns)
+		envi.saveTechsOnFile(ns)
 		
 		# reset simulation 
 		envi.resetSimulation()

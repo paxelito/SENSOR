@@ -16,12 +16,14 @@ import random as ran
 import cPickle as pickle
 import shutil 
 import copy
+import csv
+from xml.dom.minidom import Document
 
 class environment:
 	'''Class environment definition.	
 	'''
 	
-	def __init__(self, tmpPath, tmpPar):
+	def __init__(self, tmpPath):
 		'''Constructor '''
 		# Parameters file name and path
 		paramFile = tmpPath + "init.conf"
@@ -96,7 +98,6 @@ class environment:
 		
 		# CREATE SIMULATION FOLDER
 		self.simFolder = ''
-		self.createFolderAndSaveInitialConditions(tmpPar)
 	
 	# --------------------------------------------------------------|
 	# FUNCTION TO RESET SIMULATIONS (USED WITH DIFFERENT RANDOM SEED|
@@ -393,6 +394,7 @@ class environment:
 	# Function to save files
 	# --------------------------------------------------------------|
 	def writeSngStatOnFileWhereISay(self, tmpName, tmpStats, tmpFormat):
+		'''Function to save statistic on file'''
 		outFnameStat = tmpName + '.csv'
 		saveFileStat = open(outFnameStat, 'w')
 		cnt = 0
@@ -405,5 +407,113 @@ class environment:
 			cnt += 1
 		saveFileStat.close()	
 		os.rename(outFnameStat, os.path.join(self.simPath,self.simFolder,outFnameStat))
+
+	# --------------------------------------------------------------|
+	# Function to save agents on file
+	# --------------------------------------------------------------|
+	def saveAgentsOnFile(self, tmpSeed):
+		'''Function to save agents on file'''
+		# Filenames
+		agentsFileName = 'agents_' + str(tmpSeed) + '.csv'
+		listsFileName = 'agentLists_' + str(tmpSeed) + '.csv'
+		# File handle
+		saveFileStatFid = open(agentsFileName, 'w')
+		listsFileFid = open(listsFileName, 'w')
+		# File init
+		strAgentInit = 'ID\tX\tY\tEnergyNeed\tsolPot\tco2\tsocialLobby\tintCap\tequity\tbalance\tmBalance\tinvL\thealth\n'
+		strListInit = 'Agent\tTech\tProp\tage\n'
+		# Save first row
+		saveFileStatFid.write(strAgentInit)
+		listsFileFid.write(strListInit)
+		# For each agent
+		for a in self.allAgents:
+			strAgent = str(a.ID) + '\t' + str(a.x) + '\t' + str(a.y) + '\t' + str(a.totEnergyNeed) + '\t' + \
+			str(a.solar_potential) + '\t' + str(a.co2) + '\t' + str(a.social_lobby) + '\t' + str(a.int_capital) + '\t' + \
+			str(a.equityCost) + '\t' + str(a.balance) + '\t' + str(a.month_balance) + '\t' + str(a.invLenght) + '\t' + \
+			str(a.health) + '\n'
+			
+			saveFileStatFid.write(strAgent)
+			# For each Technology
+			for i, t in enumerate(a.nrgTechsReceipt):
+				tmpAge = self.months - a.debtTime[i]
+				strList = str(a.ID) + '\t' + str(t) + '\t' + str(a.nrgPropReceipt[i]) + '\t' + str(tmpAge) + '\n'
+				listsFileFid.write(strList)
+			
+		saveFileStatFid.close()
+		listsFileFid.close()
+		
+		self.fromCVStoXML([agentsFileName,'agentsFileNameXML'])
+		os.rename(agentsFileName, os.path.join(self.simPath,self.simFolder,agentsFileName))
+		os.rename(listsFileName, os.path.join(self.simPath,self.simFolder,listsFileName))
+
+	# --------------------------------------------------------------|
+	# Function to save technologies on file
+	# --------------------------------------------------------------|
+	def saveTechsOnFile(self, tmpSeed):
+		'''Function to save tech on file'''
+		# Filenames
+		techFileName = 'techs_' + str(tmpSeed) + '.csv'
+		# File handle
+		saveFileStatFid = open(techFileName, 'w')
+		# File init
+		strTechInit = 'ID\tEff\tStarttime\tdecay\tcost\ttCost\tpCost\trate\tloanLength\tduration\tco2\tsolarBased\tfeed-in-tarif\ttax-credit-inv\ttax-credit-debt\tcarbon-tax\tyears\tX\tY\tconversion\n'
+		saveFileStatFid.write(strTechInit)
+		for t in self.allTechs:
+			strTech = str(t.ID) + '\t' + str(t.efficiency) + '\t' + str(t.startTime) + '\t' + str(t.decay) + '\t' + \
+			str(t.cost) + '\t' + str(t.transportCosts) + '\t' + str(t.plantCost) + '\t' + str(t.interestRate) + '\t' + \
+			str(t.loanLength) + '\t' + str(t.duration) + '\t' + str(t.co2) + '\t' + str(t.solarBased) + '\t' + \
+			str(t.incPach[0]) + '\t' + str(t.incPach[1]) + '\t' + str(t.incPach[2]) + '\t' + str(t.incPach[3]) + '\t' + \
+			str(t.incPach[4]) + '\t' + str(t.X) + '\t' + str(t.Y) + '\t' + str(t.fromKWH2KW) + '\n'
+			
+			saveFileStatFid.write(strTech)
+			
+		saveFileStatFid.close()
+		os.rename(techFileName, os.path.join(self.simPath,self.simFolder,techFileName))
+			
+
+	def fromCVStoXML(self,args):
+	  
+	  try:
+		filename = args[0]
+		safe_filename = str.replace(filename[:-4], " ", "_").lower()
+	  except IndexError:
+		print "ERROR: Please provide a filename.csv as the first argument"
+		sys.exit()	
+	  try:
+		single_item = args[1]
+	  except IndexError:
+		print "ERROR: Please provide a name to be used for each row node"
+		sys.exit()
+	  
+	  f = csv.reader(open(filename, 'rb'))
+	  
+	  doc = Document()
+	  root_element = doc.createElement(safe_filename)
+	  doc.appendChild(root_element)
+	  
+	  columns = f.next()
+	  
+	  for row in f:
+		item = doc.createElement(single_item)
+		root_element.appendChild(item)
+		for c in enumerate(create_col_nodes(columns, item, doc)):
+		  c[1].appendChild(doc.createTextNode(row.pop(0)))
+	  
+	  output_file = safe_filename + ".xml"
+	  doc.writexml(open(output_file, 'w')) # Write file
+	  
+	  print "Done: Created %s" % output_file
+	  
+	def create_col_nodes(cols, item, doc):
+	  nodes = []
+	  for col in cols:
+		node = doc.createElement(str.replace(col, " ", "_").lower())
+		item.appendChild(node)
+		nodes.append(node)
+	  
+	  return nodes
 	
+	if __name__ == "__main__":
+	  sys.exit(main(sys.argv))
+			
 			
