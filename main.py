@@ -20,6 +20,7 @@ for sngParam in varParList:
 	envi = en.environment(StrPath, sngParam)
 	envi.printParams()
 
+	# FOr each seed
 	for ns in range(nSeed):
 	
 		envi.createPopulation()
