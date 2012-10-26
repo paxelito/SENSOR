@@ -16,8 +16,6 @@ import random as ran
 import cPickle as pickle
 import shutil 
 import copy
-import csv
-from xml.dom.minidom import Document
 
 class environment:
 	'''Class environment definition.	
@@ -42,7 +40,9 @@ class environment:
 			if strLine[0] == "randomSeed":
 				self.randomSeed = int(strLine[1])
 			if strLine[0] == "agents":
-				self.Nagents = int(strLine[1])				
+				self.Nagents = int(strLine[1])	
+			if strLine[0] == "techCreationMethod":
+				self.techCreationMethod = int(strLine[1])			
 			if strLine[0] == "months":
 				self.months = int(strLine[1])	
 			if strLine[0] == "xMaxPos":
@@ -147,7 +147,9 @@ class environment:
 	def loadRandomSeed(self):
 		'''Function to load a previously saved random seed'''
 		
-		if os.path.exists('rndstate.dat'):
+		seedFile = os.path.join(self.simPath,"rndstate.dat")
+		
+		if os.path.exists(seedFile):
 			# Restore the previously saved sate
 			print 'Found rndstate.dat, initializing random module'
 			with open('rndstate.dat', 'rb') as f:
@@ -241,9 +243,10 @@ class environment:
 		  |- intRiskRate: ", self.intRiskRate
 
 		'''
-		print "|- SYSTEM PARAMS ---"
+		print "* SYSTEM PARAMS -----------------------------------------------"
+		print ""
 		print " |- Simulation results path: ", self.simPath
-		print "|- PARAMETERS ---"
+		print "|- Parameters"
 		print " |- Random Seed: ", self.randomSeed
 		print " |- Number of Agents: ", self.Nagents
 		print " |- Number of Months: ", self.months
@@ -275,29 +278,6 @@ class environment:
 				singleAgent.distanceList.append(pow(pow((singleAgent.x - ag_col.x),2) + pow((singleAgent.y - ag_col.y),2),0.5))
 				ID_c = ID_c + 1
 			ID_r = ID_r + 1 
-		
-	# --------------------------------------------------------------|
-	# Function to create the three default technologies				|
-	# --------------------------------------------------------------|
-		
-	def createThreeDefaultTechs(self, tmpPar):
-		'''Function to create the three default technologies
-		   	def __init__(self, tmpID = 0, tmpEff = 0, tmpST = 0, tmpTotTime = 0, tmpDecay = 0, tmpCost = 0, tmpPcost = 0, tmpRate = 0,\
-	             tmpCo2 = 0, tmpTransportCosts = 0, tmpLoanLength = 10, tmpLifeDuration = 50, tmpIncList = None, tmpFromKWH2KW = 100, \
-	             tmpSolarBased = 0, tmpX = 0, tmpY = 0):
-	    '''
-		#self.allTechs.append(tech.tech(0,1,0,self.months,0,0.25,0,0,25,0,self.loanLength,self.invLength,[0,0,0,0,0],100,0))
-		#self.allTechsID.append(0)
-		#self.allTechs.append(tech.tech(1,1,0,self.months,0,0.01,3000,0.04,10,0.003,self.loanLength,self.invLength,[0,0.05,0,0,10],100,0,ran.uniform(0,self.xMaxPos),ran.uniform(0,self.yMaxPos)))
-		#self.allTechsID.append(1)
-		#self.allTechs.append(tech.tech(2,1,0,self.months,0,-0.3,3000,0.04,5,0,self.loanLength,self.invLength,[0,0.05,0,0,10],100,1))
-		#self.allTechsID.append(2)
-		self.allTechs.append(tech.tech(0,1,0,self.months,0,0.08 ,  0,0   ,25,0    ,self.loanLength,self.invLength,[0,0,0,0,0],100,0))
-		self.allTechsID.append(0)
-		self.allTechs.append(tech.tech(1,1,0,self.months,0,0.02 ,300,0.04,10,0.003,self.loanLength,self.invLength,[0,0,0,0,0],100,0,ran.uniform(0,self.xMaxPos),ran.uniform(0,self.yMaxPos)))
-		self.allTechsID.append(1)
-		self.allTechs.append(tech.tech(2,1,0,self.months,0,-0.07,tmpPar,0.04, 5,0    ,self.loanLength,self.invLength,[0,0,0,0,0],100,1))
-		self.allTechsID.append(2)
 				
 	# --------------------------------------------------------------|
 	# AGENTS NORMAL MONTH FINANCIAL ENERGETIC ACTIVITY
@@ -420,8 +400,8 @@ class environment:
 		saveFileStatFid = open(agentsFileName, 'w')
 		listsFileFid = open(listsFileName, 'w')
 		# File init
-		strAgentInit = 'ID\tX\tY\tEnergyNeed\tsolPot\tco2\tsocialLobby\tintCap\tequity\tbalance\tmBalance\tinvL\thealth\n'
-		strListInit = 'Agent\tTech\tProp\tage\n'
+		strAgentInit = '#ID\tX\tY\tEnergyNeed\tsolPot\tco2\tsocialLobby\tintCap\tequity\tbalance\tmBalance\tinvL\thealth\n'
+		strListInit = '#Agent\tTech\tProp\tage\n'
 		# Save first row
 		saveFileStatFid.write(strAgentInit)
 		listsFileFid.write(strListInit)
@@ -442,7 +422,6 @@ class environment:
 		saveFileStatFid.close()
 		listsFileFid.close()
 		
-		self.fromCVStoXML([agentsFileName,'agentsFileNameXML'])
 		os.rename(agentsFileName, os.path.join(self.simPath,self.simFolder,agentsFileName))
 		os.rename(listsFileName, os.path.join(self.simPath,self.simFolder,listsFileName))
 
@@ -456,7 +435,7 @@ class environment:
 		# File handle
 		saveFileStatFid = open(techFileName, 'w')
 		# File init
-		strTechInit = 'ID\tEff\tStarttime\tdecay\tcost\ttCost\tpCost\trate\tloanLength\tduration\tco2\tsolarBased\tfeed-in-tarif\ttax-credit-inv\ttax-credit-debt\tcarbon-tax\tyears\tX\tY\tconversion\n'
+		strTechInit = '#ID\tEff\tStarttime\tdecay\tcost\ttCost\tpCost\trate\tloanLength\tduration\tco2\tsolarBased\tfeed-in-tarif\ttax-credit-inv\ttax-credit-debt\tcarbon-tax\tyears\tX\tY\tconversion\n'
 		saveFileStatFid.write(strTechInit)
 		for t in self.allTechs:
 			strTech = str(t.ID) + '\t' + str(t.efficiency) + '\t' + str(t.startTime) + '\t' + str(t.decay) + '\t' + \
@@ -469,51 +448,97 @@ class environment:
 			
 		saveFileStatFid.close()
 		os.rename(techFileName, os.path.join(self.simPath,self.simFolder,techFileName))
+		
+	# --------------------------------------------------------------------------|
+	# Function to choose the technology creation function to use				|
+	# --------------------------------------------------------------------------|
+	def createTechnologies(self, tmpPar):	
+		'''Function to select, according to the techCreationMethod params, the technology creation function'''
+		if self.techCreationMethod == 0:
+			self.createThreeDefaultTechs(tmpPar)
+		elif self.techCreationMethod == 1:
+			self.importTechs()
+		else: 
+			"an other function to implement... random technology creation"	
+			
+		self.promptTechs()
+		
+	# --------------------------------------------------------------|
+	# Function to create the three default technologies				|
+	# --------------------------------------------------------------|
+	def createThreeDefaultTechs(self, tmpPar):
+		'''Function to create the three default technologies
+		   	def __init__(self, tmpID = 0, tmpEff = 0, tmpST = 0, tmpTotTime = 0, tmpDecay = 0, tmpCost = 0, tmpPcost = 0, tmpRate = 0,\
+	             tmpCo2 = 0, tmpTransportCosts = 0, tmpLoanLength = 10, tmpLifeDuration = 50, tmpIncList = None, tmpFromKWH2KW = 100, \
+	             tmpSolarBased = 0, tmpX = 0, tmpY = 0):
+	    '''
+		#self.allTechs.append(tech.tech(0,1,0,self.months,0,0.25,0,0,25,0,self.loanLength,self.invLength,[0,0,0,0,0],100,0))
+		#self.allTechsID.append(0)
+		#self.allTechs.append(tech.tech(1,1,0,self.months,0,0.01,3000,0.04,10,0.003,self.loanLength,self.invLength,[0,0.05,0,0,10],100,0,ran.uniform(0,self.xMaxPos),ran.uniform(0,self.yMaxPos)))
+		#self.allTechsID.append(1)
+		#self.allTechs.append(tech.tech(2,1,0,self.months,0,-0.3,3000,0.04,5,0,self.loanLength,self.invLength,[0,0.05,0,0,10],100,1))
+		#self.allTechsID.append(2)
+		self.allTechs.append(tech.tech(0,1,0,self.months,0,0.08 ,  0,0   ,25,0    ,self.loanLength,self.invLength,[0,0,0,0,0],100,0))
+		self.allTechsID.append(0)
+		self.allTechs.append(tech.tech(1,1,0,self.months,0,0.02 ,300,0.04,10,0.003,self.loanLength,self.invLength,[0,0,0,0,0],100,0,ran.uniform(0,self.xMaxPos),ran.uniform(0,self.yMaxPos)))
+		self.allTechsID.append(1)
+		self.allTechs.append(tech.tech(2,1,0,self.months,0,-0.07,tmpPar,0.04, 5,0    ,self.loanLength,self.invLength,[0,0,0,0,0],100,1))
+		self.allTechsID.append(2)
+		
+	# --------------------------------------------------------------|
+	# Function to load technologies
+	# --------------------------------------------------------------|
+	def importTechs(self):
+		'''Function to import technologies from a file previously prepared'''
+		print '|- TECHNOLOGY IMPORT PROCESS'
+		# file name
+		tmpFileName = os.path.join(self.simPath,'initTechs.csv')
+		try:
+			fileFID = open(tmpFileName, 'r')
+		except:
+			print "Technology file has not been found: ", tmpFileName; sys.exit(1)
+		fileFID = open(tmpFileName, 'r')
+		#read file
+		techs = fileFID.readlines()
+		# for each technology
+		for t in techs:
+			if t[0] != '#':
+				tmpID, tmpEFF, tmpST, tmpDecay, tmpCost, tmpTcost, tmpPcost, tmpRate, \
+				tmpLoanLength, tmpDuration, tmpCO2, tmpSB, tmpFIT, tmpTCI, tmpTCD, tmpCT, \
+				tmpYear, tmpX, tmpY, tmpConversion = t.split()
+				# Insert technology
+				self.allTechs.append(tech.tech(int(tmpID), float(tmpEFF), 0, self.months, float(tmpDecay), float(tmpCost), float(tmpPcost),\
+									float(tmpRate), float(tmpCO2), float(tmpTcost), int(tmpLoanLength), int(tmpDuration),\
+									[float(tmpFIT), float(tmpTCI), float(tmpTCD), float(tmpCT), int(tmpYear)], float(tmpConversion), int(tmpSB), float(tmpX), float(tmpY)))
+				self.allTechsID.append(int(tmpID))
+								
+	# --------------------------------------------------------------|
+	# Function to prompt the present technologies
+	# --------------------------------------------------------------|
+	def promptTechs(self):	
+		'''Function to prompt the present technologies'''	
+		print ""
+		print "* LIST OF TECHNOLOGIES ----------------------------------------"
+		print ""
+		for t in self.allTechs:
+			print '|- TECH ', t.ID
+			print ' |- Efficiency ', t.efficiency
+			print ' |- Start Time ', t.startTime
+			print ' |- Annual Decay ', t.decay
+			print ' |- Technology Cost (euro/kWh) ', t.cost
+			print ' |- Tranportation Cost (euro/kWh/km) ', t.transportCosts
+			print ' |- Technology Plant Cost (euro/kW) ', t.plantCost
+			print ' |- Interest Rate ', t.interestRate
+			print ' |- Loan Length ', t.loanLength
+			print ' |- Technology lifetime  ', t.duration
+			print ' |- Technology Co2 prodution per KwH ', t.co2
+			print ' |- Intentives ', t.incPach
+			print ' |- Solar Based Flag Var ', t.solarBased	
+			print ' |- X-position ', t.X
+			print ' |- Y-position ', t.Y
+			print ' |- Technology efficiency coeffient ', t.fromKWH2KW
+		print "|- ---------------------"
 			
 
-	def fromCVStoXML(self,args):
-	  
-	  try:
-		filename = args[0]
-		safe_filename = str.replace(filename[:-4], " ", "_").lower()
-	  except IndexError:
-		print "ERROR: Please provide a filename.csv as the first argument"
-		sys.exit()	
-	  try:
-		single_item = args[1]
-	  except IndexError:
-		print "ERROR: Please provide a name to be used for each row node"
-		sys.exit()
-	  
-	  f = csv.reader(open(filename, 'rb'))
-	  
-	  doc = Document()
-	  root_element = doc.createElement(safe_filename)
-	  doc.appendChild(root_element)
-	  
-	  columns = f.next()
-	  
-	  for row in f:
-		item = doc.createElement(single_item)
-		root_element.appendChild(item)
-		for c in enumerate(create_col_nodes(columns, item, doc)):
-		  c[1].appendChild(doc.createTextNode(row.pop(0)))
-	  
-	  output_file = safe_filename + ".xml"
-	  doc.writexml(open(output_file, 'w')) # Write file
-	  
-	  print "Done: Created %s" % output_file
-	  
-	def create_col_nodes(cols, item, doc):
-	  nodes = []
-	  for col in cols:
-		node = doc.createElement(str.replace(col, " ", "_").lower())
-		item.appendChild(node)
-		nodes.append(node)
-	  
-	  return nodes
-	
-	if __name__ == "__main__":
-	  sys.exit(main(sys.argv))
 			
 			

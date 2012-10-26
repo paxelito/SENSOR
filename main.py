@@ -26,8 +26,7 @@ for sngParam in varParList:
 	for ns in range(nSeed):
 	
 		envi.createPopulation()
-		#envi.printPopulation()
-		envi.createThreeDefaultTechs(sngParam)
+		envi.createTechnologies(sngParam)
 		
 		# DYNAMICS
 		for gen in range(1, envi.months+1):
