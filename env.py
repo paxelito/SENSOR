@@ -42,7 +42,9 @@ class environment:
 			if strLine[0] == "agents":
 				self.Nagents = int(strLine[1])	
 			if strLine[0] == "techCreationMethod":
-				self.techCreationMethod = int(strLine[1])			
+				self.techCreationMethod = int(strLine[1])
+			if strLine[0] == "agentCreationMethod":
+				self.agentCreationMethod = int(strLine[1])			
 			if strLine[0] == "months":
 				self.months = int(strLine[1])	
 			if strLine[0] == "xMaxPos":
@@ -176,23 +178,6 @@ class environment:
 		#Copy file into results folder (copy2 because also file metadata are copied)
 		shutil.copy2("./rndstate.dat",os.path.join(self.simPath,self.simFolder,"rndstate.dat"))
 		shutil.copy2("./init.conf",os.path.join(self.simPath,self.simFolder,"init.conf"))
-	
-	
-	
-	# --------------------------------------------------------------|
-	#: CREATE POPULATION 											|
-	# --------------------------------------------------------------|
-	
-	def createPopulation(self):
-		'''Function to create the population
-    	'''
-		for i in range(0,self.Nagents):
-			self.allAgents.append(ag.agents(self.debugLevel,i, ran.uniform(0,self.xMaxPos),ran.uniform(0,self.yMaxPos), \
-			                                ran.randint(self.minNrgDim, self.maxNrgDim),ran.uniform(0,self.socialLobby),\
-			                                ran.uniform(self.minIrradiation,1), self.intRiskRate, self.ratioInternalCapital, self.invLength ) )
-			
-		self.genDistanceLists()
-	
 	
 	
 	# --------------------------------------------------------------|		
@@ -389,43 +374,6 @@ class environment:
 		os.rename(outFnameStat, os.path.join(self.simPath,self.simFolder,outFnameStat))
 
 	# --------------------------------------------------------------|
-	# Function to save agents on file
-	# --------------------------------------------------------------|
-	def saveAgentsOnFile(self, tmpSeed):
-		'''Function to save agents on file'''
-		# Filenames
-		agentsFileName = 'agents_' + str(tmpSeed) + '.csv'
-		listsFileName = 'agentLists_' + str(tmpSeed) + '.csv'
-		# File handle
-		saveFileStatFid = open(agentsFileName, 'w')
-		listsFileFid = open(listsFileName, 'w')
-		# File init
-		strAgentInit = '#ID\tX\tY\tEnergyNeed\tsolPot\tco2\tsocialLobby\tintCap\tequity\tbalance\tmBalance\tinvL\thealth\n'
-		strListInit = '#Agent\tTech\tProp\tage\n'
-		# Save first row
-		saveFileStatFid.write(strAgentInit)
-		listsFileFid.write(strListInit)
-		# For each agent
-		for a in self.allAgents:
-			strAgent = str(a.ID) + '\t' + str(a.x) + '\t' + str(a.y) + '\t' + str(a.totEnergyNeed) + '\t' + \
-			str(a.solar_potential) + '\t' + str(a.co2) + '\t' + str(a.social_lobby) + '\t' + str(a.int_capital) + '\t' + \
-			str(a.equityCost) + '\t' + str(a.balance) + '\t' + str(a.month_balance) + '\t' + str(a.invLenght) + '\t' + \
-			str(a.health) + '\n'
-			
-			saveFileStatFid.write(strAgent)
-			# For each Technology
-			for i, t in enumerate(a.nrgTechsReceipt):
-				tmpAge = self.months - a.debtTime[i]
-				strList = str(a.ID) + '\t' + str(t) + '\t' + str(a.nrgPropReceipt[i]) + '\t' + str(tmpAge) + '\n'
-				listsFileFid.write(strList)
-			
-		saveFileStatFid.close()
-		listsFileFid.close()
-		
-		os.rename(agentsFileName, os.path.join(self.simPath,self.simFolder,agentsFileName))
-		os.rename(listsFileName, os.path.join(self.simPath,self.simFolder,listsFileName))
-
-	# --------------------------------------------------------------|
 	# Function to save technologies on file
 	# --------------------------------------------------------------|
 	def saveTechsOnFile(self, tmpSeed):
@@ -511,6 +459,7 @@ class environment:
 									float(tmpRate), float(tmpCO2), float(tmpTcost), int(tmpLoanLength), int(tmpDuration),\
 									[float(tmpFIT), float(tmpTCI), float(tmpTCD), float(tmpCT), int(tmpYear)], float(tmpConversion), int(tmpSB), float(tmpX), float(tmpY)))
 				self.allTechsID.append(int(tmpID))
+		fileFID.close()
 								
 	# --------------------------------------------------------------|
 	# Function to prompt the present technologies
@@ -538,6 +487,110 @@ class environment:
 			print ' |- Y-position ', t.Y
 			print ' |- Technology efficiency coeffient ', t.fromKWH2KW
 		print "|- ---------------------"
+		
+	# --------------------------------------------------------------|
+	# Function to save agents on file
+	# --------------------------------------------------------------|
+	def saveAgentsOnFile(self, tmpSeed):
+		'''Function to save agents on file'''
+		# Filenames
+		agentsFileName = 'agents_' + str(tmpSeed) + '.csv'
+		listsFileName = 'agentLists_' + str(tmpSeed) + '.csv'
+		# File handle
+		saveFileStatFid = open(agentsFileName, 'w')
+		listsFileFid = open(listsFileName, 'w')
+		# File init
+		strAgentInit = '#ID\tX\tY\tEnergyNeed\tsolPot\tco2\tsocialLobby\tintCap\tequity\tbalance\tmBalance\tinvL\thealth\n'
+		strListInit = '#Agent\tTech\tProp\tage\n'
+		# Save first row
+		saveFileStatFid.write(strAgentInit)
+		listsFileFid.write(strListInit)
+		# For each agent
+		for a in self.allAgents:
+			strAgent = str(a.ID) + '\t' + str(a.x) + '\t' + str(a.y) + '\t' + str(a.totEnergyNeed) + '\t' + \
+			str(a.solar_potential) + '\t' + str(a.co2) + '\t' + str(a.social_lobby) + '\t' + str(a.int_capital) + '\t' + \
+			str(a.equityCost) + '\t' + str(a.balance) + '\t' + str(a.month_balance) + '\t' + str(a.invLenght) + '\t' + \
+			str(a.health) + '\n'
+			
+			saveFileStatFid.write(strAgent)
+			# For each Technology
+			for i, t in enumerate(a.nrgTechsReceipt):
+				tmpAge = self.months - a.debtTime[i]
+				strList = str(a.ID) + '\t' + str(t) + '\t' + str(a.nrgPropReceipt[i]) + '\t' + str(tmpAge) + '\n'
+				listsFileFid.write(strList)
+			
+		saveFileStatFid.close()
+		listsFileFid.close()
+		
+		os.rename(agentsFileName, os.path.join(self.simPath,self.simFolder,agentsFileName))
+		os.rename(listsFileName, os.path.join(self.simPath,self.simFolder,listsFileName))
+		
+	# --------------------------------------------------------------|
+	#: CREATE POPULATION 											|
+	# --------------------------------------------------------------|
+	
+	def createPopulation(self):
+		'''Function to create the population
+    	'''
+		# if agentCreationMethod is equal to 0 random population is created otherwise it is uploaded from file
+		if self.agentCreationMethod == 0:
+			for i in range(0,self.Nagents):
+				self.allAgents.append(ag.agents(self.debugLevel,i, ran.uniform(0,self.xMaxPos),ran.uniform(0,self.yMaxPos), \
+			    	                            ran.randint(self.minNrgDim, self.maxNrgDim),ran.uniform(0,self.socialLobby),\
+			        	                        ran.uniform(self.minIrradiation,1), self.intRiskRate, self.ratioInternalCapital, self.invLength ) )
+		else:
+			self.importAgents()
+			
+		self.genDistanceLists()
+		self.promptAgents()
+		
+	# --------------------------------------------------------------|
+	# Function to load agents
+	# --------------------------------------------------------------|
+	def importAgents(self):
+		'''Function to import agents from a file previously prepared'''
+		print '|- AGENTS IMPORT PROCESS'
+		# file name
+		tmpFileName = os.path.join(self.simPath,'initAgents.csv')
+		try:
+			fileFID = open(tmpFileName, 'r')
+		except:
+			print "Technology file has not been found: ", tmpFileName; sys.exit(1)
+		fileFID = open(tmpFileName, 'r')
+		#read file
+		agents = fileFID.readlines()
+		
+		# for each Agent
+
+		for a in agents:
+			if a[0] != '#':
+				tmpID, tmpX, tmpY, tmpEN, tmpSolPot, tmpCO2, tmpSocialLobby, tmpintCap, \
+				tmpEquity, tmpBalance, tmpMbalance, tmpInvL, tmpHealth = a.split()
+				# Insert Agent
+	             
+				self.allAgents.append(ag.agents(self.debugLevel, int(tmpID), float(tmpX), float(tmpY), float(tmpEN), float(tmpSocialLobby),\
+									 float(tmpSolPot),float(tmpEquity), float(tmpintCap), int(tmpInvL), None, None, float(tmpBalance), \
+									 float(tmpMbalance), None, None, None, None, None, float(tmpHealth)))
+		
+		fileFID.close()
+
+	# --------------------------------------------------------------|
+	# Function to prompt the present technologies
+	# --------------------------------------------------------------|
+	def promptAgents(self):	
+		'''Function to prompt the present Agents'''	
+		print ""
+		print "* LIST OF AGENTS ----------------------------------------"
+		print ""
+		for a in self.allAgents:
+			print "|- AGENT ID ", a.ID, " - Pos X: ", a.x, " - Pos Y: ", a.y
+			print " |- Energy Need ", a.totEnergyNeed
+			print " |- Tech receipt ", a.nrgTechsReceipt
+			print " |- Tech Proportions ", a.nrgPropReceipt, " - Solar Potential ", a.solar_potential, " - CO2 production ", a.co2
+			print " |- Social Lobby ", a.social_lobby, " - Internal Capital Ratio ", a.int_capital, " - Equity Cost ", a.equityCost
+			print " |- Overall Balance ", a.balance, " - Monthly Balance ", a.month_balance, " - Investment Length ", a.invLenght, " - Health ", a.health
+		print "|- ---------------------"
+									 
 			
 
 			
