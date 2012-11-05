@@ -12,6 +12,7 @@ import sys, os
 import time
 import agents as ag
 import tech
+import policy
 import random as ran
 import cPickle as pickle
 import shutil 
