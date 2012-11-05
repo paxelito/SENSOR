@@ -27,6 +27,8 @@ for sngParam in varParList:
 	
 		envi.createPopulation()
 		envi.createTechnologies(sngParam)
+		envi.createPolicies()
+		
 		
 		# DYNAMICS
 		for gen in range(1, envi.months+1):
@@ -42,6 +44,7 @@ for sngParam in varParList:
 		envi.saveOnFile(ns)
 		envi.saveAgentsOnFile(ns)
 		envi.saveTechsOnFile(ns)
+		envi.savePoliciesOnFile(ns)
 		
 		# reset simulation 
 		envi.resetSimulation()
