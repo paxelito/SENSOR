@@ -14,7 +14,7 @@ class policy:
 	''' class policy definition
 	'''
 	
-	def __init__(self, tmpID=0, tmpFeedIn=0, tmpTcred=0, tmpTcredInv=0, tmpCT=0, tmpL=0):
+	def __init__(self, tmpID=0, tmpFeedIn=0, tmpTcred=0, tmpTcredInv=0, tmpCT=0, tmpL=0, tmpIntroTime=0):
 		'''Constructor'''
 		
 		self.ID = tmpID
@@ -23,5 +23,6 @@ class policy:
 		self.taxCreditInv = tmpTcredInv
 		self.carbonTax = tmpCT
 		self.length = tmpL
+		self.introTime = tmpIntroTime
 		
 		

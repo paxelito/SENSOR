@@ -416,9 +416,9 @@ class environment:
 		# for each technology
 		for t in policies:
 			if t[0] != '#':
-				tmpID, tmpFI, tmpTC, tmpTCI, tmpCT, tmpL = t.split()
+				tmpID, tmpFI, tmpTC, tmpTCI, tmpCT, tmpL, tmpIT = t.split()
 				# Insert technology
-				self.allPolicies.append(policy.policy(int(tmpID), float(tmpFI), float(tmpTC), float(tmpTCI), float(tmpCT), int(tmpL)))
+				self.allPolicies.append(policy.policy(int(tmpID), float(tmpFI), float(tmpTC), float(tmpTCI), float(tmpCT), int(tmpL), int(tmpIT)))
 		fileFID.close()
 
 	# --------------------------------------------------------------|
@@ -508,6 +508,7 @@ class environment:
 			print ' |- Tax Credit on Investment ', t.taxCreditInv
 			print ' |- Carbon Tax ', t.carbonTax
 			print ' |- Policy Length ', t.length
+			print '	|- Introduction Time ', t.initTime
 		print "|- ---------------------"
 		
 	# --------------------------------------------------------------|
