@@ -6,7 +6,7 @@ import copy
 
 class agents:
 	def __init__(self, tmpDL = 0, tmpID = 0, tmpX = 0, tmpY = 0, tmpNrgDim = 100, tmpSocialLobby = 0, tmpSolPot = ran.uniform(0.5,1), tmpEquityCost = 0.05, \
-	             tmpIntCap = 0.5, tmpInvLength = 50, tmpNrgTech = None, tmpNrgTechProp = None, tmpBalance = 0, tmpMBalance = 0, tmpDebts = None, \
+	             tmpIntCap = 0.5, tmpInvLength = 50, tmpNrgTech = None, tmpNrgTechProp = None, tmpTechPolicy = None, tmpBalance = 0, tmpMBalance = 0, tmpDebts = None, \
 	             tmpRemDebt = None, tmpDebtTime = None, tmpDebtLen = None, tmpMrep = None, tmpHealth = 1):
 		'''Constructor of the agent class'''
 		# General Agent Attributes
@@ -21,6 +21,8 @@ class agents:
 			self.nrgTechsReceipt = [0] # technologies vectors
 		if tmpNrgTechProp == None:
 			self.nrgPropReceipt = [self.totEnergyNeed] # KW provided by the different technologies. 
+		if tmpTechPolicy == None:
+			self.techPolicy = [[0,0]] # KW provided by the different technologies. 
 		self.flagFree = True
 		
 		# Physical Parameters of the agent
@@ -34,7 +36,7 @@ class agents:
 		self.balance = tmpBalance
 		self.month_balance = tmpMBalance
 		self.invLenght = tmpInvLength
-		self.health = tmpHealth # This parameter represents the health of the agent. Once that the agent has assessed the possibile investment, this is the probability to actually invest
+		self.health = tmpHealth # This parameter represents the health of the agent. Once that the agent has assessed the possible investment, this is the probability to actually invest
 		if tmpDebts == None:
 			self.debts = [0] # initial debts list of the agent
 		if tmpRemDebt == None:
@@ -52,10 +54,11 @@ class agents:
 	# --------------------------------------------------------------|
 	# NEW TECHNOLOGY INTRODUCTION
 	# --------------------------------------------------------------|	
-	def newTech(self, tmpTechID, tmpProp, tmpDistance):
+	def newTech(self, tmpTechID, tmpProp, tmpDistance, tmpPolicy, tmpPolicyLength):
 		'''Function to inser a new technology in the agent receipt'''
 		self.nrgTechsReceipt.append(tmpTechID)
 		self.nrgPropReceipt.append(self.totEnergyNeed * tmpProp)
+		self.techPolicy.append([tmpPolicy,tmpPolicyLength])
 		
 	# --------------------------------------------------------------| 
 	# NEW INVESTMENT ASSESSMENT
@@ -165,12 +168,15 @@ class agents:
 							tmpFinID += 1
 							
 					if betterNPV > 0:
-						# -------------------------------------------------------------
+						
 						# .. If a BETTER new technology exist, it is added to the agent
-						# -------------------------------------------------------------
+						
 						self.flagFree = False # Technology search has been blocked
 						self.nrgTechsReceipt.append(tmpTechsID[tmpAvaiableTechs[betterTechPos]])
-						self.nrgPropReceipt = recList[betterTechPos]		
+						self.nrgPropReceipt = recList[betterTechPos]
+						self.techPolicy.append([tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy,\
+											tmpPolicies[tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy].length])
+														
 						tmpTotalDept = tmpOverallPlantCost + (tmpAnnualInterest * tmpTechs[tmpAvaiableTechs[betterTechPos]].loanLength)
 						self.debts.append(tmpTotalDept)
 						self.RemainingDebts.append(tmpTotalDept)

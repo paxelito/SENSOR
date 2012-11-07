@@ -394,7 +394,7 @@ class environment:
 	             
 				self.allAgents.append(ag.agents(self.debugLevel, int(tmpID), float(tmpX), float(tmpY), float(tmpEN), float(tmpSocialLobby),\
 									 float(tmpSolPot),float(tmpEquity), float(tmpintCap), int(tmpInvL), None, None, float(tmpBalance), \
-									 float(tmpMbalance), None, None, None, None, None, float(tmpHealth)))
+									 float(tmpMbalance), None, None, None, None, None, None, float(tmpHealth)))
 		
 		fileFID.close()
 
