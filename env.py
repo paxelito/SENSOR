@@ -288,7 +288,7 @@ class environment:
 	def newTechAssessment(self,tmpTime):
 		# According to the average investment evaluation time (once per year) and the agent wealth 
 		for sngAgent in self.allAgents:
-			sngAgent.invAssessment(self.allTechs, self.allTechsID,tmpTime,self.allAgents)
+			sngAgent.invAssessment(self.allTechs, self.allTechsID,tmpTime,self.allAgents,self.allPolicies)
 		
 	# --------------------------------------------------------------------------|
 	# Function to choose the technology creation function to use				|
@@ -319,11 +319,11 @@ class environment:
 		#self.allTechsID.append(1)
 		#self.allTechs.append(tech.tech(2,1,0,self.months,0,-0.3,3000,0.04,5,0,self.loanLength,self.invLength,[0,0.05,0,0,10],100,1))
 		#self.allTechsID.append(2)
-		self.allTechs.append(tech.tech(0,1,0,self.months,0,0.08 ,  0,0   ,25,0    ,self.loanLength,self.invLength,[0,0,0,0,0],100,0))
+		self.allTechs.append(tech.tech(0,1,0,self.months,0,0.08 ,  0,0   ,25,0    ,self.loanLength,self.invLength,0,100,0))
 		self.allTechsID.append(0)
-		self.allTechs.append(tech.tech(1,1,0,self.months,0,0.02 ,300,0.04,10,0.003,self.loanLength,self.invLength,[0,0,0,0,0],100,0,ran.uniform(0,self.xMaxPos),ran.uniform(0,self.yMaxPos)))
+		self.allTechs.append(tech.tech(1,1,0,self.months,0,0.02 ,300,0.04,10,0.003,self.loanLength,self.invLength,0,100,0,ran.uniform(0,self.xMaxPos),ran.uniform(0,self.yMaxPos)))
 		self.allTechsID.append(1)
-		self.allTechs.append(tech.tech(2,1,0,self.months,0,-0.07,tmpPar,0.04, 5,0    ,self.loanLength,self.invLength,[0,0,0,0,0],100,1))
+		self.allTechs.append(tech.tech(2,1,0,self.months,0,-0.07,tmpPar,0.04, 5,0    ,self.loanLength,self.invLength,0,100,1))
 		self.allTechsID.append(2)
 		
 	# --------------------------------------------------------------|
@@ -416,9 +416,10 @@ class environment:
 		# for each technology
 		for t in policies:
 			if t[0] != '#':
-				tmpID, tmpFI, tmpTC, tmpTCI, tmpCT, tmpL, tmpIT = t.split()
+				tmpID, tmpFI, tmpTC, tmpTCI, tmpCT, tmpL, tmpIT, tmpA = t.split()
 				# Insert technology
-				self.allPolicies.append(policy.policy(int(tmpID), float(tmpFI), float(tmpTC), float(tmpTCI), float(tmpCT), int(tmpL), int(tmpIT)))
+				self.allPolicies.append(policy.policy(int(tmpID), float(tmpFI), float(tmpTC), float(tmpTCI),\
+                                                      float(tmpCT), int(tmpL), int(tmpIT), float(tmpA)))
 		fileFID.close()
 
 	# --------------------------------------------------------------|
@@ -440,12 +441,11 @@ class environment:
 		for t in techs:
 			if t[0] != '#':
 				tmpID, tmpEFF, tmpST, tmpDecay, tmpCost, tmpTcost, tmpPcost, tmpRate, \
-				tmpLoanLength, tmpDuration, tmpCO2, tmpSB, tmpFIT, tmpTCI, tmpTCD, tmpCT, \
-				tmpYear, tmpX, tmpY, tmpConversion = t.split()
+				tmpLoanLength, tmpDuration, tmpCO2, tmpSB, tmpP, tmpX, tmpY, tmpConversion = t.split()
 				# Insert technology
 				self.allTechs.append(tech.tech(int(tmpID), float(tmpEFF), 0, self.months, float(tmpDecay), float(tmpCost), float(tmpPcost),\
 									float(tmpRate), float(tmpCO2), float(tmpTcost), int(tmpLoanLength), int(tmpDuration),\
-									[float(tmpFIT), float(tmpTCI), float(tmpTCD), float(tmpCT), int(tmpYear)], float(tmpConversion), int(tmpSB), float(tmpX), float(tmpY)))
+									int(tmpP), float(tmpConversion), int(tmpSB), float(tmpX), float(tmpY)))
 				self.allTechsID.append(int(tmpID))
 		fileFID.close()
 
@@ -480,17 +480,17 @@ class environment:
 			print ' |- Start Time ', t.startTime
 			print ' |- Annual Decay ', t.decay
 			print ' |- Technology Cost (euro/kWh) ', t.cost
-			print ' |- Tranportation Cost (euro/kWh/km) ', t.transportCosts
+			print ' |- Transportation Cost (euro/kWh/km) ', t.transportCosts
 			print ' |- Technology Plant Cost (euro/kW) ', t.plantCost
 			print ' |- Interest Rate ', t.interestRate
 			print ' |- Loan Length ', t.loanLength
 			print ' |- Technology lifetime  ', t.duration
-			print ' |- Technology Co2 prodution per KwH ', t.co2
-			print ' |- Intentives ', t.incPach
+			print ' |- Technology Co2 production per KwH ', t.co2
+			print ' |- Policy ', t.policy
 			print ' |- Solar Based Flag Var ', t.solarBased	
 			print ' |- X-position ', t.X
 			print ' |- Y-position ', t.Y
-			print ' |- Technology efficiency coeffient ', t.fromKWH2KW
+			print ' |- Technology efficiency coefficient ', t.fromKWH2KW
 		print "|- ---------------------"
 		
 	# --------------------------------------------------------------|
@@ -499,17 +499,19 @@ class environment:
 	def promptPolicies(self):	
 		'''Function to prompt the present policies'''	
 		print ""
-		print "* LIST OF POLICIES ----------------------------------------"
+		print "* LIST OF POLICIES ----------------------------------"
 		print ""
 		for t in self.allPolicies:
 			print '|- POLICY ', t.ID
-			print ' |- Feed-In Tarif ', t.feedIN
+			print ' |- Feed-In Tariff ', t.feedIN
 			print ' |- Tax Credit ', t.taxCredit
 			print ' |- Tax Credit on Investment ', t.taxCreditInv
 			print ' |- Carbon Tax ', t.carbonTax
 			print ' |- Policy Length ', t.length
-			print '	|- Introduction Time ', t.initTime
-		print "|- ---------------------"
+			print ' |- Introduction Time ', t.introTime
+			print ' |- Total Amount of Incentives ', t.totalAmount
+		
+		print "|- ---------------------\n\n"
 		
 	# --------------------------------------------------------------|
 	# Function to save agents on file
@@ -559,14 +561,13 @@ class environment:
 		# File handle
 		saveFileStatFid = open(techFileName, 'w')
 		# File init
-		strTechInit = '#ID\tEff\tStarttime\tdecay\tcost\ttCost\tpCost\trate\tloanLength\tduration\tco2\tsolarBased\tfeed-in-tarif\ttax-credit-inv\ttax-credit-debt\tcarbon-tax\tyears\tX\tY\tconversion\n'
+		strTechInit = '#ID\tEff\tStarttime\tdecay\tcost\ttCost\tpCost\trate\tloanLength\tduration\tco2\tsolarBased\tpolicy\tX\tY\tconversion\n'
 		saveFileStatFid.write(strTechInit)
 		for t in self.allTechs:
 			strTech = str(t.ID) + '\t' + str(t.efficiency) + '\t' + str(t.startTime) + '\t' + str(t.decay) + '\t' + \
 			str(t.cost) + '\t' + str(t.transportCosts) + '\t' + str(t.plantCost) + '\t' + str(t.interestRate) + '\t' + \
 			str(t.loanLength) + '\t' + str(t.duration) + '\t' + str(t.co2) + '\t' + str(t.solarBased) + '\t' + \
-			str(t.incPach[0]) + '\t' + str(t.incPach[1]) + '\t' + str(t.incPach[2]) + '\t' + str(t.incPach[3]) + '\t' + \
-			str(t.incPach[4]) + '\t' + str(t.X) + '\t' + str(t.Y) + '\t' + str(t.fromKWH2KW) + '\n'
+			str(t.policy) + '\t' + str(t.X) + '\t' + str(t.Y) + '\t' + str(t.fromKWH2KW) + '\n'
 			
 			saveFileStatFid.write(strTech)
 			
@@ -583,11 +584,11 @@ class environment:
 		# File handle
 		saveFileFid = open(FileName, 'w')
 		# File init
-		strInit = '#ID\tFeedIn\tTaxCredit\tTaxCreditInv\tCarbonTax\tlength\n'
+		strInit = '#ID\tFeedIn\tTaxCredit\tTaxCreditInv\tCarbonTax\tlength\tinitTime\tamount\n'
 		saveFileFid.write(strInit)
 		for t in self.allPolicies:
 			strInit = str(t.ID) + '\t' + str(t.feedIN) + '\t' + str(t.taxCredit) + '\t' + str(t.taxCreditInv) + '\t' + \
-			str(t.carbonTax) + '\t' + str(t.length) + '\n'
+			str(t.carbonTax) + '\t' + str(t.length) + '\t' + str(t.introTime) + '\t' + str(t.totalAmount) + '\n'
 			
 			saveFileFid.write(strInit)
 			

@@ -60,7 +60,7 @@ class agents:
 	# --------------------------------------------------------------| 
 	# NEW INVESTMENT ASSESSMENT
 	# --------------------------------------------------------------|		
-	def invAssessment(self,tmpTechs,tmpTechsID,tmpTime,tmpAgents):
+	def invAssessment(self,tmpTechs,tmpTechsID,tmpTime,tmpAgents,tmpPolicies):
 		'''Function to assess the possible investment'''
 		if 12 - ran.randint(1,12) == 0: 
 			if self.debugLevel < 0:
@@ -94,13 +94,13 @@ class agents:
 								# Compute distance from source, distance is 0 this term is 0 and the multiplier effect does not affect the computation
 								tmpDistanceFromSourceMultiplier = pow(pow(abs(self.x - tmpTechs[self.nrgTechsReceipt[tmpCnt]].X),2) + pow(abs(self.y - tmpTechs[self.nrgTechsReceipt[tmpCnt]].Y),2),0.5)
 								tmpDistanceFromSourceMultiplier *= tmpTechs[self.nrgTechsReceipt[tmpCnt]].transportCosts
-								tmpHypCosts += tmpNewSngProp * (tmpTechs[self.nrgTechsReceipt[tmpCnt]].cost + tmpTechs[self.nrgTechsReceipt[tmpCnt]].getCarbonTax() + tmpDistanceFromSourceMultiplier)
+								tmpHypCosts += tmpNewSngProp * (tmpTechs[self.nrgTechsReceipt[tmpCnt]].cost + tmpPolicies[tmpTechs[self.nrgTechsReceipt[tmpCnt]].policy].carbonTax + tmpDistanceFromSourceMultiplier)
 								if tmpTechs[self.nrgTechsReceipt[tmpCnt]].cost < 0:
-									# If the cost is negative the energy is sold, so the cost of the traditional energy has to be added
+									# If the cost is negative the energy is sold, so the cost of the traditional energy has to be added 
 									tmpHypCosts += tmpNewSngProp * tmpTechs[0].cost
 								tmpCnt += 1
 							# .. The cost associated to the new technologies are added
-							tmpHypCosts += tmpNewNrgProp * (tmpTechs[sngTechID].cost + tmpTechs[sngTechID].getCarbonTax())
+							tmpHypCosts += tmpNewNrgProp * (tmpTechs[sngTechID].cost + tmpPolicies[tmpTechs[sngTechID].policy].carbonTax)
 							if tmpTechs[sngTechID].cost < 0:
 								# If the cost is negative the energy is sold, so the cost of the traditional energy has to be added
 								tmpHypCosts += tmpNewNrgProp * tmpTechs[0].cost
@@ -117,7 +117,7 @@ class agents:
 								RAcnt += 1
 							# WACC (Weighted Average Cost of Capital) Computation
 							wacc = ((tmpOverallPlantCost * self.int_capital) / tmpOverallPlantCost * self.equityCost) + \
-								   (((tmpOverallPlantCost * (1 - self.int_capital)) / tmpOverallPlantCost * tmpTechs[sngTechID].interestRate) * (1-tmpTechs[sngTechID].getTaxCreditDebt()))
+								   (((tmpOverallPlantCost * (1 - self.int_capital)) / tmpOverallPlantCost * tmpTechs[sngTechID].interestRate) * (1-tmpPolicies[tmpTechs[sngTechID].policy].taxCredit))
 							# For the years of the investment 
 							yCnt = 1
 							netPresentValue = 0
@@ -126,8 +126,8 @@ class agents:
 							for y in range(1,self.invLenght + 1):
 								# Compute the tax-credit-investment for the years of the incentives
 								tmpCredInv = 0
-								if (y <= tmpTechs[sngTechID].getIncYears()) & (tmpTechs[sngTechID].getTaxCreditInv() > 0):
-									tmpCredInv += tmpOverallPlantCost * tmpTechs[sngTechID].getTaxCreditInv() / tmpTechs[sngTechID].getIncYears()
+								if (y <= tmpPolicies[tmpTechs[sngTechID].policy].length) & (tmpPolicies[tmpTechs[sngTechID].policy].taxCreditInv > 0):
+									tmpCredInv += tmpOverallPlantCost * tmpPolicies[tmpTechs[sngTechID].policy].taxCreditInv / tmpTechs[sngTechID].getIncYears()
 								# Compute annual interest to pay
 								if y <= tmpTechs[sngTechID].loanLength:
 									tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, tmpTechs[sngTechID].loanLength, tmpTechs[sngTechID].interestRate) 
@@ -188,8 +188,6 @@ class agents:
 							print "\t 	     \_ New Debts Lengths List: ", self.debtLength
 							print "\t 	     \_ New Debts Month Repayment List: ", self.debtMonthRepayment
 						
-							
-	
 	# --------------------------------------------------------------|
 	# NEW INVESTMENT ASSESSMENT
 	# --------------------------------------------------------------|

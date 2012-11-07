@@ -14,8 +14,8 @@ class policy:
 	''' class policy definition
 	'''
 	
-	def __init__(self, tmpID=0, tmpFeedIn=0, tmpTcred=0, tmpTcredInv=0, tmpCT=0, tmpL=0, tmpIntroTime=0):
-		'''Constructor'''
+	def __init__(self, tmpID=0, tmpFeedIn=0, tmpTcred=0, tmpTcredInv=0, tmpCT=0, tmpL=0, tmpIntroTime=0,tmpA=0):
+		'''Policy Constructor'''
 		
 		self.ID = tmpID
 		self.feedIN = tmpFeedIn
@@ -24,5 +24,6 @@ class policy:
 		self.carbonTax = tmpCT
 		self.length = tmpL
 		self.introTime = tmpIntroTime
+		self.totalAmount = tmpA # If 0 no limit in financing
 		
 		
