@@ -93,31 +93,32 @@ class agents:
 							tmpOverallPlantCost = float(tmpNewNrgProp) / tmpTechs[sngTechID].fromKWH2KW * tmpTechs[sngTechID].plantCost
 							# .. According to the temporary new tech energy proportion the annual cost is computed
 							tmpCnt = 0
+							# For each already present technology according the new temporary distribution tmpPolicies[tmpTechs[self.nrgTechsReceipt[tmpCnt]].policy].carbonTax
 							for tmpNewSngProp in tmpNrgPropReceipt[:-1]:
 								# Compute distance from source, distance is 0 this term is 0 and the multiplier effect does not affect the computation
 								tmpDistanceFromSourceMultiplier = pow(pow(abs(self.x - tmpTechs[self.nrgTechsReceipt[tmpCnt]].X),2) + pow(abs(self.y - tmpTechs[self.nrgTechsReceipt[tmpCnt]].Y),2),0.5)
 								tmpDistanceFromSourceMultiplier *= tmpTechs[self.nrgTechsReceipt[tmpCnt]].transportCosts
-								tmpHypCosts += tmpNewSngProp * (tmpTechs[self.nrgTechsReceipt[tmpCnt]].cost + tmpPolicies[tmpTechs[self.nrgTechsReceipt[tmpCnt]].policy].carbonTax + tmpDistanceFromSourceMultiplier)
+								tmpHypCosts += tmpNewSngProp * (tmpTechs[self.nrgTechsReceipt[tmpCnt]].cost + tmpPolicies[self.techPolicy[tmpCnt][0]].carbonTax + tmpDistanceFromSourceMultiplier - tmpPolicies[self.techPolicy[tmpCnt][0]].feedIN)
 								if tmpTechs[self.nrgTechsReceipt[tmpCnt]].cost < 0:
 									# If the cost is negative the energy is sold, so the cost of the traditional energy has to be added 
 									tmpHypCosts += tmpNewSngProp * tmpTechs[0].cost
 								tmpCnt += 1
 							# .. The cost associated to the new technologies are added
-							tmpHypCosts += tmpNewNrgProp * (tmpTechs[sngTechID].cost + tmpPolicies[tmpTechs[sngTechID].policy].carbonTax)
+							tmpHypCosts += tmpNewNrgProp * (tmpTechs[sngTechID].cost + tmpPolicies[tmpTechs[sngTechID].policy].carbonTax - tmpPolicies[tmpTechs[sngTechID].policy].feedIN)
 							if tmpTechs[sngTechID].cost < 0:
 								# If the cost is negative the energy is sold, so the cost of the traditional energy has to be added
 								tmpHypCosts += tmpNewNrgProp * tmpTechs[0].cost
 							# .. from month to year
 							tmpHypCosts *= 12
+							
 							# .. SOCIAL ATTRACTIVENESS
 							# .. Cost are rescaled according to the imitation list (note that if the socialLobby parameter is 0 the list remains the same)
-							RAcnt = 0
-							for sngLobby in relativeAttractions:
+							for RAcnt, sngLobby in enumerate(relativeAttractions):
 								if sngTechID == RAcnt:
 									tmpHypCosts -= tmpHypCosts * sngLobby * self.social_lobby
 								else:
 									tmpHypCosts += tmpHypCosts * sngLobby * self.social_lobby
-								RAcnt += 1
+								
 							# WACC (Weighted Average Cost of Capital) Computation
 							wacc = ((tmpOverallPlantCost * self.int_capital) / tmpOverallPlantCost * self.equityCost) + \
 								   (((tmpOverallPlantCost * (1 - self.int_capital)) / tmpOverallPlantCost * tmpTechs[sngTechID].interestRate) * (1-tmpPolicies[tmpTechs[sngTechID].policy].taxCredit))
