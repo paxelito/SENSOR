@@ -276,7 +276,7 @@ class environment:
 	def agentMonthEnergyActivity(self, tmpGen):
 		'''Bridge function from the main the agent class'''
 		for sngAgent in self.allAgents: 
-			sngAgent.computeMonthNrgCostsAndPoll(self.allTechs, tmpGen)
+			sngAgent.computeMonthNrgCostsAndPoll(self.allTechs, tmpGen, self.allPolicies)
 			sngAgent.performFinancialActivities()
 		# Stat functions
 		self.statFunctions()
@@ -321,9 +321,9 @@ class environment:
 		#self.allTechsID.append(2)
 		self.allTechs.append(tech.tech(0,1,0,self.months,0,0.08 ,  0,0   ,25,0    ,self.loanLength,self.invLength,0,100,0))
 		self.allTechsID.append(0)
-		self.allTechs.append(tech.tech(1,1,0,self.months,0,0.02 ,300,0.04,10,0.003,self.loanLength,self.invLength,0,100,0,ran.uniform(0,self.xMaxPos),ran.uniform(0,self.yMaxPos)))
+		self.allTechs.append(tech.tech(1,1,0,self.months,0,0.02 ,300,0.04,10,0.003,self.loanLength,self.invLength,1,100,0,ran.uniform(0,self.xMaxPos),ran.uniform(0,self.yMaxPos)))
 		self.allTechsID.append(1)
-		self.allTechs.append(tech.tech(2,1,0,self.months,0,-0.07,tmpPar,0.04, 5,0    ,self.loanLength,self.invLength,0,100,1))
+		self.allTechs.append(tech.tech(2,1,0,self.months,0,-0.07,tmpPar,0.04, 5,0    ,self.loanLength,self.invLength,1,100,1))
 		self.allTechsID.append(2)
 		
 	# --------------------------------------------------------------|
@@ -355,6 +355,7 @@ class environment:
 		# if agentCreationMethod is equal to 0 random population is created otherwise it is uploaded from file
 		if self.policyCreationMethod == 0:
 			self.allPolicies.append(policy.policy())
+			self.allPolicies.append(policy.policy(1,0,0.04,0,0,5,0,0))
 		else:
 			self.importPolicies()
 			

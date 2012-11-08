@@ -123,18 +123,21 @@ class agents:
 							wacc = ((tmpOverallPlantCost * self.int_capital) / tmpOverallPlantCost * self.equityCost) + \
 								   (((tmpOverallPlantCost * (1 - self.int_capital)) / tmpOverallPlantCost * tmpTechs[sngTechID].interestRate) * (1-tmpPolicies[tmpTechs[sngTechID].policy].taxCredit))
 							# For the years of the investment 
-							yCnt = 1
 							netPresentValue = 0
 							payBackPeriod = 0
 							cashFlow = 0
 							for y in range(1,self.invLenght + 1):
-								# Compute the tax-credit-investment for the years of the incentives
+								# Compute the tax-credit-investment for the years of the incentive
 								tmpCredInv = 0
 								if (y <= tmpPolicies[tmpTechs[sngTechID].policy].length) & (tmpPolicies[tmpTechs[sngTechID].policy].taxCreditInv > 0):
-									tmpCredInv += tmpOverallPlantCost * tmpPolicies[tmpTechs[sngTechID].policy].taxCreditInv / tmpTechs[sngTechID].getIncYears()
-								# Compute annual interest to pay
+									tmpCredInv += tmpOverallPlantCost * tmpPolicies[tmpTechs[sngTechID].policy].taxCreditInv / tmpPolicies[tmpTechs[sngTechID].policy].length
+								# Compute annual interest to pay for the years of the loan
 								if y <= tmpTechs[sngTechID].loanLength:
-									tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, tmpTechs[sngTechID].loanLength, tmpTechs[sngTechID].interestRate) 
+									if y <= tmpPolicies[tmpTechs[sngTechID].policy].length:
+										tmpIntRate = tmpTechs[sngTechID].interestRate * (1 - tmpPolicies[tmpTechs[sngTechID].policy].taxCredit)
+										tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, tmpTechs[sngTechID].loanLength, tmpIntRate) 
+									else:
+										tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, tmpTechs[sngTechID].loanLength, tmpTechs[sngTechID].interestRate) 
 									cashFlow = tmpCredInv + (tmpCurrentAnnualCosts - tmpHypCosts) - tmpAnnualInterest
 								else:
 									cashFlow = tmpCredInv + (tmpCurrentAnnualCosts - tmpHypCosts)
@@ -145,7 +148,6 @@ class agents:
 								# Compute paybackPeriod
 								if (netPresentValue >= tmpOverallPlantCost) & (payBackPeriod == 0):
 									payBackPeriod = y
-								yCnt += 1
 							# .. Compute final net present value
 							netPresentValue -= tmpOverallPlantCost
 							npvList.append(netPresentValue)
@@ -177,8 +179,17 @@ class agents:
 						self.nrgPropReceipt = recList[betterTechPos]
 						self.techPolicy.append([tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy,\
 											tmpPolicies[tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy].length])
-														
-						tmpTotalDept = tmpOverallPlantCost + (tmpAnnualInterest * tmpTechs[tmpAvaiableTechs[betterTechPos]].loanLength)
+						# ... Compute total interest
+						totInterestsToPay = 0
+						for iyears in range(0,tmpTechs[tmpAvaiableTechs[betterTechPos]].loanLength):
+							if iyears < tmpPolicies[tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy].length:
+								tmpIntRate = tmpTechs[self.nrgTechsReceipt[-1]].interestRate * (1 - tmpPolicies[tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy].taxCredit)
+								tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, tmpTechs[self.nrgTechsReceipt[-1]].loanLength, tmpIntRate) 
+							else:
+								tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, tmpTechs[self.nrgTechsReceipt[-1]].loanLength, tmpTechs[sngTechID].interestRate)	
+							totInterestsToPay += tmpAnnualInterest
+																			
+						tmpTotalDept = tmpOverallPlantCost + totInterestsToPay
 						self.debts.append(tmpTotalDept)
 						self.RemainingDebts.append(tmpTotalDept)
 						self.debtTime.append(tmpTime) 
@@ -225,7 +236,7 @@ class agents:
 	# --------------------------------------------------------------|
 	def computeLoanAnnualInterest(self, tmpCapital, tmpYears, tmpRate):
 		'''Compute investment annual interests'''
-		annualInt = (tmpCapital * tmpYears * tmpRate) / (100 * tmpYears)
+		annualInt = (tmpCapital * tmpYears * tmpRate) / tmpYears
 		return annualInt
 		
 	# --------------------------------------------------------------|
@@ -249,19 +260,36 @@ class agents:
 	# --------------------------------------------------------------|
 	# MONTH ENERGY COSTS AND POLLUTION
 	# --------------------------------------------------------------|		
-	def computeMonthNrgCostsAndPoll(self, tmpTechs, tmpTime):
+	def computeMonthNrgCostsAndPoll(self, tmpTechs, tmpTime, tmpPolicies):
 		'''Function to assess the monthly energy costs according to the monthly energy needs'''
 		tempMonthCosts = 0
 		tempPoll = 0
 		counter = 0
 		for tech in self.nrgTechsReceipt:
 		
-			# .. compute costs 
+			# .. compute costs and revenues
 			tmpDistanceFromSourceMultiplier = pow(pow(abs(self.x - tmpTechs[tech].X),2) + pow(abs(self.y - tmpTechs[tech].Y),2),0.5)
 			tmpDistanceFromSourceMultiplier *= tmpTechs[tech].transportCosts
-			tempMonthCosts = tempMonthCosts + (tmpTechs[tech].cost * self.nrgPropReceipt[counter] + tmpDistanceFromSourceMultiplier) + self.debtMonthRepayment[counter]
+			tempMonthCosts += self.nrgPropReceipt[counter]\
+						   * (tmpTechs[tech].cost\
+							  + tmpDistanceFromSourceMultiplier\
+							  + tmpPolicies[self.techPolicy[counter][0]].carbonTax\
+							  - tmpPolicies[self.techPolicy[counter][0]].feedIN)\
+						   + self.debtMonthRepayment[counter]
+			
+			# If the incentive is still valid the tax credit on the investment is computed
+			if (tmpPolicies[self.techPolicy[counter][0]].taxCreditInv > 0) & (self.techPolicy[counter][1] > 0):
+					tempMonthCosts -= (self.nrgPropReceipt[counter] / tmpTechs[tech].fromKWH2KW * tmpTechs[tech].plantCost) \
+									  * tmpPolicies[tmpTechs[tech].policy].taxCreditInv /  tmpPolicies[tmpTechs[tech].policy].length
+			
 			if tmpTechs[tech].cost < 0:
 				tempMonthCosts += tmpTechs[0].cost * self.nrgPropReceipt[counter]
+				
+
+			if self.techPolicy[counter][1] > 0:
+				self.techPolicy[counter][1] -= 1
+				if self.techPolicy[counter][1] == 0:
+					self.techPolicy[counter] = [0,0]
 				
 			# .. update statistic variables
 			if self.nrgPropReceipt[counter] > 0:
@@ -272,9 +300,12 @@ class agents:
 			tempPoll = tempPoll + (tmpTechs[tech].co2 * self.nrgPropReceipt[counter])
 			counter = counter + 1
 			
+			
+		# ... Update agent variables. 
 		self.month_balance = tempMonthCosts
 		self.balance = self.balance + self.month_balance
 		self.co2 = tempPoll
+		
 		
 
 	# --------------------------------------------------------------|

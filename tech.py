@@ -14,7 +14,7 @@ class tech:
 	'''Class tech definition.	
 	'''
 	def __init__(self, tmpID = 0, tmpEff = 0, tmpST = 0, tmpTotTime = 0, tmpDecay = 0, tmpCost = 0, tmpPcost = 0, tmpRate = 0,\
-	             tmpCo2 = 0, tmpTransportCosts = 0, tmpLoanLength = 10, tmpLifeDuration = 50, tmpPolicy = 0, tmpFromKWH2KW = 100, \
+	             tmpCo2 = 0, tmpTransportCosts = 0, tmpLoanLength = 10, tmpLifeDuration = 50, tmpPolicy = 1, tmpFromKWH2KW = 100, \
 	             tmpSolarBased = 0, tmpX = 0, tmpY = 0):
 		''' Constructor '''
 		
