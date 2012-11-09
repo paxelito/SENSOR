@@ -374,7 +374,7 @@ class environment:
 	# --------------------------------------------------------------|
 	def importAgents(self):
 		'''Function to import agents from a file previously prepared'''
-		print '|- AGENTS IMPORT PROCESS'
+		print '\n|- AGENTS IMPORT PROCESS...'
 		# file name
 		tmpFileName = os.path.join(self.simPath,'initAgents.csv')
 		try:
@@ -394,10 +394,11 @@ class environment:
 				# Insert Agent
 	             
 				self.allAgents.append(ag.agents(self.debugLevel, int(tmpID), float(tmpX), float(tmpY), float(tmpEN), float(tmpSocialLobby),\
-									 float(tmpSolPot),float(tmpEquity), float(tmpintCap), int(tmpInvL), None, None, float(tmpBalance), \
-									 float(tmpMbalance), None, None, None, None, None, None, float(tmpHealth)))
+									 float(tmpSolPot), float(tmpEquity), float(tmpintCap), int(tmpInvL), None, None, None, float(tmpBalance), \
+									 float(tmpMbalance), None, None, None, None, None, float(tmpHealth)))
 		
 		fileFID.close()
+		print ' |- done...'
 
 	# --------------------------------------------------------------|
 	# Function to load TECHNOLOGIES
@@ -462,6 +463,7 @@ class environment:
 			print "|- AGENT ID ", a.ID, " - Pos X: ", a.x, " - Pos Y: ", a.y
 			print " |- Energy Need ", a.totEnergyNeed
 			print " |- Tech receipt ", a.nrgTechsReceipt
+			print " |- Tech Policies ", a.techPolicy
 			print " |- Tech Proportions ", a.nrgPropReceipt, " - Solar Potential ", a.solar_potential, " - CO2 production ", a.co2
 			print " |- Social Lobby ", a.social_lobby, " - Internal Capital Ratio ", a.int_capital, " - Equity Cost ", a.equityCost
 			print " |- Overall Balance ", a.balance, " - Monthly Balance ", a.month_balance, " - Investment Length ", a.invLenght, " - Health ", a.health
