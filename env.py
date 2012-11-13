@@ -246,8 +246,8 @@ class environment:
 		print " |- minNrgDim: ", self.minNrgDim
 		print "	|- maxNrgDim: ", self.maxNrgDim
 		print "	|- ratioInternalCapital: ", self.ratioInternalCapital
-		print "	|- invLength: ", self.invLength
-		print "	|- loanLength: ", self.loanLength
+		print "	|- invLength (years): ", self.invLength
+		print "	|- loanLength (Month): ", self.loanLength
 		print "	|- intRiskRate: ", self.intRiskRate
 		
 		
@@ -466,7 +466,7 @@ class environment:
 			print " |- Tech Policies ", a.techPolicy
 			print " |- Tech Proportions ", a.nrgPropReceipt, " - Solar Potential ", a.solar_potential, " - CO2 production ", a.co2
 			print " |- Social Lobby ", a.social_lobby, " - Internal Capital Ratio ", a.int_capital, " - Equity Cost ", a.equityCost
-			print " |- Overall Balance ", a.balance, " - Monthly Balance ", a.month_balance, " - Investment Length ", a.invLenght, " - Health ", a.health
+			print " |- Overall Balance ", a.balance, " - Monthly Balance ", a.month_balance, " - Investment Length ", a.invLength, " - Health ", a.health
 		print "|- ---------------------"
 
 	# --------------------------------------------------------------|
@@ -486,8 +486,8 @@ class environment:
 			print ' |- Transportation Cost (euro/kWh/km) ', t.transportCosts
 			print ' |- Technology Plant Cost (euro/kW) ', t.plantCost
 			print ' |- Interest Rate ', t.interestRate
-			print ' |- Loan Length ', t.loanLength
-			print ' |- Technology lifetime  ', t.duration
+			print ' |- Loan Length (months) ', t.loanLength
+			print ' |- Technology lifetime (years)  ', t.duration
 			print ' |- Technology Co2 production per KwH ', t.co2
 			print ' |- Policy ', t.policy
 			print ' |- Solar Based Flag Var ', t.solarBased	
@@ -537,7 +537,7 @@ class environment:
 		for a in self.allAgents:
 			strAgent = str(a.ID) + '\t' + str(a.x) + '\t' + str(a.y) + '\t' + str(a.totEnergyNeed) + '\t' + \
 			str(a.solar_potential) + '\t' + str(a.co2) + '\t' + str(a.social_lobby) + '\t' + str(a.int_capital) + '\t' + \
-			str(a.equityCost) + '\t' + str(a.balance) + '\t' + str(a.month_balance) + '\t' + str(a.invLenght) + '\t' + \
+			str(a.equityCost) + '\t' + str(a.balance) + '\t' + str(a.month_balance) + '\t' + str(a.invLength) + '\t' + \
 			str(a.health) + '\n'
 			
 			saveFileStatFid.write(strAgent)

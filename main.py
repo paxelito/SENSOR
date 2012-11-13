@@ -11,7 +11,7 @@ except:
 	print "Usage:",sys.argv[0], "Error in the parameter introduction"; sys.exit(1)
 	
 varParList = [50]
-nSeed = 2
+nSeed = 1
 nTech = 3
 
 for sngParam in varParList:
@@ -32,10 +32,13 @@ for sngParam in varParList:
 		
 		# DYNAMICS
 		for gen in range(1, envi.months+1):
-			try:
-				print " \- PARAM: ", sngParam, " NSEED: ", ns, "MONTH NUMBER ", gen, " TOT CO2: ", envi.totCO2[-1], " TOT COSTS: ", envi.totCosts[-1], " TOT DEBTS: ", envi.totDebt[-1]
-			except:
-				print " \- PARAM: ", sngParam, " NSEED: ", ns, "MONTH NUMBER ", gen, " TOT CO2: ", envi.totCO2, " TOT COSTS: ", envi.totCosts, " TOT DEBTS: ", envi.totDebt
+			if gen % 10 == 0:
+				try:
+					print " \- PARAM: ", sngParam, " NSEED: ", ns, "MONTH NUMBER ", gen, " TOT CO2: ", \
+					envi.totCO2[-1], " TOT COSTS: ", envi.totCosts[-1], " TOT DEBTS: ", envi.totDebt[-1]
+				except:
+					print " \- PARAM: ", sngParam, " NSEED: ", ns, "MONTH NUMBER ", gen, " TOT CO2: ", \
+					envi.totCO2, " TOT COSTS: ", envi.totCosts, " TOT DEBTS: ", envi.totDebt
 			# Standard month activities
 			envi.agentMonthEnergyActivity(gen)	
 			# New Technology evaluation

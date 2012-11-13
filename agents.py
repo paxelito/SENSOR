@@ -35,7 +35,7 @@ class agents:
 		self.equityCost = tmpEquityCost
 		self.balance = tmpBalance
 		self.month_balance = tmpMBalance
-		self.invLenght = tmpInvLength
+		self.invLength = tmpInvLength
 		self.health = tmpHealth # This parameter represents the health of the agent. Once that the agent has assessed the possible investment, this is the probability to actually invest
 		if tmpDebts == None:
 			self.debts = [0] # initial debts list of the agent
@@ -90,7 +90,9 @@ class agents:
 						tmpNewNrgProp = int(round(ran.randint(1,self.totEnergyNeed) * (pow(self.solar_potential,tmpTechs[sngTechID].solarBased))))
 						if tmpNewNrgProp > 0:
 							tmpNrgPropReceipt = self.rearrangeTechPropList(tmpNewNrgProp) # Create a temporary new energy proportion list 
+							
 							tmpOverallPlantCost = float(tmpNewNrgProp) / tmpTechs[sngTechID].fromKWH2KW * tmpTechs[sngTechID].plantCost
+							
 							# .. According to the temporary new tech energy proportion the annual cost is computed
 							tmpCnt = 0
 							# For each already present technology according to the new temporary distribution
@@ -101,13 +103,13 @@ class agents:
 								
 								tmpHypCosts += tmpNewSngProp * (tmpTechs[self.nrgTechsReceipt[tmpCnt]].cost + tmpPolicies[self.techPolicy[tmpCnt][0]].carbonTax + tmpDistanceFromSourceMultiplier - tmpPolicies[self.techPolicy[tmpCnt][0]].feedIN)
 								
-								if tmpTechs[self.nrgTechsReceipt[tmpCnt]].cost < 0:
+								if tmpTechs[self.nrgTechsReceipt[tmpCnt]].cost <= 0:
 									# If the cost is negative the energy is sold, so the cost of the traditional energy has to be added 
 									tmpHypCosts += tmpNewSngProp * tmpTechs[0].cost
 								tmpCnt += 1
 							# .. The cost associated to the new technologies are added
 							tmpHypCosts += tmpNewNrgProp * (tmpTechs[sngTechID].cost + tmpPolicies[tmpTechs[sngTechID].policy].carbonTax - tmpPolicies[tmpTechs[sngTechID].policy].feedIN)
-							if tmpTechs[sngTechID].cost < 0:
+							if tmpTechs[sngTechID].cost <= 0:
 								# If the cost is negative the energy is sold, so the cost of the traditional energy has to be added
 								tmpHypCosts += tmpNewNrgProp * tmpTechs[0].cost
 							# .. from month to year
@@ -115,6 +117,7 @@ class agents:
 							
 							# .. SOCIAL ATTRACTIVENESS
 							# .. Cost are rescaled according to the imitation list (note that if the socialLobby parameter is 0 the list remains the same)
+						
 							for RAcnt, sngLobby in enumerate(relativeAttractions):
 								if sngTechID == RAcnt:
 									tmpHypCosts -= tmpHypCosts * sngLobby * self.social_lobby
@@ -122,24 +125,25 @@ class agents:
 									tmpHypCosts += tmpHypCosts * sngLobby * self.social_lobby
 								
 							# WACC (Weighted Average Cost of Capital) Computation
+							
 							wacc = ((tmpOverallPlantCost * self.int_capital) / tmpOverallPlantCost * self.equityCost) + \
 								   (((tmpOverallPlantCost * (1 - self.int_capital)) / tmpOverallPlantCost * tmpTechs[sngTechID].interestRate) * (1-tmpPolicies[tmpTechs[sngTechID].policy].taxCredit))
 							# For the years of the investment 
 							netPresentValue = 0
 							payBackPeriod = 0
 							cashFlow = 0
-							for y in range(1,self.invLenght + 1):
+							for y in range(1,self.invLength + 1):
 								# Compute the tax-credit-investment for the years of the incentive
 								tmpCredInv = 0
 								if (y <= (tmpPolicies[tmpTechs[sngTechID].policy].length / 12)) & (tmpPolicies[tmpTechs[sngTechID].policy].taxCreditInv > 0):
 									tmpCredInv += tmpOverallPlantCost * tmpPolicies[tmpTechs[sngTechID].policy].taxCreditInv / (tmpPolicies[tmpTechs[sngTechID].policy].length / 12)
-								# Compute annual interest to pay for the years of the loan
-								if y <= tmpTechs[sngTechID].loanLength:
+								# Compute annual interest to pay for the YEARS of the loan
+								if y <= (tmpTechs[sngTechID].loanLength / 12):
 									if y <= (tmpPolicies[tmpTechs[sngTechID].policy].length / 12):
 										tmpIntRate = tmpTechs[sngTechID].interestRate * (1 - tmpPolicies[tmpTechs[sngTechID].policy].taxCredit)
-										tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, tmpTechs[sngTechID].loanLength, tmpIntRate) 
+										tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, (tmpTechs[sngTechID].loanLength / 12), tmpIntRate) 
 									else:
-										tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, tmpTechs[sngTechID].loanLength, tmpTechs[sngTechID].interestRate) 
+										tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, (tmpTechs[sngTechID].loanLength / 12), tmpTechs[sngTechID].interestRate) 
 									cashFlow = tmpCredInv + (tmpCurrentAnnualCosts - tmpHypCosts) - tmpAnnualInterest
 								else:
 									cashFlow = tmpCredInv + (tmpCurrentAnnualCosts - tmpHypCosts)
@@ -166,7 +170,7 @@ class agents:
 					if len(npvList) > 1:
 						tmpFinID = 0
 						for sngPbpList in pbpList:
-							if (sngPbpList > 0) & (sngPbpList < self.invLenght):
+							if (sngPbpList > 0) & (sngPbpList < self.invLength):
 								if npvList[tmpFinID] > betterNPV: 
 									betterNPV = npvList[tmpFinID]
 									betterTechPos = tmpFinID
@@ -183,20 +187,20 @@ class agents:
 											tmpPolicies[tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy].length])
 						# ... Compute total interest
 						totInterestsToPay = 0
-						for iyears in range(0,tmpTechs[tmpAvaiableTechs[betterTechPos]].loanLength):
+						for iyears in range(0,(tmpTechs[tmpAvaiableTechs[betterTechPos]].loanLength / 12)):
 							if iyears < (tmpPolicies[tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy].length / 12):
 								tmpIntRate = tmpTechs[self.nrgTechsReceipt[-1]].interestRate * (1 - tmpPolicies[tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy].taxCredit)
-								tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, tmpTechs[self.nrgTechsReceipt[-1]].loanLength, tmpIntRate) 
+								tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, (tmpTechs[self.nrgTechsReceipt[-1]].loanLength / 12), tmpIntRate) 
 							else:
-								tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, tmpTechs[self.nrgTechsReceipt[-1]].loanLength, tmpTechs[sngTechID].interestRate)	
+								tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, (tmpTechs[self.nrgTechsReceipt[-1]].loanLength / 12), tmpTechs[sngTechID].interestRate)	
 							totInterestsToPay += tmpAnnualInterest
 																			
 						tmpTotalDept = tmpOverallPlantCost + totInterestsToPay
 						self.debts.append(tmpTotalDept)
 						self.RemainingDebts.append(tmpTotalDept)
 						self.debtTime.append(tmpTime) 
-						self.debtLength.append(tmpTechs[tmpAvaiableTechs[betterTechPos]].loanLength)
-						self.debtMonthRepayment.append(tmpTotalDept / tmpTechs[tmpAvaiableTechs[betterTechPos]].loanLength / 12)
+						self.debtLength.append((tmpTechs[tmpAvaiableTechs[betterTechPos]].loanLength / 12))
+						self.debtMonthRepayment.append(tmpTotalDept / tmpTechs[tmpAvaiableTechs[betterTechPos]].loanLength)
 						
 						if self.debugLevel < -1:
 							print "\t 	    |- Agent ", self.ID, " has invested in a new technology:"
@@ -284,7 +288,7 @@ class agents:
 					tempMonthCosts -= (self.nrgPropReceipt[counter] / tmpTechs[tech].fromKWH2KW * tmpTechs[tech].plantCost) \
 									  * tmpPolicies[tmpTechs[tech].policy].taxCreditInv /  tmpPolicies[tmpTechs[tech].policy].length
 			
-			if tmpTechs[tech].cost < 0:
+			if tmpTechs[tech].cost <= 0:
 				tempMonthCosts += tmpTechs[0].cost * self.nrgPropReceipt[counter]
 				
 			# Check policy validity 
