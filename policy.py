@@ -22,7 +22,7 @@ class policy:
 		self.taxCredit = tmpTcred
 		self.taxCreditInv = tmpTcredInv
 		self.carbonTax = tmpCT
-		self.length = tmpL
+		self.length = tmpL # Length of the investment (in months)
 		self.introTime = tmpIntroTime
 		self.totalAmount = tmpA # If 0 no limit in financing
 		

@@ -93,12 +93,14 @@ class agents:
 							tmpOverallPlantCost = float(tmpNewNrgProp) / tmpTechs[sngTechID].fromKWH2KW * tmpTechs[sngTechID].plantCost
 							# .. According to the temporary new tech energy proportion the annual cost is computed
 							tmpCnt = 0
-							# For each already present technology according the new temporary distribution tmpPolicies[tmpTechs[self.nrgTechsReceipt[tmpCnt]].policy].carbonTax
+							# For each already present technology according to the new temporary distribution
 							for tmpNewSngProp in tmpNrgPropReceipt[:-1]:
 								# Compute distance from source, distance is 0 this term is 0 and the multiplier effect does not affect the computation
 								tmpDistanceFromSourceMultiplier = pow(pow(abs(self.x - tmpTechs[self.nrgTechsReceipt[tmpCnt]].X),2) + pow(abs(self.y - tmpTechs[self.nrgTechsReceipt[tmpCnt]].Y),2),0.5)
 								tmpDistanceFromSourceMultiplier *= tmpTechs[self.nrgTechsReceipt[tmpCnt]].transportCosts
+								
 								tmpHypCosts += tmpNewSngProp * (tmpTechs[self.nrgTechsReceipt[tmpCnt]].cost + tmpPolicies[self.techPolicy[tmpCnt][0]].carbonTax + tmpDistanceFromSourceMultiplier - tmpPolicies[self.techPolicy[tmpCnt][0]].feedIN)
+								
 								if tmpTechs[self.nrgTechsReceipt[tmpCnt]].cost < 0:
 									# If the cost is negative the energy is sold, so the cost of the traditional energy has to be added 
 									tmpHypCosts += tmpNewSngProp * tmpTechs[0].cost
@@ -129,11 +131,11 @@ class agents:
 							for y in range(1,self.invLenght + 1):
 								# Compute the tax-credit-investment for the years of the incentive
 								tmpCredInv = 0
-								if (y <= tmpPolicies[tmpTechs[sngTechID].policy].length) & (tmpPolicies[tmpTechs[sngTechID].policy].taxCreditInv > 0):
-									tmpCredInv += tmpOverallPlantCost * tmpPolicies[tmpTechs[sngTechID].policy].taxCreditInv / tmpPolicies[tmpTechs[sngTechID].policy].length
+								if (y <= (tmpPolicies[tmpTechs[sngTechID].policy].length / 12)) & (tmpPolicies[tmpTechs[sngTechID].policy].taxCreditInv > 0):
+									tmpCredInv += tmpOverallPlantCost * tmpPolicies[tmpTechs[sngTechID].policy].taxCreditInv / (tmpPolicies[tmpTechs[sngTechID].policy].length / 12)
 								# Compute annual interest to pay for the years of the loan
 								if y <= tmpTechs[sngTechID].loanLength:
-									if y <= tmpPolicies[tmpTechs[sngTechID].policy].length:
+									if y <= (tmpPolicies[tmpTechs[sngTechID].policy].length / 12):
 										tmpIntRate = tmpTechs[sngTechID].interestRate * (1 - tmpPolicies[tmpTechs[sngTechID].policy].taxCredit)
 										tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, tmpTechs[sngTechID].loanLength, tmpIntRate) 
 									else:
@@ -182,7 +184,7 @@ class agents:
 						# ... Compute total interest
 						totInterestsToPay = 0
 						for iyears in range(0,tmpTechs[tmpAvaiableTechs[betterTechPos]].loanLength):
-							if iyears < tmpPolicies[tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy].length:
+							if iyears < (tmpPolicies[tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy].length / 12):
 								tmpIntRate = tmpTechs[self.nrgTechsReceipt[-1]].interestRate * (1 - tmpPolicies[tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy].taxCredit)
 								tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, tmpTechs[self.nrgTechsReceipt[-1]].loanLength, tmpIntRate) 
 							else:
@@ -285,11 +287,11 @@ class agents:
 			if tmpTechs[tech].cost < 0:
 				tempMonthCosts += tmpTechs[0].cost * self.nrgPropReceipt[counter]
 				
-
+			# Check policy validity 
 			if self.techPolicy[counter][1] > 0:
 				self.techPolicy[counter][1] -= 1
-				if self.techPolicy[counter][1] == 0:
-					self.techPolicy[counter] = [0,0]
+			if self.techPolicy[counter][1] == 0:
+				self.techPolicy[counter] = [0,0]
 				
 			# .. update statistic variables
 			if self.nrgPropReceipt[counter] > 0:

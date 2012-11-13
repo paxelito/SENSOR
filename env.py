@@ -310,7 +310,7 @@ class environment:
 	def createThreeDefaultTechs(self, tmpPar):
 		'''Function to create the three default technologies
 		   	def __init__(self, tmpID = 0, tmpEff = 0, tmpST = 0, tmpTotTime = 0, tmpDecay = 0, tmpCost = 0, tmpPcost = 0, tmpRate = 0,\
-	             tmpCo2 = 0, tmpTransportCosts = 0, tmpLoanLength = 10, tmpLifeDuration = 50, tmpIncList = None, tmpFromKWH2KW = 100, \
+	             tmpCo2 = 0, tmpTransportCosts = 0, tmpLoanLength = 10, tmpLifeDuration = 50, tmpPolicy = 0, tmpFromKWH2KW = 100, \
 	             tmpSolarBased = 0, tmpX = 0, tmpY = 0):
 	    '''
 		#self.allTechs.append(tech.tech(0,1,0,self.months,0,0.25,0,0,25,0,self.loanLength,self.invLength,[0,0,0,0,0],100,0))
@@ -323,7 +323,7 @@ class environment:
 		self.allTechsID.append(0)
 		self.allTechs.append(tech.tech(1,1,0,self.months,0,0.02 ,300,0.04,10,0.003,self.loanLength,self.invLength,1,100,0,ran.uniform(0,self.xMaxPos),ran.uniform(0,self.yMaxPos)))
 		self.allTechsID.append(1)
-		self.allTechs.append(tech.tech(2,1,0,self.months,0,-0.07,tmpPar,0.04, 5,0    ,self.loanLength,self.invLength,1,100,1))
+		self.allTechs.append(tech.tech(2,1,0,self.months,0,-0.07,tmpPar,0.04, 5,0    ,self.loanLength,self.invLength,2,100,1))
 		self.allTechsID.append(2)
 		
 	# --------------------------------------------------------------|

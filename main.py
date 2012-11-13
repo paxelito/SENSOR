@@ -40,6 +40,7 @@ for sngParam in varParList:
 			envi.agentMonthEnergyActivity(gen)	
 			# New Technology evaluation
 			envi.newTechAssessment(gen)
+			#raw_input('click any buttom to continue... ')
 		# Save results on file 
 		envi.saveOnFile(ns)
 		envi.saveAgentsOnFile(ns)
