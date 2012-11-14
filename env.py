@@ -349,7 +349,7 @@ class environment:
 	#: CREATE POLICIES 											|
 	# --------------------------------------------------------------|
 	
-	def createPolicies(self):
+	def createPolicies(self, tmpP=None):
 		'''Function to create the population
     	'''
 		# if agentCreationMethod is equal to 0 random population is created otherwise it is uploaded from file
@@ -358,6 +358,9 @@ class environment:
 			self.allPolicies.append(policy.policy(1,0,0.04,0,0,5,0,0))
 		else:
 			self.importPolicies()
+			
+		if tmpP != None:
+			self.allPolicies[2].feedIN = tmpP
 			
 		self.promptPolicies()
 	

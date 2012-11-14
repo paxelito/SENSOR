@@ -10,8 +10,8 @@ try:
 except:
 	print "Usage:",sys.argv[0], "Error in the parameter introduction"; sys.exit(1)
 	
-varParList = [50]
-nSeed = 1
+varParList = [0.3422,0.3423,0.3424,0.3425,0.3426]
+nSeed = 10
 nTech = 3
 
 for sngParam in varParList:
@@ -27,7 +27,7 @@ for sngParam in varParList:
 	
 		envi.createPopulation()
 		envi.createTechnologies(sngParam)
-		envi.createPolicies()
+		envi.createPolicies(sngParam)
 		
 		
 		# DYNAMICS
