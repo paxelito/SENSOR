@@ -167,6 +167,7 @@ class agents:
 					# .. Compute the better technology
 					betterTechPos = 0
 					betterNPV = 0
+					betterPayBack = 0
 					if len(npvList) > 1:
 						tmpFinID = 0
 						for sngPbpList in pbpList:
@@ -174,48 +175,47 @@ class agents:
 								if npvList[tmpFinID] > betterNPV: 
 									betterNPV = npvList[tmpFinID]
 									betterTechPos = tmpFinID
+									betterPayBack = sngPbpList
 							tmpFinID += 1
+					
+					if ran.random < self.genLogFun(betterPayBack):
+						if betterNPV > 0:
 							
-					if betterNPV > 0:
-						
-						# .. If a BETTER new technology exist, it is added to the agent
-						
-						self.flagFree = False # Technology search has been blocked
-						self.nrgTechsReceipt.append(tmpTechsID[tmpAvaiableTechs[betterTechPos]])
-						self.nrgPropReceipt = recList[betterTechPos]
-						self.techPolicy.append([tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy,\
-											tmpPolicies[tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy].length])
-						# ... Compute total interest
-						totInterestsToPay = 0
-						for iyears in range(0,(tmpTechs[tmpAvaiableTechs[betterTechPos]].loanLength / 12)):
-							if iyears < (tmpPolicies[tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy].length / 12):
-								tmpIntRate = tmpTechs[self.nrgTechsReceipt[-1]].interestRate * (1 - tmpPolicies[tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy].taxCredit)
-								tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, (tmpTechs[self.nrgTechsReceipt[-1]].loanLength / 12), tmpIntRate) 
-							else:
-								tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, (tmpTechs[self.nrgTechsReceipt[-1]].loanLength / 12), tmpTechs[sngTechID].interestRate)	
-							totInterestsToPay += tmpAnnualInterest
-																			
-						tmpTotalDept = tmpOverallPlantCost + totInterestsToPay
-						self.debts.append(tmpTotalDept)
-						self.RemainingDebts.append(tmpTotalDept)
-						self.debtTime.append(tmpTime) 
-						self.debtLength.append((tmpTechs[tmpAvaiableTechs[betterTechPos]].loanLength / 12))
-						self.debtMonthRepayment.append(tmpTotalDept / tmpTechs[tmpAvaiableTechs[betterTechPos]].loanLength)
-						
-						if self.debugLevel < -1:
-							print "\t 	    |- Agent ", self.ID, " has invested in a new technology:"
-							print "\t 	     \_ New Technology List: ", self.nrgTechsReceipt
-							print "\t 	     \_ New Technology Receipt List: ", self.nrgPropReceipt
-							print "\t 	     \_ New Debts List: ", self.debts
-							print "\t 	     \_ New Residual Debts List: ", self.RemainingDebts
-							print "\t 	     \_ New Initial Debts Time List: ", self.debtTime
-							print "\t 	     \_ New Debts Lengths List: ", self.debtLength
-							print "\t 	     \_ New Debts Month Repayment List: ", self.debtMonthRepayment
-						
-	# --------------------------------------------------------------|
-	# NEW INVESTMENT ASSESSMENT
-	# --------------------------------------------------------------|
+							# .. If a BETTER new technology exist, it is added to the agent
+							
+							self.flagFree = False # Technology search has been blocked
+							self.nrgTechsReceipt.append(tmpTechsID[tmpAvaiableTechs[betterTechPos]])
+							self.nrgPropReceipt = recList[betterTechPos]
+							self.techPolicy.append([tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy,\
+												tmpPolicies[tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy].length])
+							# ... Compute total interest
+							totInterestsToPay = 0
+							for iyears in range(0,(tmpTechs[tmpAvaiableTechs[betterTechPos]].loanLength / 12)):
+								if iyears < (tmpPolicies[tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy].length / 12):
+									tmpIntRate = tmpTechs[self.nrgTechsReceipt[-1]].interestRate * (1 - tmpPolicies[tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy].taxCredit)
+									tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, (tmpTechs[self.nrgTechsReceipt[-1]].loanLength / 12), tmpIntRate) 
+								else:
+									tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, (tmpTechs[self.nrgTechsReceipt[-1]].loanLength / 12), tmpTechs[sngTechID].interestRate)	
+								totInterestsToPay += tmpAnnualInterest
+																				
+							tmpTotalDept = tmpOverallPlantCost + totInterestsToPay
+							self.debts.append(tmpTotalDept)
+							self.RemainingDebts.append(tmpTotalDept)
+							self.debtTime.append(tmpTime) 
+							self.debtLength.append((tmpTechs[tmpAvaiableTechs[betterTechPos]].loanLength / 12))
+							self.debtMonthRepayment.append(tmpTotalDept / tmpTechs[tmpAvaiableTechs[betterTechPos]].loanLength)
+							
+							if self.debugLevel < -1:
+								print "\t 	    |- Agent ", self.ID, " has invested in a new technology:"
+								print "\t 	     \_ New Technology List: ", self.nrgTechsReceipt
+								print "\t 	     \_ New Technology Receipt List: ", self.nrgPropReceipt
+								print "\t 	     \_ New Debts List: ", self.debts
+								print "\t 	     \_ New Residual Debts List: ", self.RemainingDebts
+								print "\t 	     \_ New Initial Debts Time List: ", self.debtTime
+								print "\t 	     \_ New Debts Lengths List: ", self.debtLength
+								print "\t 	     \_ New Debts Month Repayment List: ", self.debtMonthRepaymen
 	def rearrangeTechPropList(self,tmpNewProp):
+
 		'''Function to rearrange the proportion of the different technology according to a possibile new one'''
 		cnt = 0
 		newList = []
@@ -241,6 +241,7 @@ class agents:
 	# Compute Investment interest
 	# --------------------------------------------------------------|
 	def computeLoanAnnualInterest(self, tmpCapital, tmpYears, tmpRate):
+
 		'''Compute investment annual interests'''
 		annualInt = (tmpCapital * tmpYears * tmpRate) / tmpYears
 		return annualInt
@@ -262,10 +263,7 @@ class agents:
 			cnt += 1
 		if sum(self.RemainingDebts) == 0:
 			self.flagFree = True
-		
-	# --------------------------------------------------------------|
-	# MONTH ENERGY COSTS AND POLLUTION
-	# --------------------------------------------------------------|		
+				
 	def computeMonthNrgCostsAndPoll(self, tmpTechs, tmpTime, tmpPolicies):
 		'''Function to assess the monthly energy costs according to the monthly energy needs'''
 		tempMonthCosts = 0
@@ -335,4 +333,14 @@ class agents:
 			cnt += 1	
 			
 		return tmpRelTech
-				
+	def genLogFun(self, tmpX, tmpUpper=1, tmpLower=0, tmpGrowth=1, tmpExp=1, tmpQ=1, tmpM=0):
+		'''Function to return the general logistic value according to the different paramerts
+		   Default values are those of the logistic function'''
+		e = 2.71828182845904523536
+		tmpY = 0
+		tmpY = tmpLower + ( (tmpUpper - tmpLower) / \
+						( pow(1 + (tmpQ * pow(e,(-tmpGrowth*(tmpX-tmpM)))),(1/tmpExp)) ) )
+		print " X - Y ", tmpX, tmpY
+		raw_input('Apsetta--')
+		
+		return tmpY
