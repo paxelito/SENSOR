@@ -336,9 +336,11 @@ class environment:
 		# if agentCreationMethod is equal to 0 random population is created otherwise it is uploaded from file
 		if self.agentCreationMethod == 0:
 			for i in range(0,self.Nagents):
+				tmprndHealth = ran.random()
 				self.allAgents.append(ag.agents(self.debugLevel,i, ran.uniform(0,self.xMaxPos),ran.uniform(0,self.yMaxPos), \
 			    	                            ran.randint(self.minNrgDim, self.maxNrgDim),ran.uniform(0,self.socialLobby),\
-			        	                        ran.uniform(self.minIrradiation,1), self.intRiskRate, self.ratioInternalCapital, self.invLength ) )
+			        	                        ran.uniform(self.minIrradiation,1), self.intRiskRate, self.ratioInternalCapital,\
+			        	                        self.invLength, tmprndHealth) )
 		else:
 			self.importAgents()
 			
@@ -397,8 +399,8 @@ class environment:
 				# Insert Agent
 	             
 				self.allAgents.append(ag.agents(self.debugLevel, int(tmpID), float(tmpX), float(tmpY), float(tmpEN), float(tmpSocialLobby),\
-									 float(tmpSolPot), float(tmpEquity), float(tmpintCap), int(tmpInvL), None, None, None, float(tmpBalance), \
-									 float(tmpMbalance), None, None, None, None, None, float(tmpHealth)))
+									 float(tmpSolPot), float(tmpEquity), float(tmpintCap), int(tmpInvL), float(tmpHealth), None, None, None, float(tmpBalance), \
+									 float(tmpMbalance), None, None, None, None, None))
 		
 		fileFID.close()
 		print ' |- done...'

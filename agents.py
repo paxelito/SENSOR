@@ -6,8 +6,8 @@ import copy
 
 class agents:
 	def __init__(self, tmpDL = 0, tmpID = 0, tmpX = 0, tmpY = 0, tmpNrgDim = 100, tmpSocialLobby = 0, tmpSolPot = ran.uniform(0.5,1), tmpEquityCost = 0.05, \
-	             tmpIntCap = 0.5, tmpInvLength = 50, tmpNrgTech = None, tmpNrgTechProp = None, tmpTechPolicy = None, tmpBalance = 0, tmpMBalance = 0, tmpDebts = None, \
-	             tmpRemDebt = None, tmpDebtTime = None, tmpDebtLen = None, tmpMrep = None, tmpHealth = 1):
+	             tmpIntCap = 0.5, tmpInvLength = 50, tmpHealth = 1, tmpNrgTech = None, tmpNrgTechProp = None, tmpTechPolicy = None, tmpBalance = 0, tmpMBalance = 0, tmpDebts = None, \
+	             tmpRemDebt = None, tmpDebtTime = None, tmpDebtLen = None, tmpMrep = None):
 		'''Constructor of the agent class'''
 		# General Agent Attributes
 		self.ID = tmpID
@@ -178,8 +178,13 @@ class agents:
 									betterPayBack = sngPbpList
 							tmpFinID += 1
 					
-					if ran.random < self.genLogFun(betterPayBack):
-						if betterNPV > 0:
+					
+					if betterNPV > 0:
+						tmpRnd = ran.random()
+						#print self.invLength, " ", betterPayBack, " ", self.health
+						#print tmpRnd
+						if tmpRnd < self.genLogFun((self.invLength - betterPayBack), self.health):
+						
 							
 							# .. If a BETTER new technology exist, it is added to the agent
 							
@@ -333,14 +338,15 @@ class agents:
 			cnt += 1	
 			
 		return tmpRelTech
-	def genLogFun(self, tmpX, tmpUpper=1, tmpLower=0, tmpGrowth=1, tmpExp=1, tmpQ=1, tmpM=0):
+	
+	def genLogFun(self, tmpX, tmpExp=1, tmpM=4, tmpUpper=1, tmpLower=0, tmpGrowth=1, tmpQ=1):
 		'''Function to return the general logistic value according to the different paramerts
 		   Default values are those of the logistic function'''
 		e = 2.71828182845904523536
 		tmpY = 0
 		tmpY = tmpLower + ( (tmpUpper - tmpLower) / \
 						( pow(1 + (tmpQ * pow(e,(-tmpGrowth*(tmpX-tmpM)))),(1/tmpExp)) ) )
-		print " X - Y ", tmpX, tmpY
-		raw_input('Apsetta--')
+		#print " X - Y ", tmpX, tmpY
+		#raw_input('Apsetta--')
 		
 		return tmpY
