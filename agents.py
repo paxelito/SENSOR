@@ -344,8 +344,12 @@ class agents:
 		   Default values are those of the logistic function'''
 		e = 2.71828182845904523536
 		tmpY = 0
-		tmpY = tmpLower + ( (tmpUpper - tmpLower) / \
+		#print tmpX, " ", tmpExp
+		try:
+			tmpY = tmpLower + ( (tmpUpper - tmpLower) / \
 						( pow(1 + (tmpQ * pow(e,(-tmpGrowth*(tmpX-tmpM)))),(1/tmpExp)) ) )
+		except:
+			tmpY = 0
 		#print " X - Y ", tmpX, tmpY
 		#raw_input('Apsetta--')
 		
