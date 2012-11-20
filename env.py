@@ -381,7 +381,6 @@ class environment:
 			sngPol.defineTotFinance(self.overallEnergyNeed, 100)
 			
 		self.promptPolicies()
-		raw_input("wait...")
 	
 	# --------------------------------------------------------------|
 	# Function to Create default zero policy
