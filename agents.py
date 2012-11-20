@@ -65,6 +65,8 @@ class agents:
 	# --------------------------------------------------------------|		
 	def invAssessment(self,tmpTechs,tmpTechsID,tmpTime,tmpAgents,tmpPolicies):
 		'''Function to assess the possible investment'''
+		# first position the policy, second position the total amount of incentive used. To update only if a new technology is used. 
+		tmpPolicyAmountToRemove = [0,0]
 		if 12 - ran.randint(1,12) == 0: 
 			if self.debugLevel < 0:
 				print "\t	\_ AGENT ", self.ID, " is assessing its strategy"
@@ -152,11 +154,16 @@ class agents:
 									
 								# Compute annual interest to pay for the YEARS of the loan
 								if y <= (tmpTechs[sngTechID].loanLength / 12):
-									if y <= (tmpPolicies[tmpTechs[sngTechID].policy].length / 12):
+									# Compute clean annual interest
+									tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, (tmpTechs[sngTechID].loanLength / 12), tmpTechs[sngTechID].interestRate)
+									# If there is an incentive on the interest
+									if (y <= (tmpPolicies[tmpTechs[sngTechID].policy].length / 12)) & (tmpPolicies[tmpTechs[sngTechID].policy].taxCredit > 0):
 										tmpIntRate = tmpTechs[sngTechID].interestRate * (1 - tmpPolicies[tmpTechs[sngTechID].policy].taxCredit)
-										tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, (tmpTechs[sngTechID].loanLength / 12), tmpIntRate) 
-									else:
-										tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, (tmpTechs[sngTechID].loanLength / 12), tmpTechs[sngTechID].interestRate) 
+										tmpAnnualInterestWithInc = self.computeLoanAnnualInterest(tmpOverallPlantCost, (tmpTechs[sngTechID].loanLength / 12), tmpIntRate) 
+										# (4) Since tax credit interest has been theoretically used, it is updated
+										tmpPolAmount += tmpAnnualInterest - tmpAnnualInterestWithInc
+										tmpAnnualInterest = tmpAnnualInterestWithInc
+										
 									cashFlow = tmpCredInv + (tmpCurrentAnnualCosts - tmpHypCosts) - tmpAnnualInterest
 								else:
 									cashFlow = tmpCredInv + (tmpCurrentAnnualCosts - tmpHypCosts)
@@ -172,6 +179,8 @@ class agents:
 							npvList.append(netPresentValue)
 							pbpList.append(payBackPeriod)
 							recList.append(tmpNrgPropReceipt)
+							polList.append(tmpPolAmount)
+							
 							if self.debugLevel < -1:
 								print "\t  	  |- Tech: ", cnt, " NPV: %10.2f" % netPresentValue, " PBP: ", payBackPeriod
 						
@@ -190,7 +199,6 @@ class agents:
 									betterTechPos = tmpFinID
 									betterPayBack = sngPbpList
 							tmpFinID += 1
-					
 					
 					if betterNPV > 0:
 						tmpRnd = ran.random()
@@ -223,6 +231,8 @@ class agents:
 							self.debtLength.append((tmpTechs[tmpAvaiableTechs[betterTechPos]].loanLength / 12))
 							self.debtMonthRepayment.append(tmpTotalDept / tmpTechs[tmpAvaiableTechs[betterTechPos]].loanLength)
 							
+							tmpPolicyAmountToRemove = [tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy, polList[betterTechPos]]
+							
 							if self.debugLevel < -1:
 								print "\t 	    |- Agent ", self.ID, " has invested in a new technology:"
 								print "\t 	     \_ New Technology List: ", self.nrgTechsReceipt
@@ -232,6 +242,8 @@ class agents:
 								print "\t 	     \_ New Initial Debts Time List: ", self.debtTime
 								print "\t 	     \_ New Debts Lengths List: ", self.debtLength
 								print "\t 	     \_ New Debts Month Repayment List: ", self.debtMonthRepaymen
+								
+		return tmpPolicyAmountToRemove
 								
 								
 	def rearrangeTechPropList(self,tmpNewProp):

@@ -27,8 +27,8 @@ class policy:
 		self.totalAmount = tmpA # Percentage of theoretical total possbile amount, If 0 no limit in financing
 		self.residue = tmpRes 
 	
-	def defineTotFinance(self, tmpTotEnergy):
-		self.residue = (tmpTotEnergy * self.feedIN * self.totalAmount) + (tmpTotEnergy * self.taxCreditInv * self.totalAmount)
+	def defineTotFinance(self, tmpTotEnergy, tmpConversion):
+		self.residue = (tmpTotEnergy * self.feedIN * self.totalAmount) + (tmpTotEnergy / tmpConversion * self.taxCreditInv * self.totalAmount)
 		
 		
 		

@@ -289,7 +289,16 @@ class environment:
 	def newTechAssessment(self,tmpTime):
 		# According to the average investment evaluation time (once per year) and the agent wealth 
 		for sngAgent in self.allAgents:
-			sngAgent.invAssessment(self.allTechs, self.allTechsID,tmpTime,self.allAgents,self.allPolicies)
+			polToUpdate = sngAgent.invAssessment(self.allTechs, self.allTechsID,tmpTime,self.allAgents,self.allPolicies)
+			# Decrement the total amount of incentives to aid within the system
+			if polToUpdate[0] > 0:
+				self.allPolicies[polToUpdate[0]].residue -= polToUpdate[1]
+				# If incentives are vanished, standard no inc policy is attributed to all technologies using the vanish policy
+				if self.allPolicies[polToUpdate[0]].residue <= 0:
+					for sngTech in self.allTechs:
+						if sngTech.policy == polToUpdate[0]:
+							sngTech.policy = 0
+			
 		
 	# --------------------------------------------------------------------------|
 	# Function to choose the technology creation function to use				|
@@ -368,7 +377,8 @@ class environment:
 			self.allPolicies[2].feedIN = tmpP
 					
 		for sngPol in self.allPolicies:
-			sngPol.defineTotFinance(self.overallEnergyNeed)
+			# 100 is a temporary value concerning the agerage transformation from kWh to kWp
+			sngPol.defineTotFinance(self.overallEnergyNeed, 100)
 			
 		self.promptPolicies()
 		raw_input("wait...")

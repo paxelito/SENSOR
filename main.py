@@ -10,7 +10,7 @@ try:
 except:
 	print "Usage:",sys.argv[0], "Error in the parameter introduction"; sys.exit(1)
 	
-varParList = [0.3426]
+varParList = [0.6]
 #varParList = [0.3423]
 nSeed = 10
 nTech = 3
