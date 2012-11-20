@@ -89,6 +89,7 @@ class environment:
 		
 		# Policies
 		self.allPolicies = []
+		self.overallEnergyNeed = 0
 		
 		# STAT VARIABLES
 		self.totCO2 = []
@@ -346,6 +347,8 @@ class environment:
 			
 		self.genDistanceLists()
 		self.promptAgents()
+		# Compute the overall energy need of the system
+		self.computeTotEnergyNeed()
 
 	# --------------------------------------------------------------|
 	#: CREATE POLICIES 											|
@@ -357,14 +360,18 @@ class environment:
 		# if agentCreationMethod is equal to 0 random population is created otherwise it is uploaded from file
 		if self.policyCreationMethod == 0:
 			self.allPolicies.append(policy.policy())
-			self.allPolicies.append(policy.policy(1,0,0.04,0,0,5,0,0))
+			self.allPolicies.append(policy.policy(1,0,0.04,0,0,5,0,0,0))
 		else:
 			self.importPolicies()
 			
 		if tmpP != None:
 			self.allPolicies[2].feedIN = tmpP
+					
+		for sngPol in self.allPolicies:
+			sngPol.defineTotFinance(self.overallEnergyNeed)
 			
 		self.promptPolicies()
+		raw_input("wait...")
 	
 	# --------------------------------------------------------------|
 	# Function to Create default zero policy
@@ -423,10 +430,10 @@ class environment:
 		# for each technology
 		for t in policies:
 			if t[0] != '#':
-				tmpID, tmpFI, tmpTC, tmpTCI, tmpCT, tmpL, tmpIT, tmpA = t.split()
+				tmpID, tmpFI, tmpTC, tmpTCI, tmpCT, tmpL, tmpIT, tmpA, tmpR = t.split()
 				# Insert technology
 				self.allPolicies.append(policy.policy(int(tmpID), float(tmpFI), float(tmpTC), float(tmpTCI),\
-                                                      float(tmpCT), int(tmpL), int(tmpIT), float(tmpA)))
+                                                      float(tmpCT), int(tmpL), int(tmpIT), float(tmpA), float(tmpR)))
 		fileFID.close()
 
 	# --------------------------------------------------------------|
@@ -517,7 +524,8 @@ class environment:
 			print ' |- Carbon Tax ', t.carbonTax
 			print ' |- Policy Length ', t.length
 			print ' |- Introduction Time ', t.introTime
-			print ' |- Total Amount of Incentives ', t.totalAmount
+			print ' |- Total Amount of Incentives (%) ', t.totalAmount
+			print ' |- Total Amount of Incentives', t.residue
 		
 		print "|- ---------------------\n\n"
 		
@@ -592,11 +600,11 @@ class environment:
 		# File handle
 		saveFileFid = open(FileName, 'w')
 		# File init
-		strInit = '#ID\tFeedIn\tTaxCredit\tTaxCreditInv\tCarbonTax\tlength\tinitTime\tamount\n'
+		strInit = '#ID\tFeedIn\tTaxCredit\tTaxCreditInv\tCarbonTax\tlength\tinitTime\tamountPerc\tResidue\n'
 		saveFileFid.write(strInit)
 		for t in self.allPolicies:
 			strInit = str(t.ID) + '\t' + str(t.feedIN) + '\t' + str(t.taxCredit) + '\t' + str(t.taxCreditInv) + '\t' + \
-			str(t.carbonTax) + '\t' + str(t.length) + '\t' + str(t.introTime) + '\t' + str(t.totalAmount) + '\n'
+			str(t.carbonTax) + '\t' + str(t.length) + '\t' + str(t.introTime) + '\t' + str(t.totalAmount) + '\t' + str(t.residue) + '\n'
 			
 			saveFileFid.write(strInit)
 			
@@ -685,5 +693,12 @@ class environment:
 			cnt += 1
 		saveFileStat.close()	
 		os.rename(outFnameStat, os.path.join(self.simPath,self.simFolder,outFnameStat))
+		
+	# --------------------------------------------------------------|
+	# Compute overall Financiable amount
+	# --------------------------------------------------------------|
+	def computeTotEnergyNeed(self):		
+		for sngAgent in self.allAgents:
+			self.overallEnergyNeed += sngAgent.totEnergyNeed
 			
 			

@@ -14,7 +14,7 @@ class policy:
 	''' class policy definition
 	'''
 	
-	def __init__(self, tmpID=0, tmpFeedIn=0, tmpTcred=0, tmpTcredInv=0, tmpCT=0, tmpL=0, tmpIntroTime=0,tmpA=0):
+	def __init__(self, tmpID=0, tmpFeedIn=0, tmpTcred=0, tmpTcredInv=0, tmpCT=0, tmpL=0, tmpIntroTime=0, tmpA=0, tmpRes=0):
 		'''Policy Constructor'''
 		
 		self.ID = tmpID
@@ -24,6 +24,11 @@ class policy:
 		self.carbonTax = tmpCT
 		self.length = tmpL # Length of the investment (in months)
 		self.introTime = tmpIntroTime
-		self.totalAmount = tmpA # If 0 no limit in financing
+		self.totalAmount = tmpA # Percentage of theoretical total possbile amount, If 0 no limit in financing
+		self.residue = tmpRes 
+	
+	def defineTotFinance(self, tmpTotEnergy):
+		self.residue = (tmpTotEnergy * self.feedIN * self.totalAmount) + (tmpTotEnergy * self.taxCreditInv * self.totalAmount)
+		
 		
 		

@@ -83,8 +83,10 @@ class agents:
 					npvList = [] # List of all net present values
 					pbpList = [] # List of all payback periods
 					recList = [] # List of all the possible technology recepits
+					polList = [] # List of all the total amount of policy used. 
 					for sngTechID in tmpAvaiableTechs:	
-						tmpHypCosts = 0	# hypothetical costs according to this new technology	
+						tmpHypCosts = 0	# hypothetical costs according to this new technology
+						tmpPolAmount = 0 # temporary variable contatining the total amount of policy theoretically used with this tech	
 						# Compute the hypothetic annual costs due to the new technology implementation
 						# .. New tech max energy production, the size of the energy partition is changes according to the solar orientation of the agent
 						tmpNewNrgProp = int(round(ran.randint(1,self.totEnergyNeed) * (pow(self.solar_potential,tmpTechs[sngTechID].solarBased))))
@@ -101,7 +103,11 @@ class agents:
 								tmpDistanceFromSourceMultiplier = pow(pow(abs(self.x - tmpTechs[self.nrgTechsReceipt[tmpCnt]].X),2) + pow(abs(self.y - tmpTechs[self.nrgTechsReceipt[tmpCnt]].Y),2),0.5)
 								tmpDistanceFromSourceMultiplier *= tmpTechs[self.nrgTechsReceipt[tmpCnt]].transportCosts
 								
-								tmpHypCosts += tmpNewSngProp * (tmpTechs[self.nrgTechsReceipt[tmpCnt]].cost + tmpPolicies[self.techPolicy[tmpCnt][0]].carbonTax + tmpDistanceFromSourceMultiplier - tmpPolicies[self.techPolicy[tmpCnt][0]].feedIN)
+								tmpHypCosts += tmpNewSngProp * (tmpTechs[self.nrgTechsReceipt[tmpCnt]].cost +\
+															 tmpPolicies[self.techPolicy[tmpCnt][0]].carbonTax +\
+															 tmpDistanceFromSourceMultiplier - tmpPolicies[self.techPolicy[tmpCnt][0]].feedIN)
+								# (1) Since feedIn has been theoretically used, it is updated
+								tmpPolAmount += tmpNewSngProp * tmpPolicies[self.techPolicy[tmpCnt][0]].feedIN
 								
 								if tmpTechs[self.nrgTechsReceipt[tmpCnt]].cost <= 0:
 									# If the cost is negative the energy is sold, so the cost of the traditional energy has to be added 
@@ -109,6 +115,10 @@ class agents:
 								tmpCnt += 1
 							# .. The cost associated to the new technologies are added
 							tmpHypCosts += tmpNewNrgProp * (tmpTechs[sngTechID].cost + tmpPolicies[tmpTechs[sngTechID].policy].carbonTax - tmpPolicies[tmpTechs[sngTechID].policy].feedIN)
+							
+							# (2) Since feedIn has been theoretically used, it is updated
+							tmpPolAmount += tmpNewNrgProp * tmpPolicies[tmpTechs[sngTechID].policy].feedIN
+							
 							if tmpTechs[sngTechID].cost <= 0:
 								# If the cost is negative the energy is sold, so the cost of the traditional energy has to be added
 								tmpHypCosts += tmpNewNrgProp * tmpTechs[0].cost
@@ -124,10 +134,10 @@ class agents:
 								else:
 									tmpHypCosts += tmpHypCosts * sngLobby * self.social_lobby
 								
-							# WACC (Weighted Average Cost of Capital) Computation
-							
+							# WACC (Weighted Average Cost of Capital) Computation (incentive amount on interests is computed later)
 							wacc = ((tmpOverallPlantCost * self.int_capital) / tmpOverallPlantCost * self.equityCost) + \
 								   (((tmpOverallPlantCost * (1 - self.int_capital)) / tmpOverallPlantCost * tmpTechs[sngTechID].interestRate) * (1-tmpPolicies[tmpTechs[sngTechID].policy].taxCredit))
+							
 							# For the years of the investment 
 							netPresentValue = 0
 							payBackPeriod = 0
@@ -137,6 +147,9 @@ class agents:
 								tmpCredInv = 0
 								if (y <= (tmpPolicies[tmpTechs[sngTechID].policy].length / 12)) & (tmpPolicies[tmpTechs[sngTechID].policy].taxCreditInv > 0):
 									tmpCredInv += tmpOverallPlantCost * tmpPolicies[tmpTechs[sngTechID].policy].taxCreditInv / (tmpPolicies[tmpTechs[sngTechID].policy].length / 12)
+									# (3) Since tax credit investment has been theoretically used, it is updated
+									tmpPolAmount += tmpCredInv
+									
 								# Compute annual interest to pay for the YEARS of the loan
 								if y <= (tmpTechs[sngTechID].loanLength / 12):
 									if y <= (tmpPolicies[tmpTechs[sngTechID].policy].length / 12):
@@ -219,8 +232,9 @@ class agents:
 								print "\t 	     \_ New Initial Debts Time List: ", self.debtTime
 								print "\t 	     \_ New Debts Lengths List: ", self.debtLength
 								print "\t 	     \_ New Debts Month Repayment List: ", self.debtMonthRepaymen
+								
+								
 	def rearrangeTechPropList(self,tmpNewProp):
-
 		'''Function to rearrange the proportion of the different technology according to a possibile new one'''
 		cnt = 0
 		newList = []
