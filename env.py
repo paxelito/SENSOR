@@ -174,11 +174,11 @@ class environment:
 	# CREATE POPULATION 											|	
 	# --------------------------------------------------------------|	
 	
-	def createFolderAndSaveInitialConditions(self, tmpPar):
+	def createFolderAndSaveInitialConditions(self, tmpPar, tmpPar2):
 		'''Function to create the simulation folder and save the initial conditions'''
 		
 		#: this is the folder name
-		self.simFolder = time.strftime("%y%m%d_%H_%M") + "_" + str(tmpPar)
+		self.simFolder = time.strftime("%y%m%d_%H_%M") + "_" + str(tmpPar) + "_" + str(tmpPar2)
 		
 		if not os.path.exists(os.path.join(self.simPath,self.simFolder)): os.makedirs(os.path.join(self.simPath,self.simFolder)) 
 		#Copy file into results folder (copy2 because also file metadata are copied)
@@ -303,10 +303,10 @@ class environment:
 	# --------------------------------------------------------------------------|
 	# Function to choose the technology creation function to use				|
 	# --------------------------------------------------------------------------|
-	def createTechnologies(self, tmpPar):	
+	def createTechnologies(self):	
 		'''Function to select, according to the techCreationMethod params, the technology creation function'''
 		if self.techCreationMethod == 0:
-			self.createThreeDefaultTechs(tmpPar)
+			self.createThreeDefaultTechs()
 		elif self.techCreationMethod == 1:
 			self.importTechs()
 		else: 
@@ -317,7 +317,7 @@ class environment:
 	# --------------------------------------------------------------|
 	# Function to create the three default technologies				|
 	# --------------------------------------------------------------|
-	def createThreeDefaultTechs(self, tmpPar):
+	def createThreeDefaultTechs(self):
 		'''Function to create the three default technologies
 		   	def __init__(self, tmpID = 0, tmpEff = 0, tmpST = 0, tmpTotTime = 0, tmpDecay = 0, tmpCost = 0, tmpPcost = 0, tmpRate = 0,\
 	             tmpCo2 = 0, tmpTransportCosts = 0, tmpLoanLength = 10, tmpLifeDuration = 50, tmpPolicy = 0, tmpFromKWH2KW = 100, \
@@ -331,9 +331,9 @@ class environment:
 		#self.allTechsID.append(2)
 		self.allTechs.append(tech.tech(0,1,0,self.months,0,0.08 ,  0,0   ,25,0    ,self.loanLength,self.invLength,0,100,0))
 		self.allTechsID.append(0)
-		self.allTechs.append(tech.tech(1,1,0,self.months,0,0.02 ,300,0.04,10,0.003,self.loanLength,self.invLength,1,100,0,ran.uniform(0,self.xMaxPos),ran.uniform(0,self.yMaxPos)))
+		self.allTechs.append(tech.tech(1,1,0,self.months,0,0.02 ,4000,0.04,10,0.003,self.loanLength,self.invLength,1,100,0,ran.uniform(0,self.xMaxPos),ran.uniform(0,self.yMaxPos)))
 		self.allTechsID.append(1)
-		self.allTechs.append(tech.tech(2,1,0,self.months,0,-0.07,tmpPar,0.04, 5,0    ,self.loanLength,self.invLength,2,100,1))
+		self.allTechs.append(tech.tech(2,1,0,self.months,0,-0.07,4000,0.04, 5,0    ,self.loanLength,self.invLength,2,100,1))
 		self.allTechsID.append(2)
 		
 	# --------------------------------------------------------------|
@@ -363,7 +363,7 @@ class environment:
 	#: CREATE POLICIES 											|
 	# --------------------------------------------------------------|
 	
-	def createPolicies(self, tmpP=None):
+	def createPolicies(self, tmpP=None, tmpP2=None):
 		'''Function to create the population
     	'''
 		# if agentCreationMethod is equal to 0 random population is created otherwise it is uploaded from file
@@ -375,6 +375,9 @@ class environment:
 			
 		if tmpP != None:
 			self.allPolicies[2].feedIN = tmpP
+		
+		if tmpP2 != None:
+			self.allPolicies[2].totalAmount = tmpP2
 					
 		for sngPol in self.allPolicies:
 			# 100 is a temporary value concerning the agerage transformation from kWh to kWp
