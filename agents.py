@@ -371,6 +371,7 @@ class agents:
 		e = 2.71828182845904523536
 		tmpY = 0
 		#print tmpX, " ", tmpExp
+		tmpM += ((1-tmpExp) * 10)
 		try:
 			tmpY = tmpLower + ( (tmpUpper - tmpLower) / \
 						( pow(1 + (tmpQ * pow(e,(-tmpGrowth*(tmpX-tmpM)))),(1/tmpExp)) ) )
