@@ -95,9 +95,11 @@ class environment:
 		self.totCO2 = []
 		self.totDebt = []
 		self.totCosts = []
+		self.totAids = []
 		self.tottotCO2 = []
 		self.tottotDebt = []
 		self.tottotCosts = []
+		self.tottotAids = []
 		self.totTechNRGdist = []
 		self.totTechKWHdist = []
 		self.totTechKWdist = []
@@ -123,6 +125,7 @@ class environment:
 		self.tottotCO2.append(self.totCO2)
 		self.tottotDebt.append(self.totDebt)
 		self.tottotCosts.append(self.totCosts)
+		self.tottotAids.append(self.totAids)
 		
 		self.tottotTechNRGdist.append(self.totTechNRGdist)
 		self.tottotTechKWHdist.append(self.totTechKWHdist)
@@ -131,9 +134,11 @@ class environment:
 		self.totCO2 = []
 		self.totDebt = []
 		self.totCosts = []	
+		self.totAids = []
 		self.totTechNRGdist = []
 		self.totTechKWHdist = []
 		self.totTechKWdist = []
+ 
 			
 				
 	# --------------------------------------------------------------|
@@ -287,17 +292,20 @@ class environment:
 	# --------------------------------------------------------------|
 			
 	def newTechAssessment(self,tmpTime):
-		# According to the average investment evaluation time (once per year) and the agent wealth 
+		# According to the average investment evaluation time (once per year) and the agent wealth and policy aids are decreased 
+		tmp_tAids = 0
 		for sngAgent in self.allAgents:
 			polToUpdate = sngAgent.invAssessment(self.allTechs, self.allTechsID,tmpTime,self.allAgents,self.allPolicies)
 			# Decrement the total amount of incentives to aid within the system
 			if polToUpdate[0] > 0:
 				self.allPolicies[polToUpdate[0]].residue -= polToUpdate[1]
+				tmp_tAids += polToUpdate[1]
 				# If incentives are vanished, standard no inc policy is attributed to all technologies using the vanish policy
 				if self.allPolicies[polToUpdate[0]].residue <= 0:
 					for sngTech in self.allTechs:
 						if sngTech.policy == polToUpdate[0]:
 							sngTech.policy = 0
+		self.totAids.append(tmp_tAids)
 			
 		
 	# --------------------------------------------------------------------------|
@@ -651,8 +659,8 @@ class environment:
 	# --------------------------------------------------------------|		
 	def saveOnFile(self, tmpSeed): 
 		# Store simulation data on file
-		tmpStat = [self.totCO2, self.totDebt, self.totCosts]
-		filename = 'stat_co2DebtCosts' + str(tmpSeed)
+		tmpStat = [self.totCO2, self.totDebt, self.totCosts, self.totAids]
+		filename = 'stat_co2DebtCostsAids' + str(tmpSeed)
 		self.writeSngStatOnFileWhereISay(filename,tmpStat,'%i')
 		
 		# Create list with all the technologies stats
@@ -679,6 +687,9 @@ class environment:
 		self.writeSngStatOnFileWhereISay(filename,self.tottotDebt,'%i')
 		filename = '_overall_costs'
 		self.writeSngStatOnFileWhereISay(filename,self.tottotCosts,'%i')
+		filename = '_overall_aids'
+		print self.tottotAids
+		self.writeSngStatOnFileWhereISay(filename,self.tottotAids,'%i')
 		
 		for tID in range(nTech):
 			tempTechList = []
