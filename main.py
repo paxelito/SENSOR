@@ -10,9 +10,9 @@ try:
 except:
 	print "Usage:",sys.argv[0], "Error in the parameter introduction"; sys.exit(1)
 	
-varParList1 = [0.2, 0.15, 0.3]
+varParList1 = [0.1, 0.2, 0.3, 0.4, 0.5]
 varParList2 = [0.25]
-nSeed = 2
+nSeed = 10
 nTech = 3
 
 for sngParam1 in varParList1:

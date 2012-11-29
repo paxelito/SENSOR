@@ -137,14 +137,22 @@ class agents:
 									tmpHypCosts += tmpHypCosts * sngLobby * self.social_lobby
 								
 							# WACC (Weighted Average Cost of Capital) Computation (incentive amount on interests is computed later)
-							wacc = ((tmpOverallPlantCost * self.int_capital) / tmpOverallPlantCost * self.equityCost) + \
-								   (((tmpOverallPlantCost * (1 - self.int_capital)) / tmpOverallPlantCost * tmpTechs[sngTechID].interestRate) * (1-tmpPolicies[tmpTechs[sngTechID].policy].taxCredit))
+							# the equity capital is randomly modified to create variability 
+							self.int_capital = ran.uniform(self.int_capital * 0.9, self.int_capital * 1.1)
+							if self.int_capital < 0: self.int_capital = 0
+							if self.int_capital > 1: self.int_capital = 1
+							tmpINTplantCost = tmpOverallPlantCost * self.int_capital
+							tmpEXTplantCost = tmpOverallPlantCost - tmpINTplantCost
+							wacc = (tmpINTplantCost / tmpOverallPlantCost * self.equityCost) + \
+								   ((tmpEXTplantCost / tmpOverallPlantCost * tmpTechs[sngTechID].interestRate) * (1-tmpPolicies[tmpTechs[sngTechID].policy].taxCredit))
 							
 							# For the years of the investment 
 							netPresentValue = 0
 							payBackPeriod = 0
 							cashFlow = 0
 							for y in range(1,self.invLength + 1):
+								# Reset cash flow for this year
+								cashFlow = 0
 								# Compute the tax-credit-investment for the years of the incentive
 								tmpCredInv = 0
 								if (y <= (tmpPolicies[tmpTechs[sngTechID].policy].length / 12)) & (tmpPolicies[tmpTechs[sngTechID].policy].taxCreditInv > 0):
@@ -155,18 +163,23 @@ class agents:
 								# Compute annual interest to pay for the YEARS of the loan
 								if y <= (tmpTechs[sngTechID].loanLength / 12):
 									# Compute clean annual interest
-									tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, (tmpTechs[sngTechID].loanLength / 12), tmpTechs[sngTechID].interestRate)
+									tmpAnnualInterest = self.computeLoanAnnualInterest(tmpEXTplantCost, (tmpTechs[sngTechID].loanLength / 12), tmpTechs[sngTechID].interestRate)
 									# If there is an incentive on the interest
 									if (y <= (tmpPolicies[tmpTechs[sngTechID].policy].length / 12)) & (tmpPolicies[tmpTechs[sngTechID].policy].taxCredit > 0):
 										tmpIntRate = tmpTechs[sngTechID].interestRate * (1 - tmpPolicies[tmpTechs[sngTechID].policy].taxCredit)
-										tmpAnnualInterestWithInc = self.computeLoanAnnualInterest(tmpOverallPlantCost, (tmpTechs[sngTechID].loanLength / 12), tmpIntRate) 
+										tmpAnnualInterestWithInc = self.computeLoanAnnualInterest(tmpEXTplantCost, (tmpTechs[sngTechID].loanLength / 12), tmpIntRate) 
 										# (4) Since tax credit interest has been theoretically used, it is updated
 										tmpPolAmount += tmpAnnualInterest - tmpAnnualInterestWithInc
 										tmpAnnualInterest = tmpAnnualInterestWithInc
-										
-									cashFlow = tmpCredInv + (tmpCurrentAnnualCosts - tmpHypCosts) - tmpAnnualInterest
+									
+									# Investment credit + annual savings - interests - credit capital 
+									cashFlow = tmpCredInv + (tmpCurrentAnnualCosts - tmpHypCosts) - tmpAnnualInterest - (tmpEXTplantCost / (tmpTechs[sngTechID].loanLength / 12))
 								else:
+									# Investment credit + annual savings
 									cashFlow = tmpCredInv + (tmpCurrentAnnualCosts - tmpHypCosts)
+									
+								# if there is equity capital it is spent in the first year
+								if ((y == 1) & (tmpINTplantCost > 0)): cashFlow += tmpINTplantCost
 								# Compute in progress NPV
 								netPresentValue += cashFlow / (pow(1+wacc,y))
 								#print "CF: ", cashFlow, " cred: ", tmpCredInv, " + (HC: ",tmpCurrentAnnualCosts, " - h: ", tmpHypCosts, ") - INT ", tmpAnnualInterest,\
@@ -219,17 +232,20 @@ class agents:
 							for iyears in range(0,(tmpTechs[tmpAvaiableTechs[betterTechPos]].loanLength / 12)):
 								if iyears < (tmpPolicies[tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy].length / 12):
 									tmpIntRate = tmpTechs[self.nrgTechsReceipt[-1]].interestRate * (1 - tmpPolicies[tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy].taxCredit)
-									tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, (tmpTechs[self.nrgTechsReceipt[-1]].loanLength / 12), tmpIntRate) 
+									tmpAnnualInterest = self.computeLoanAnnualInterest(tmpEXTplantCost, (tmpTechs[self.nrgTechsReceipt[-1]].loanLength / 12), tmpIntRate) 
 								else:
-									tmpAnnualInterest = self.computeLoanAnnualInterest(tmpOverallPlantCost, (tmpTechs[self.nrgTechsReceipt[-1]].loanLength / 12), tmpTechs[sngTechID].interestRate)	
+									tmpAnnualInterest = self.computeLoanAnnualInterest(tmpEXTplantCost, (tmpTechs[self.nrgTechsReceipt[-1]].loanLength / 12), tmpTechs[sngTechID].interestRate)	
 								totInterestsToPay += tmpAnnualInterest
 																				
-							tmpTotalDept = tmpOverallPlantCost + totInterestsToPay
+							tmpTotalDept = tmpEXTplantCost + totInterestsToPay
 							self.debts.append(tmpTotalDept)
 							self.RemainingDebts.append(tmpTotalDept)
 							self.debtTime.append(tmpTime) 
 							self.debtLength.append((tmpTechs[tmpAvaiableTechs[betterTechPos]].loanLength / 12))
 							self.debtMonthRepayment.append(tmpTotalDept / tmpTechs[tmpAvaiableTechs[betterTechPos]].loanLength)
+							# Init Inv Payment
+							self.month_balance = tmpINTplantCost
+							self.balance += self.month_balance
 							
 							tmpPolicyAmountToRemove = [tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy, polList[betterTechPos]]
 							
