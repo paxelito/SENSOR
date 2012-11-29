@@ -179,11 +179,11 @@ class environment:
 	# CREATE POPULATION 											|	
 	# --------------------------------------------------------------|	
 	
-	def createFolderAndSaveInitialConditions(self, tmpPar, tmpPar2):
+	def createFolderAndSaveInitialConditions(self, tmpPar, tmpPar2, tmpPar3):
 		'''Function to create the simulation folder and save the initial conditions'''
 		
 		#: this is the folder name
-		self.simFolder = time.strftime("%y%m%d_%H_%M") + "_" + str(tmpPar) + "_" + str(tmpPar2)
+		self.simFolder = time.strftime("%y%m%d_%H_%M") + "_" + str(tmpPar) + "_" + str(tmpPar2)  + "_" + str(tmpPar3) 
 		
 		if not os.path.exists(os.path.join(self.simPath,self.simFolder)): os.makedirs(os.path.join(self.simPath,self.simFolder)) 
 		#Copy file into results folder (copy2 because also file metadata are copied)
@@ -371,7 +371,7 @@ class environment:
 	#: CREATE POLICIES 											|
 	# --------------------------------------------------------------|
 	
-	def createPolicies(self, tmpP=None, tmpP2=None):
+	def createPolicies(self, tmpP=None, tmpP2=None, tmpP3=None):
 		'''Function to create the population
     	'''
 		# if agentCreationMethod is equal to 0 random population is created otherwise it is uploaded from file
@@ -385,7 +385,10 @@ class environment:
 			self.allPolicies[2].feedIN = tmpP
 		
 		if tmpP2 != None:
-			self.allPolicies[2].totalAmount = tmpP2
+			self.allPolicies[2].taxCreditInv = tmpP2
+			
+		if tmpP3 != None:
+			self.allPolicies[2].totalAmount = tmpP3
 					
 		for sngPol in self.allPolicies:
 			# 100 is a temporary value concerning the agerage transformation from kWh to kWp
@@ -688,7 +691,6 @@ class environment:
 		filename = '_overall_costs'
 		self.writeSngStatOnFileWhereISay(filename,self.tottotCosts,'%i')
 		filename = '_overall_aids'
-		print self.tottotAids
 		self.writeSngStatOnFileWhereISay(filename,self.tottotAids,'%i')
 		
 		for tID in range(nTech):

@@ -179,7 +179,7 @@ class agents:
 									cashFlow = tmpCredInv + (tmpCurrentAnnualCosts - tmpHypCosts)
 									
 								# if there is equity capital it is spent in the first year
-								if ((y == 1) & (tmpINTplantCost > 0)): cashFlow += tmpINTplantCost
+								if ((y == 1) & (tmpINTplantCost > 0)): cashFlow -= tmpINTplantCost
 								# Compute in progress NPV
 								netPresentValue += cashFlow / (pow(1+wacc,y))
 								#print "CF: ", cashFlow, " cred: ", tmpCredInv, " + (HC: ",tmpCurrentAnnualCosts, " - h: ", tmpHypCosts, ") - INT ", tmpAnnualInterest,\
@@ -187,6 +187,7 @@ class agents:
 								# Compute paybackPeriod
 								if (netPresentValue >= tmpOverallPlantCost) & (payBackPeriod == 0):
 									payBackPeriod = y
+									
 							# .. Compute final net present value
 							netPresentValue -= tmpOverallPlantCost
 							npvList.append(netPresentValue)
@@ -329,9 +330,12 @@ class agents:
 						   + self.debtMonthRepayment[counter]
 			
 			# If the incentive is still valid the tax credit on the investment is computed
+
+				
 			if (tmpPolicies[self.techPolicy[counter][0]].taxCreditInv > 0) & (self.techPolicy[counter][1] > 0):
 					tempMonthCosts -= (self.nrgPropReceipt[counter] / tmpTechs[tech].fromKWH2KW * tmpTechs[tech].plantCost) \
-									  * tmpPolicies[tmpTechs[tech].policy].taxCreditInv /  tmpPolicies[tmpTechs[tech].policy].length
+									  * tmpPolicies[self.techPolicy[counter][0]].taxCreditInv /  tmpPolicies[self.techPolicy[counter][0]].length
+
 			
 			if tmpTechs[tech].cost <= 0:
 				tempMonthCosts += tmpTechs[0].cost * self.nrgPropReceipt[counter]
@@ -341,6 +345,8 @@ class agents:
 				self.techPolicy[counter][1] -= 1
 			if self.techPolicy[counter][1] == 0:
 				self.techPolicy[counter] = [0,0]
+				
+			#raw_input("...")
 				
 			# .. update statistic variables
 			if self.nrgPropReceipt[counter] > 0:
