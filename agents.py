@@ -73,7 +73,7 @@ class agents:
 			if self.debugLevel < -1:
 				print "\t  	 \_ Total balance: ", u"\u20AC", "%.2f" % self.balance, " M: ", u"\u20AC", "%.2f" % self.month_balance, " CO2: ", "%.4f" %self.co2
 			# If the agent is in health
-			if (ran.random() <= self.health) & (self.flagFree == True):
+			if self.flagFree == True:
 				# Define technology attraction list
 				relativeAttractions = self.defineTechAttraction(tmpTechs, tmpAgents)
 				# Creta a list with all the available technologies (not already used by the agent)
