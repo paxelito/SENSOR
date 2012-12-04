@@ -322,6 +322,7 @@ class agents:
 			# .. compute costs and revenues
 			tmpDistanceFromSourceMultiplier = pow(pow(abs(self.x - tmpTechs[tech].X),2) + pow(abs(self.y - tmpTechs[tech].Y),2),0.5)
 			tmpDistanceFromSourceMultiplier *= tmpTechs[tech].transportCosts
+									
 			tempMonthCosts += self.nrgPropReceipt[counter]\
 						   * (tmpTechs[tech].cost\
 							  + tmpDistanceFromSourceMultiplier\
@@ -330,16 +331,15 @@ class agents:
 						   + self.debtMonthRepayment[counter]
 			
 			# If the incentive is still valid the tax credit on the investment is computed
-
 				
 			if (tmpPolicies[self.techPolicy[counter][0]].taxCreditInv > 0) & (self.techPolicy[counter][1] > 0):
 					tempMonthCosts -= (self.nrgPropReceipt[counter] / tmpTechs[tech].fromKWH2KW * tmpTechs[tech].plantCost) \
 									  * tmpPolicies[self.techPolicy[counter][0]].taxCreditInv /  tmpPolicies[self.techPolicy[counter][0]].length
-
 			
 			if tmpTechs[tech].cost <= 0:
 				tempMonthCosts += tmpTechs[0].cost * self.nrgPropReceipt[counter]
-				
+			
+							
 			# Check policy validity 
 			if self.techPolicy[counter][1] > 0:
 				self.techPolicy[counter][1] -= 1
@@ -379,7 +379,7 @@ class agents:
 				if self.ID != sngA.ID: # if the agent is not me
 					if sngT.ID in sngA.nrgTechsReceipt:
 						if sngA.nrgPropReceipt[sngA.nrgTechsReceipt.index(sngT.ID)] > 0:
-							tmpTotTech[sngT.ID] += (sngA.totEnergyNeed / self.distanceList[sngA.ID])
+							tmpTotTech[sngT.ID] += (float(sngA.totEnergyNeed) / pow(self.distanceList[sngA.ID],2))
 		cnt = 0
 		for relT in tmpRelTech:
 			tmpRelTech[cnt] = tmpTotTech[cnt] / float(sum(tmpTotTech))
