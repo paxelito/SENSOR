@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-'''Function to compute polici post-ante analysis
+'''Function to compute policy post-ante analysis
 '''
 
 import sys, os # Standard library
