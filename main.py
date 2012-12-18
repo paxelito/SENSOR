@@ -10,11 +10,12 @@ try:
 except:
 	print "Usage:",sys.argv[0], "Error in the parameter introduction"; sys.exit(1)
 	
-varParList1 = [1.0]
-varParList2 = [1.0]
+	
+StrPath = os.path.abspath(StrPath)
+	
+varParList1 = [1]
+varParList2 = [1]
 varParList3 = [1]
-nSeed = 1
-nTech = 3
 
 for sngParam1 in varParList1:
 	for sngParam2 in varParList2:
@@ -27,7 +28,7 @@ for sngParam1 in varParList1:
 			envi.printParams()
 		
 			# For each seed
-			for ns in range(nSeed):
+			for ns in range(envi.nSeed):
 			
 				envi.createPopulation()
 				envi.createTechnologies()
@@ -58,5 +59,5 @@ for sngParam1 in varParList1:
 				envi.resetSimulation()
 				
 			# Del environment
-			envi.saveTotalOnFile(nTech)
+			envi.saveTotalOnFile()
 			del envi
