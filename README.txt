@@ -9,6 +9,9 @@ Libraries:
 'modelDataDemo' FOLDER:
  |- INPUT 
  	|- init.conf		Configuration file
- 	|- initAgents.csv 	Initial agent file (if agentCreationMethod=0 in init.conf agents are created randomly)
- 	|- initPolicies.csv Initial policies file (if policyCreationMethod=0 in init.conf agents are created randomly)
- 	|- initTechs.csv 	Initial technologies file (if techCreationMethod=0 in init.conf agents are created randomly)
+ 	|- initAgents.csv 	Initial agent file (if agentCreationMethod=0 random)
+ 	|- initPolicies.csv Initial policies file (if policyCreationMethod=0 random)
+ 	|- initTechs.csv 	Initial technologies file (if techCreationMethod=0 random)
+ 	
+ |- OUTPUT
+ 	|- 
