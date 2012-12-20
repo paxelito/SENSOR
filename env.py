@@ -179,15 +179,15 @@ class environment:
     	# --------------------------------------------------------------|	
     	
     	def createFolderAndSaveInitialConditions(self, tmpPar, tmpPar2, tmpPar3):
-    		'''Function to create the simulation folder and save the initial conditions'''
-    		
-    		#: this is the folder name
-    		self.simFolder = time.strftime("%y%m%d_%H_%M") + "_" + str(tmpPar) + "_" + str(tmpPar2)  + "_" + str(tmpPar3) 
-    		
-    		if not os.path.exists(os.path.join(self.simPath,self.simFolder)): os.makedirs(os.path.join(self.simPath,self.simFolder)) 
-    		#Copy file into results folder (copy2 because also file metadata are copied)
-    		shutil.copy2(os.path.join(self.simPath,"rndstate.dat"),os.path.join(self.simPath,self.simFolder,"rndstate.dat"))
-    		shutil.copy2(os.path.join(self.simPath,"init.conf"),os.path.join(self.simPath,self.simFolder,"init.conf"))
+            '''Function to create the simulation folder and save the initial conditions'''
+            
+            #: this is the folder name
+            self.simFolder = time.strftime("%y%m%d_%H_%M") + "_" + str(tmpPar) + "_" + str(tmpPar2)  + "_" + str(tmpPar3) 
+            
+            if not os.path.exists(os.path.join(self.simPath,self.simFolder)): os.makedirs(os.path.join(self.simPath,self.simFolder)) 
+            #Copy file into results folder (copy2 because also file metadata are copied)
+            shutil.copy2(os.path.join(self.simPath,"rndstate.dat"),os.path.join(self.simPath,self.simFolder,"rndstate.dat"))
+            shutil.copy2(os.path.join(self.simPath,"init.conf"),os.path.join(self.simPath,self.simFolder,"init.conf"))
     	
     	
     	# --------------------------------------------------------------|		
@@ -725,5 +725,40 @@ class environment:
     	def computeTotEnergyNeed(self):		
     		for sngAgent in self.allAgents:
     			self.overallEnergyNeed += sngAgent.totEnergyNeed
+         
+        # --------------------------------------------------------------|
+        # Check if the policy is mature to be introduced. 
+        # --------------------------------------------------------------|       
+        def checkTimeAndSetPolicy(self, tmpTime):
+            for pol in self.allPolicies:
+                if pol.introTime == tmpTime:
+                    for tech in pol.tmpTechs:
+                        self.allTechs[tech] = pol.ID
+                        
+        # --------------------------------------------------------------|
+        # XML functions 
+        # --------------------------------------------------------------| 
+        def saveAgentsXMLformat(self):
+            '''Function to save statistic on file'''
+            outFnameStat = os.path.join(self.simPath,self.simFolder,'structures.xml')
+            xmlFile = open(outFnameStat, 'w')
+            tempstr = '<?xml version="1.0" encoding="UTF-8"?>\n'
+            xmlFile.write(tempstr)
+            tempstr = '<xml>\n'
+            xmlFile.write(tempstr)
+            tempstr = '<agents>\n'
+            xmlFile.write(tempstr)
+            for agent in self.allAgents:
+                tempstr = '\t<agent>\n'
+                xmlFile.write(tempstr)
+                tempstr = '\t\t<id>' + str(agent.ID) + '</id>\n'
+                xmlFile.write(tempstr)
+                tempstr = '\t</agent>\n'
+                xmlFile.write(tempstr)
+            tempstr = '</agents>\n'
+            xmlFile.write(tempstr)
+            tempstr = '</xml>'
+            xmlFile.write(tempstr)
+            
     			
     			

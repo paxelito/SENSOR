@@ -50,6 +50,7 @@ for sngParam1 in varParList1:
 					envi.newTechAssessment(gen)
 					#raw_input('click any buttom to continue... ')
 				# Save results on file 
+				envi.saveAgentsXMLformat()
 				envi.saveOnFile(ns)
 				envi.saveAgentsOnFile(ns)
 				envi.saveTechsOnFile(ns)
