@@ -377,7 +377,7 @@ class environment:
     		# if agentCreationMethod is equal to 0 random population is created otherwise it is uploaded from file
     		if self.policyCreationMethod == 0:
     			self.allPolicies.append(policy.policy())
-    			self.allPolicies.append(policy.policy(1,0,0.04,0,0,5,0,0,0))
+    			self.allPolicies.append(policy.policy(1,0,0.04,0,0,5,0,0,0,0))
     		else:
     			self.importPolicies()
     			
@@ -453,11 +453,12 @@ class environment:
     		# for each technology
     		for t in policies:
     			if t[0] != '#':
-    				tmpID, tmpFI, tmpTC, tmpTCI, tmpCT, tmpL, tmpIT, tmpA, tmpR = t.split()
-    				# Insert technology
+    				print t
+    				tmpID, tmpFI, tmpTC, tmpTCI, tmpCT, tmpL, tmpIT, tmpA, tmpR, tmpIntroTech = t.split()
     				self.allPolicies.append(policy.policy(int(tmpID), float(tmpFI), float(tmpTC), float(tmpTCI),\
-                                                          float(tmpCT), int(tmpL), int(tmpIT), float(tmpA), float(tmpR)))
-    		fileFID.close()
+                                                 		 float(tmpCT), int(tmpL), int(tmpIT), float(tmpA), float(tmpR), \
+                                                 		 int(tmpIntroTech)))
+			fileFID.close()
     
     	# --------------------------------------------------------------|
     	# Function to load POLICIES
@@ -548,7 +549,8 @@ class environment:
     			print ' |- Policy Length ', t.length
     			print ' |- Introduction Time ', t.introTime
     			print ' |- Total Amount of Incentives (%) ', t.totalAmount
-    			print ' |- Total Amount of Incentives', t.residue
+    			print ' |- Total Amount of Incentives ', t.residue
+    			print ' |- Introduction Technology ', t.introTech
     		
     		print "|- ---------------------\n\n"
     		
@@ -623,11 +625,12 @@ class environment:
     		# File handle
     		saveFileFid = open(FileName, 'w')
     		# File init
-    		strInit = '#ID\tFeedIn\tTaxCredit\tTaxCreditInv\tCarbonTax\tlength\tinitTime\tamountPerc\tResidue\n'
+    		strInit = '#ID\tFeedIn\tTaxCredit\tTaxCreditInv\tCarbonTax\tlength\tinitTime\tamountPerc\tResidue\tIntroTech\n'
     		saveFileFid.write(strInit)
     		for t in self.allPolicies:
     			strInit = str(t.ID) + '\t' + str(t.feedIN) + '\t' + str(t.taxCredit) + '\t' + str(t.taxCreditInv) + '\t' + \
-    			str(t.carbonTax) + '\t' + str(t.length) + '\t' + str(t.introTime) + '\t' + str(t.totalAmount) + '\t' + str(t.residue) + '\n'
+    			str(t.carbonTax) + '\t' + str(t.length) + '\t' + str(t.introTime) + '\t' + str(t.totalAmount) + '\t' + \
+                str(t.residue) + '\t' + str(t.introTech) + '\n'
     			
     			saveFileFid.write(strInit)
     			
@@ -746,19 +749,106 @@ class environment:
             xmlFile.write(tempstr)
             tempstr = '<xml>\n'
             xmlFile.write(tempstr)
+            
+            # AGENTS
             tempstr = '<agents>\n'
             xmlFile.write(tempstr)
             for agent in self.allAgents:
-                tempstr = '\t<agent>\n'
-                xmlFile.write(tempstr)
-                tempstr = '\t\t<id>' + str(agent.ID) + '</id>\n'
-                xmlFile.write(tempstr)
-                tempstr = '\t</agent>\n'
+                tempstr = '\t<agent ID=\"' + str(agent.ID) +  '\">\n'
+                tempstr += '\t\t<x>' + str(agent.x) + '</x>\n'
+                tempstr += '\t\t<y>' + str(agent.y) + '</y>\n'
+                tempstr += '\t\t<totEnergyNeed>' + str(agent.totEnergyNeed) + '</totEnergyNeed>\n'
+                tempstr += '\t\t<nrgTechsReceipt>\n'
+                for receipt in agent.nrgTechsReceipt:
+                    tempstr += '\t\t\t<nrgTech>' + str(receipt) + '</nrgTech>\n' 
+                tempstr += '\t\t</nrgTechsReceipt>\n'
+                tempstr += '\t\t<nrgPropReceipt>\n'
+                for receipt in agent.nrgPropReceipt:
+                    tempstr += '\t\t\t<nrgProp>' + str(receipt) + '</nrgProp>\n'               
+                tempstr += '\t\t</nrgPropReceipt>\n'
+                tempstr += '\t\t<techPolicy>\n'
+                for receipt in agent.techPolicy:
+                    tempstr += '\t\t\t<policy>\n'
+                    tempstr += '\t\t\t\t<IDpolicy>' + str(receipt[0]) + '</IDpolicy>\n'
+                    tempstr += '\t\t\t\t<policyLength>' + str(receipt[1]) + '</policyLength>\n'   
+                    tempstr += '\t\t\t</policy>\n'                 
+                tempstr += '\t\t</techPolicy>\n'
+                tempstr += '\t\t<solar_potential>' + str(agent.solar_potential) + '</solar_potential>\n'
+                tempstr += '\t\t<co2>' + str(agent.co2) + '</co2>\n'
+                tempstr += '\t\t<social_lobby>' + str(agent.social_lobby) + '</social_lobby>\n'
+                tempstr += '\t\t<int_capital>' + str(agent.int_capital) + '</int_capital>\n'
+                tempstr += '\t\t<equityCost>' + str(agent.equityCost) + '</equityCost>\n'
+                tempstr += '\t\t<balance>' + str(agent.balance) + '</balance>\n'
+                tempstr += '\t\t<month_balance>' + str(agent.month_balance) + '</month_balance>\n'
+                tempstr += '\t\t<invLength>' + str(agent.invLength) + '</invLength>\n'
+                tempstr += '\t\t<health>' + str(agent.health) + '</health>\n'
+                tempstr += '\t\t<debts>\n'
+                for debt in agent.debts:
+                    tempstr += '\t\t\t<debt>' + str(debt) + '</debt>\n'                 
+                tempstr += '\t\t</debts>\n'
+                tempstr += '\t\t<RemainingDebts>\n'
+                for debt in agent.RemainingDebts:
+                    tempstr += '\t\t\t<remDebt>' + str(debt) + '</remDebt>\n'                 
+                tempstr += '\t\t</RemainingDebts>\n'
+                tempstr += '\t\t<debtTime>\n'
+                for debt in agent.debtTime:
+                    tempstr += '\t\t\t<debtTime>' + str(debt) + '</debtTime>\n'                 
+                tempstr += '\t\t</debtTime>\n'
+                tempstr += '\t\t<debtLength>\n'
+                for debt in agent.debtLength:
+                    tempstr += '\t\t\t<debtLength>' + str(debt) + '</debtLength>\n'                   
+                tempstr += '\t\t</debtLength>\n'
+                tempstr += '\t\t<debtMonthRepayment>\n'
+                for debt in agent.debtMonthRepayment:
+                    tempstr += '\t\t\t<debtMonth>' + str(debt) + '</debtMonth>\n'                 
+                tempstr += '\t\t</debtMonthRepayment>\n'
+                tempstr += '\t</agent>\n'
                 xmlFile.write(tempstr)
             tempstr = '</agents>\n'
             xmlFile.write(tempstr)
+            
+            # TECHNOLOGIES
+            tempstr = '<technologies>\n'
+            for tech in self.allTechs:
+                tempstr += '\t<technology ID=\"' + str(tech.ID) +  '\">\n'
+                tempstr += '\t\t<efficiency>' + str(tech.efficiency) + '</efficiency>\n'
+                tempstr += '\t\t<startTime>' + str(tech.startTime) + '</startTime>\n'
+                tempstr += '\t\t<decay>' + str(tech.decay) + '</decay>\n'
+                tempstr += '\t\t<cost>' + str(tech.cost) + '</cost>\n'
+                tempstr += '\t\t<transportCosts>' + str(tech.transportCosts) + '</transportCosts>\n'
+                tempstr += '\t\t<plantCost>' + str(tech.plantCost) + '</plantCost>\n'
+                tempstr += '\t\t<interestRate>' + str(tech.interestRate) + '</interestRate>\n'
+                tempstr += '\t\t<loanLength>' + str(tech.loanLength) + '</loanLength>\n'
+                tempstr += '\t\t<duration>' + str(tech.duration) + '</duration>\n'
+                tempstr += '\t\t<co2>' + str(tech.co2) + '</co2>\n'
+                tempstr += '\t\t<policy>' + str(tech.policy) + '</policy>\n'
+                tempstr += '\t\t<solarBased>' + str(tech.solarBased) + '</solarBased>\n'
+                tempstr += '\t\t<X>' + str(tech.X) + '</X>\n'
+                tempstr += '\t\t<Y>' + str(tech.Y) + '</Y>\n'
+                tempstr += '\t</technology>\n'
+            tempstr += '</technologies>\n'
+            xmlFile.write(tempstr)
+            
+            # POLICIES
+            tempstr = '<policies>\n'
+            for pol in self.allPolicies:
+                tempstr += '\t<policy ID=\"' + str(pol.ID) +  '\">\n'
+                tempstr += '\t\t<feedIN>' + str(pol.feedIN) + '</feedIN>\n'
+                tempstr += '\t\t<taxCredit>' + str(pol.taxCredit) + '</taxCredit>\n'
+                tempstr += '\t\t<taxCreditInv>' + str(pol.taxCreditInv) + '</taxCreditInv>\n'
+                tempstr += '\t\t<carbonTax>' + str(pol.carbonTax) + '</carbonTax>\n'
+                tempstr += '\t\t<length>' + str(pol.length) + '</length>\n'
+                tempstr += '\t\t<introTime>' + str(pol.introTime) + '</introTime>\n'
+                tempstr += '\t\t<totalAmount>' + str(pol.totalAmount) + '</totalAmount>\n'
+                tempstr += '\t\t<residue>' + str(pol.residue) + '</residue>\n'
+                tempstr += '\t\t<introTech>' + str(pol.introTech) + '</introTech>\n'              
+                tempstr += '\t</policy>\n'
+            tempstr += '</policies>\n'
+            xmlFile.write(tempstr)    
+                    
             tempstr = '</xml>'
             xmlFile.write(tempstr)
+            xmlFile.close()
             
     			
     			

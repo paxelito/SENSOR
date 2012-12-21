@@ -22,7 +22,7 @@ class agents:
 		if tmpNrgTechProp == None:
 			self.nrgPropReceipt = [self.totEnergyNeed] # KW provided by the different technologies. 
 		if tmpTechPolicy == None:
-			self.techPolicy = [[0,0]] # KW provided by the different technologies. 
+			self.techPolicy = [[0,0]] # tmpPolicy tmpPolicyLength. 
 		self.flagFree = True
 		
 		# Physical Parameters of the agent
