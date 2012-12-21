@@ -219,41 +219,41 @@ class environment:
     	# --------------------------------------------------------------|
     			
     	def printParams(self):
-    		''' Function to print all simulation parameters (e.g.)
-    		
-    		>>> |- SYSTEM PARAMS ---"
-    		  |- Simulation results path: ~/path/of/the/sim
-    		  |- PARAMETERS ---
-    		  |- Random Seed: 0
-    		  |- Number of Agents: 100
-    		  |- Number of Months: 360
-    		  |- X: 1000
-    		  |- Y: 1000
-    		  |- minIrradiation: 100
-    		  |- minNrgDim: 1
-    		  |- maxNrgDim: 100
-    		  |- ratioInternalCapital: 23
-    		  |- invLength: 20
-    		  |- loanLength: 10
-    		  |- intRiskRate: ", self.intRiskRate
-    
-    		'''
-    		print "* SYSTEM PARAMS -----------------------------------------------"
-    		print ""
-    		print " |- Simulation results path: ", self.simPath
-    		print "|- Parameters"
-    		print " |- Random Seed: ", self.randomSeed
-    		print " |- Number of Agents: ", self.Nagents
-    		print " |- Number of Months: ", self.months
-    		print " |- X: ", self.xMaxPos
-    		print " |- Y: ", self.yMaxPos
-    		print " |- minIrradiation: ", self.minIrradiation
-    		print " |- minNrgDim: ", self.minNrgDim
-    		print "	|- maxNrgDim: ", self.maxNrgDim
-    		print "	|- ratioInternalCapital: ", self.ratioInternalCapital
-    		print "	|- invLength (years): ", self.invLength
-    		print "	|- loanLength (Month): ", self.loanLength
-    		print "	|- intRiskRate: ", self.intRiskRate
+			''' Function to print all simulation parameters (e.g.)
+			
+			>>> |- SYSTEM PARAMS ---"
+			|- Simulation results path: ~/path/of/the/sim
+			|- PARAMETERS ---
+			|- Random Seed: 0
+			|- Number of Agents: 100
+			|- Number of Months: 360
+			|- X: 1000
+			|- Y: 1000
+			|- minIrradiation: 100
+			|- minNrgDim: 1
+			|- maxNrgDim: 100
+			|- ratioInternalCapital: 23
+			|- invLength: 20
+			|- loanLength: 10
+			|- intRiskRate: ", self.intRiskRate
+			
+			'''
+			print "* SYSTEM PARAMS -----------------------------------------------"
+			print ""
+			print " |- Simulation results path: ", self.simPath
+			print "|- Parameters"
+			print " |- Random Seed: ", self.randomSeed
+			print " |- Number of Agents: ", self.Nagents
+			print " |- Number of Months: ", self.months
+			print " |- X: ", self.xMaxPos
+			print " |- Y: ", self.yMaxPos
+			print " |- minIrradiation: ", self.minIrradiation
+			print " |- minNrgDim: ", self.minNrgDim
+			print "	|- maxNrgDim: ", self.maxNrgDim
+			print "	|- ratioInternalCapital: ", self.ratioInternalCapital
+			print "	|- invLength (years): ", self.invLength
+			print "	|- loanLength (Month): ", self.loanLength
+			print "	|- intRiskRate: ", self.intRiskRate
     		
     		
     		
@@ -391,7 +391,7 @@ class environment:
     			self.allPolicies[2].totalAmount = tmpP3
     					
     		for sngPol in self.allPolicies:
-    			# 100 is a temporary value concerning the agerage transformation from kWh to kWp
+    			# 100 is a temporary value representing the average transformation from kWh to kWp
     			sngPol.defineTotFinance(self.overallEnergyNeed, 100)
     			
     		self.promptPolicies()
@@ -453,7 +453,6 @@ class environment:
     		# for each technology
     		for t in policies:
     			if t[0] != '#':
-    				print t
     				tmpID, tmpFI, tmpTC, tmpTCI, tmpCT, tmpL, tmpIT, tmpA, tmpR, tmpIntroTech = t.split()
     				self.allPolicies.append(policy.policy(int(tmpID), float(tmpFI), float(tmpTC), float(tmpTCI),\
                                                  		 float(tmpCT), int(tmpL), int(tmpIT), float(tmpA), float(tmpR), \
@@ -735,8 +734,7 @@ class environment:
         def checkTimeAndSetPolicy(self, tmpTime):
             for pol in self.allPolicies:
                 if pol.introTime == tmpTime:
-                    for tech in pol.tmpTechs:
-                        self.allTechs[tech] = pol.ID
+                	self.allTechs[pol.introTech].policy = pol.ID
                         
         # --------------------------------------------------------------|
         # XML functions 
