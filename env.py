@@ -440,7 +440,7 @@ class environment:
     	# --------------------------------------------------------------|
     	def importPolicies(self):
     		'''Function to import policies from a file previously prepared'''
-    		print '|- POLICIES IMPORT PROCESS'
+    		print ' |- Policies import process...'
     		# file name
     		tmpFileName = os.path.join(self.simPath,'initPolicies.csv')
     		try:
@@ -537,21 +537,14 @@ class environment:
     	def promptPolicies(self):	
     		'''Function to prompt the present policies'''	
     		print ""
-    		print "* LIST OF POLICIES ----------------------------------"
-    		print ""
+    		print " |---------------------------- LIST OF POLICIES ---------------------------------------"
+    		print " |"
+    		print ' | ID\tFeedIn\tTxc\tTxCinv\tCT\tPolLen\tTime\tAmount\tres\tIntroTech'
     		for t in self.allPolicies:
-    			print '|- POLICY ', t.ID
-    			print ' |- Feed-In Tariff ', t.feedIN
-    			print ' |- Tax Credit ', t.taxCredit
-    			print ' |- Tax Credit on Investment ', t.taxCreditInv
-    			print ' |- Carbon Tax ', t.carbonTax
-    			print ' |- Policy Length ', t.length
-    			print ' |- Introduction Time ', t.introTime
-    			print ' |- Total Amount of Incentives (%) ', t.totalAmount
-    			print ' |- Total Amount of Incentives ', t.residue
-    			print ' |- Introduction Technology ', t.introTech
+    			print ' | ', t.ID,'\t',t.feedIN,'\t',t.taxCredit,'\t',t.taxCreditInv,'\t',t.carbonTax,'\t',\
+    				  t.length,'\t',t.introTime,'\t',t.totalAmount,'\t',t.residue,'\t',t.introTech
     		
-    		print "|- ---------------------\n\n"
+    		print " |-------------------------------------------------------------------------------------\n\n"
     		
     	# --------------------------------------------------------------|
     	# Function to save agents on file
