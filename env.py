@@ -32,11 +32,12 @@ class environment:
     			print 'impossible to load ', paramFile; sys.exit(1)	
                 
             self.simPath = os.path.abspath(tmpPath)
-                
+                            
             for line in fid:
                 strLine = line.split('=')
                 if strLine[0] == "randomSeed":
                     self.randomSeed = int(strLine[1])
+                    print self.randomSeed
                 if strLine[0] == "nSeed":
                     self.nSeed = int(strLine[1])
                 if strLine[0] == "agents":
@@ -425,11 +426,11 @@ class environment:
     		for a in agents:
     			if a[0] != '#':
     				tmpID, tmpX, tmpY, tmpEN, tmpSolPot, tmpCO2, tmpSocialLobby, tmpintCap, \
-    				tmpEquity, tmpBalance, tmpMbalance, tmpInvL, tmpHealth = a.split()
+    				tmpEquity, tmpBalance, tmpMbalance, tmpInvL, tmpHealth, tmpAge = a.split()
     				# Insert Agent
     	             
     				self.allAgents.append(ag.agents(self.debugLevel, int(tmpID), float(tmpX), float(tmpY), float(tmpEN), float(tmpSocialLobby),\
-    									 float(tmpSolPot), float(tmpEquity), float(tmpintCap), int(tmpInvL), float(tmpHealth), None, None, None, float(tmpBalance), \
+    									 float(tmpSolPot), float(tmpEquity), float(tmpintCap), int(tmpInvL), float(tmpHealth), int(tmpAge), None, None, None, float(tmpBalance), \
     									 float(tmpMbalance), None, None, None, None, None))
     		
     		fileFID.close()
@@ -499,6 +500,7 @@ class environment:
     			print " |- Energy Need ", a.totEnergyNeed
     			print " |- Tech receipt ", a.nrgTechsReceipt
     			print " |- Tech Policies ", a.techPolicy
+    			print " |- Agent Age ", a.age
     			print " |- Tech Proportions ", a.nrgPropReceipt, " - Solar Potential ", a.solar_potential, " - CO2 production ", a.co2
     			print " |- Social Lobby ", a.social_lobby, " - Internal Capital Ratio ", a.int_capital, " - Equity Cost ", a.equityCost
     			print " |- Overall Balance ", a.balance, " - Monthly Balance ", a.month_balance, " - Investment Length ", a.invLength, " - Health ", a.health
@@ -558,7 +560,7 @@ class environment:
     		saveFileStatFid = open(agentsFileName, 'w')
     		listsFileFid = open(listsFileName, 'w')
     		# File init
-    		strAgentInit = '#ID\tX\tY\tEnergyNeed\tsolPot\tco2\tsocialLobby\tintCap\tequity\tbalance\tmBalance\tinvL\thealth\n'
+    		strAgentInit = '#ID\tX\tY\tEnergyNeed\tsolPot\tco2\tsocialLobby\tintCap\tequity\tbalance\tmBalance\tinvL\thealth\tage\n'
     		strListInit = '#Agent\tTech\tProp\tage\n'
     		# Save first row
     		saveFileStatFid.write(strAgentInit)
@@ -568,7 +570,7 @@ class environment:
     			strAgent = str(a.ID) + '\t' + str(a.x) + '\t' + str(a.y) + '\t' + str(a.totEnergyNeed) + '\t' + \
     			str(a.solar_potential) + '\t' + str(a.co2) + '\t' + str(a.social_lobby) + '\t' + str(a.int_capital) + '\t' + \
     			str(a.equityCost) + '\t' + str(a.balance) + '\t' + str(a.month_balance) + '\t' + str(a.invLength) + '\t' + \
-    			str(a.health) + '\n'
+    			str(a.health) + '\t' + str(a.age) + '\n'
     			
     			saveFileStatFid.write(strAgent)
     			# For each Technology
@@ -748,6 +750,7 @@ class environment:
                 tempstr = '\t<agent ID=\"' + str(agent.ID) +  '\">\n'
                 tempstr += '\t\t<x>' + str(agent.x) + '</x>\n'
                 tempstr += '\t\t<y>' + str(agent.y) + '</y>\n'
+                tempstr += '\t\t<age>' + str(agent.age) + '</age>\n'
                 tempstr += '\t\t<totEnergyNeed>' + str(agent.totEnergyNeed) + '</totEnergyNeed>\n'
                 tempstr += '\t\t<nrgTechsReceipt>\n'
                 for receipt in agent.nrgTechsReceipt:

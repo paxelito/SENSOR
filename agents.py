@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: latin-1 -*-
 
 import sys, os
 import random as ran
@@ -6,7 +7,7 @@ import copy
 
 class agents:
 	def __init__(self, tmpDL = 0, tmpID = 0, tmpX = 0, tmpY = 0, tmpNrgDim = 100, tmpSocialLobby = 0, tmpSolPot = ran.uniform(0.5,1), tmpEquityCost = 0.05, \
-	             tmpIntCap = 0.5, tmpInvLength = 50, tmpHealth = 1, tmpNrgTech = None, tmpNrgTechProp = None, tmpTechPolicy = None, tmpBalance = 0, tmpMBalance = 0, tmpDebts = None, \
+	             tmpIntCap = 0.5, tmpInvLength = 50, tmpHealth = 1, tmpAge = 0, tmpNrgTech = None, tmpNrgTechProp = None, tmpTechPolicy = None, tmpBalance = 0, tmpMBalance = 0, tmpDebts = None, \
 	             tmpRemDebt = None, tmpDebtTime = None, tmpDebtLen = None, tmpMrep = None):
 		'''Constructor of the agent class'''
 		# General Agent Attributes
@@ -15,6 +16,7 @@ class agents:
 		self.y = tmpY
 		self.totEnergyNeed = tmpNrgDim # Energetic dimension of the agent
 		self.debugLevel = tmpDL
+		self.age = tmpAge
 		
 		# Technology Parameters
 		if tmpNrgTech == None:
@@ -262,7 +264,9 @@ class agents:
 								
 		return tmpPolicyAmountToRemove
 								
-								
+	# --------------------------------------------------------------|
+	# Re-arrange technologies proportion list. 
+	# --------------------------------------------------------------|							
 	def rearrangeTechPropList(self,tmpNewProp):
 		'''Function to rearrange the proportion of the different technology according to a possibile new one'''
 		cnt = 0
@@ -284,6 +288,10 @@ class agents:
 		newList.append(tmpNewProp)
 		
 		return newList
+
+	# --------------------------------------------------------------|
+	# Reduce technology efficiency 
+	# --------------------------------------------------------------
 		
 	# --------------------------------------------------------------|
 	# Compute Investment interest
@@ -298,7 +306,7 @@ class agents:
 	# Pay month debits 
 	# --------------------------------------------------------------|
 	def performFinancialActivities(self):
-		'''This procedure performs all the month financial activities'''
+		'''This procedure performs all the month financial activities, monthly debts payments'''
 		cnt = 0
 		for sngDept in self.RemainingDebts:
 			if sngDept > 0:
@@ -312,6 +320,9 @@ class agents:
 		if sum(self.RemainingDebts) == 0:
 			self.flagFree = True
 				
+	# --------------------------------------------------------------|
+	# Month energy costs  
+	# --------------------------------------------------------------|
 	def computeMonthNrgCostsAndPoll(self, tmpTechs, tmpTime, tmpPolicies):
 		'''Function to assess the monthly energy costs according to the monthly energy needs'''
 		tempMonthCosts = 0
@@ -330,12 +341,12 @@ class agents:
 							  - tmpPolicies[self.techPolicy[counter][0]].feedIN)\
 						   + self.debtMonthRepayment[counter]
 			
-			# If the incentive is still valid the tax credit on the investment is computed
-				
+			# If the incentive is still valid the tax credit on the investment is computed	
 			if (tmpPolicies[self.techPolicy[counter][0]].taxCreditInv > 0) & (self.techPolicy[counter][1] > 0):
 					tempMonthCosts -= (self.nrgPropReceipt[counter] / tmpTechs[tech].fromKWH2KW * tmpTechs[tech].plantCost) \
 									  * tmpPolicies[self.techPolicy[counter][0]].taxCreditInv /  tmpPolicies[self.techPolicy[counter][0]].length
 			
+			# If the technology has a negative price (e.g. solar), then it means that the agent sells energy and it has to buy normal energy
 			if tmpTechs[tech].cost <= 0:
 				tempMonthCosts += tmpTechs[0].cost * self.nrgPropReceipt[counter]
 			
@@ -362,6 +373,7 @@ class agents:
 		self.month_balance = tempMonthCosts
 		self.balance = self.balance + self.month_balance
 		self.co2 = tempPoll
+		self.age += 1
 		
 		
 
@@ -369,7 +381,7 @@ class agents:
 	# DEFINE TECHNOLOGIES ATTRACTION
 	# --------------------------------------------------------------|		
 	def defineTechAttraction(self, tmpTechs, tmpAgents):
-		'''Define technology attraction'''
+		'''Define technology attraction according to the neighborhood characteristics'''
 		
 		tmpTotTech = [0]*len(tmpTechs)
 		tmpRelTech = [0]*len(tmpTechs)
@@ -387,6 +399,9 @@ class agents:
 			
 		return tmpRelTech
 	
+	# --------------------------------------------------------------|
+	# DEFINE TECHNOLOGIES ATTRACTION
+	# --------------------------------------------------------------|
 	def genLogFun(self, tmpX, tmpExp=1, tmpM=4, tmpUpper=1, tmpLower=0, tmpGrowth=1, tmpQ=1):
 		'''Function to return the general logistic value according to the different paramerts
 		   Default values are those of the logistic function'''
