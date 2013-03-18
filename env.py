@@ -430,8 +430,8 @@ class environment:
     				# Insert Agent
     	             
     				self.allAgents.append(ag.agents(self.debugLevel, int(tmpID), float(tmpX), float(tmpY), float(tmpEN), float(tmpSocialLobby),\
-    									 float(tmpSolPot), float(tmpEquity), float(tmpintCap), int(tmpInvL), float(tmpHealth), int(tmpAge), None, None, None, float(tmpBalance), \
-    									 float(tmpMbalance), None, None, None, None, None))
+    									 float(tmpSolPot), float(tmpEquity), float(tmpintCap), int(tmpInvL), float(tmpHealth), int(tmpAge), None, None, None, None, \
+    									 float(tmpBalance), float(tmpMbalance), None, None, None, None, None))
     		
     		fileFID.close()
     		print ' |- done...'
@@ -759,7 +759,11 @@ class environment:
                 tempstr += '\t\t<nrgPropReceipt>\n'
                 for receipt in agent.nrgPropReceipt:
                     tempstr += '\t\t\t<nrgProp>' + str(receipt) + '</nrgProp>\n'               
-                tempstr += '\t\t</nrgPropReceipt>\n'
+                tempstr += '\t\t</nrgPropReceipt>\n' 
+                tempstr += '\t\t<nrgAges>\n'
+                for tmpAge in agent.nrgTechAges:
+                	tempstr += '\t\t\t<nrgAge>' + str(tmpAge) + '</nrgAge>\n'
+                tempstr += '\t\t</nrgAges>\n'
                 tempstr += '\t\t<techPolicy>\n'
                 for receipt in agent.techPolicy:
                     tempstr += '\t\t\t<policy>\n'

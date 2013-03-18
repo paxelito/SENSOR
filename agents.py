@@ -7,8 +7,8 @@ import copy
 
 class agents:
 	def __init__(self, tmpDL = 0, tmpID = 0, tmpX = 0, tmpY = 0, tmpNrgDim = 100, tmpSocialLobby = 0, tmpSolPot = ran.uniform(0.5,1), tmpEquityCost = 0.05, \
-	             tmpIntCap = 0.5, tmpInvLength = 50, tmpHealth = 1, tmpAge = 0, tmpNrgTech = None, tmpNrgTechProp = None, tmpTechPolicy = None, tmpBalance = 0, tmpMBalance = 0, tmpDebts = None, \
-	             tmpRemDebt = None, tmpDebtTime = None, tmpDebtLen = None, tmpMrep = None):
+	             tmpIntCap = 0.5, tmpInvLength = 50, tmpHealth = 1, tmpAge = 0, tmpNrgTech = None, tmpNrgTechProp = None, tmpTechPolicy = None, tmpTechAges = None, \
+	             tmpBalance = 0, tmpMBalance = 0, tmpDebts = None, tmpRemDebt = None, tmpDebtTime = None, tmpDebtLen = None, tmpMrep = None):
 		'''Constructor of the agent class'''
 		# General Agent Attributes
 		self.ID = tmpID
@@ -25,6 +25,8 @@ class agents:
 			self.nrgPropReceipt = [self.totEnergyNeed] # KW provided by the different technologies. 
 		if tmpTechPolicy == None:
 			self.techPolicy = [[0,0]] # tmpPolicy tmpPolicyLength. 
+		if tmpTechAges == None:
+			self.nrgTechAges = [0] # technology ages. Time elapsed from the installation 
 		self.flagFree = True
 		
 		# Physical Parameters of the agent
@@ -225,9 +227,10 @@ class agents:
 							
 							# .. If a BETTER new technology exist, it is added to the agent
 							
-							self.flagFree = False # Technology search has been blocked
+							self.flagFree = False # Technology search is blocked
 							self.nrgTechsReceipt.append(tmpTechsID[tmpAvaiableTechs[betterTechPos]])
 							self.nrgPropReceipt = recList[betterTechPos]
+							self.nrgTechAges.append(0)
 							self.techPolicy.append([tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy,\
 												tmpPolicies[tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy].length])
 							# ... Compute total interest
@@ -291,7 +294,7 @@ class agents:
 
 	# --------------------------------------------------------------|
 	# Reduce technology efficiency 
-	# --------------------------------------------------------------
+	# --------------------------------------------------------------|
 		
 	# --------------------------------------------------------------|
 	# Compute Investment interest
@@ -349,13 +352,15 @@ class agents:
 			# If the technology has a negative price (e.g. solar), then it means that the agent sells energy and it has to buy normal energy
 			if tmpTechs[tech].cost <= 0:
 				tempMonthCosts += tmpTechs[0].cost * self.nrgPropReceipt[counter]
-			
 							
 			# Check policy validity 
 			if self.techPolicy[counter][1] > 0:
 				self.techPolicy[counter][1] -= 1
 			if self.techPolicy[counter][1] == 0:
 				self.techPolicy[counter] = [0,0]
+				
+			# Update technology age
+			self.nrgTechAges[counter] += 1
 				
 			#raw_input("...")
 				
