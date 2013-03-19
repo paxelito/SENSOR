@@ -284,6 +284,7 @@ class environment:
     		for sngAgent in self.allAgents: 
     			sngAgent.computeMonthNrgCostsAndPoll(self.allTechs, tmpGen, self.allPolicies)
     			sngAgent.performFinancialActivities()
+                sngAgent.updateEnergyPropAccordingToEfficiencyDrop(self.allTechs)
     		# Stat functions
     		self.statFunctions()
     

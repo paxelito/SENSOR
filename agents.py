@@ -293,8 +293,21 @@ class agents:
 		return newList
 
 	# --------------------------------------------------------------|
-	# Reduce technology efficiency 
+	# Update technologies energy proportion list.
 	# --------------------------------------------------------------|
+	def updateEnergyPropAccordingToEfficiencyDrop(self, tmpAllTechs):
+		'''Update energy tech proportions list according to the efficiency prop parameter of the technologies'''
+		for IDtech, tech in enumerate(self.nrgPropReceipt):
+			if (self.nrgTechAges[IDtech] % 12 == 0) & (self.nrgPropReceipt[IDtech] > 0):
+				# Compute new technology energy contribute
+				tmpNewTechProp = round(self.nrgPropReceipt[IDtech] * tmpAllTechs[self.nrgTechsReceipt[IDtech]].efficiency)
+				# Compute the difference with the old contribute
+				tmpDelta = self.nrgPropReceipt[IDtech] - tmpNewTechProp
+				# Update energy prop list removing inefficiency and adding the energy drop to the traditional energy
+				self.nrgPropReceipt[0] += tmpDelta
+				if IDtech != 0:
+					self.nrgPropReceipt[IDtech] -= tmpDelta
+				
 		
 	# --------------------------------------------------------------|
 	# Compute Investment interest
