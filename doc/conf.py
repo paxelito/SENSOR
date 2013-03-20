@@ -40,7 +40,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'SYSTEM'
+project = u'SENSOR'
 copyright = u'2012, Alessandro Filisetti'
 
 # The version info for the project you're documenting, acts as replacement for

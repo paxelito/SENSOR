@@ -80,7 +80,7 @@ class agents:
 			if self.flagFree == True:
 				# Define technology attraction list
 				relativeAttractions = self.defineTechAttraction(tmpTechs, tmpAgents)
-				# Creta a list with all the available technologies (not already used by the agent)
+				# Create a list with all the available technologies (not already used by the agent)
 				tmpAvaiableTechs = list(set(tmpTechsID).difference(set(self.nrgTechsReceipt)))
 				cnt = 0 # counter	
 				tmpCurrentAnnualCosts = self.month_balance * 12 # Compute current annual costs
@@ -92,7 +92,7 @@ class agents:
 					polList = [] # List of all the total amount of policy used. 
 					for sngTechID in tmpAvaiableTechs:	
 						tmpHypCosts = 0	# hypothetical costs according to this new technology
-						tmpPolAmount = 0 # temporary variable contatining the total amount of policy theoretically used with this tech	
+						tmpPolAmount = 0 # temporary variable containing the total amount of policy theoretically used with this tech	
 						# Compute the hypothetic annual costs due to the new technology implementation
 						# .. New tech max energy production, the size of the energy partition is changes according to the solar orientation of the agent
 						tmpNewNrgProp = int(round(ran.randint(1,self.totEnergyNeed) * (pow(self.solar_potential,tmpTechs[sngTechID].solarBased))))
@@ -105,7 +105,7 @@ class agents:
 							tmpCnt = 0
 							# For each already present technology according to the new temporary distribution
 							for tmpNewSngProp in tmpNrgPropReceipt[:-1]:
-								# Compute distance from source, distance is 0 this term is 0 and the multiplier effect does not affect the computation
+								# Compute distance from source, if distance is 0 this term is 0 and the multiplier does not affect the computation
 								tmpDistanceFromSourceMultiplier = pow(pow(abs(self.x - tmpTechs[self.nrgTechsReceipt[tmpCnt]].X),2) + pow(abs(self.y - tmpTechs[self.nrgTechsReceipt[tmpCnt]].Y),2),0.5)
 								tmpDistanceFromSourceMultiplier *= tmpTechs[self.nrgTechsReceipt[tmpCnt]].transportCosts
 								

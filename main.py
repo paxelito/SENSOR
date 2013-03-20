@@ -1,4 +1,10 @@
 #!/usr/bin/env python
+"""@package SENSOR
+   \mainpage SENSOR
+   \author Alessandro Filisetti
+     
+	More details.
+"""
 
 import sys, os
 import env as en

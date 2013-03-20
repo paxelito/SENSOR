@@ -18,6 +18,14 @@ Class TECHNOLOGY
 
 .. autoclass:: tech
     :members: 
+    
+Class POLICY
+**************************
+
+.. automodule:: policy
+
+.. autoclass:: policy
+    :members: 
    
 
 

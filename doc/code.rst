@@ -1,7 +1,7 @@
 Auto Generated Documentation
 ============================
 
-In the following the autogeration of the code
+In the following the python code used to develop SENSOR simulator program 
 
 Class ENVIRONMENT
 **************************
@@ -17,6 +17,14 @@ Class TECHNOLOGY
 .. automodule:: tech
 
 .. autoclass:: tech
+    :members: 
+    
+Class POLICY
+**************************
+
+.. automodule:: policy
+
+.. autoclass:: policy
     :members: 
    
 

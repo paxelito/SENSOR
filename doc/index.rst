@@ -10,7 +10,11 @@ This is my first documentation in python
 
 Requirements:
 
-The project depends on zxy packages
+*Plaftorms: MacOS, Linux, Windows
+*Language: Python
+*Libraries:
+	*SIMULATION: Built-in python libraries
+	*ANALYSIS (a_* files): numpy-scipy python scientific libraries.
 
 Contents:
 
