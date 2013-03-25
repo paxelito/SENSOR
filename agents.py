@@ -90,71 +90,31 @@ class agents:
 					pbpList = [] # List of all payback periods
 					recList = [] # List of all the possible technology recepits
 					polList = [] # List of all the total amount of policy used. 
+					
+					# FOR EACH NEW TECHNOLOGY....
 					for sngTechID in tmpAvaiableTechs:	
 						tmpHypCosts = 0	# hypothetical costs according to this new technology
 						tmpPolAmount = 0 # temporary variable containing the total amount of policy theoretically used with this tech	
 						# Compute the hypothetic annual costs due to the new technology implementation
-						# .. New tech max energy production, the size of the energy partition is changes according to the solar orientation of the agent
+						# .. New tech max energy production, the size of the energy partition changes according to the solar orientation of the agent
 						tmpNewNrgProp = int(round(ran.randint(1,self.totEnergyNeed) * (pow(self.solar_potential,tmpTechs[sngTechID].solarBased))))
 						if tmpNewNrgProp > 0:
 							tmpNrgPropReceipt = self.rearrangeTechPropList(tmpNewNrgProp) # Create a temporary new energy proportion list 
-							
+							# Compute the overall cost of the plan according to the relation between kWh and kW. 
 							tmpOverallPlantCost = float(tmpNewNrgProp) / tmpTechs[sngTechID].fromKWH2KW * tmpTechs[sngTechID].plantCost
-							
-							# .. According to the temporary new tech energy proportion the annual cost is computed
-							tmpCnt = 0
-							# For each already present technology according to the new temporary distribution
-							for tmpNewSngProp in tmpNrgPropReceipt[:-1]:
-								# Compute distance from source, if distance is 0 this term is 0 and the multiplier does not affect the computation
-								tmpDistanceFromSourceMultiplier = pow(pow(abs(self.x - tmpTechs[self.nrgTechsReceipt[tmpCnt]].X),2) + pow(abs(self.y - tmpTechs[self.nrgTechsReceipt[tmpCnt]].Y),2),0.5)
-								tmpDistanceFromSourceMultiplier *= tmpTechs[self.nrgTechsReceipt[tmpCnt]].transportCosts
-								
-								tmpHypCosts += tmpNewSngProp * (tmpTechs[self.nrgTechsReceipt[tmpCnt]].cost +\
-															 tmpPolicies[self.techPolicy[tmpCnt][0]].carbonTax +\
-															 tmpDistanceFromSourceMultiplier - tmpPolicies[self.techPolicy[tmpCnt][0]].feedIN)
-								# (1) Since feedIn has been theoretically used, it is updated
-								tmpPolAmount += tmpNewSngProp * tmpPolicies[self.techPolicy[tmpCnt][0]].feedIN
-								
-								if tmpTechs[self.nrgTechsReceipt[tmpCnt]].cost <= 0:
-									# If the cost is negative the energy is sold, so the cost of the traditional energy has to be added 
-									tmpHypCosts += tmpNewSngProp * tmpTechs[0].cost
-								tmpCnt += 1
-							# .. The cost associated to the new technologies are added
-							tmpHypCosts += tmpNewNrgProp * (tmpTechs[sngTechID].cost + tmpPolicies[tmpTechs[sngTechID].policy].carbonTax - tmpPolicies[tmpTechs[sngTechID].policy].feedIN)
-							
-							# (2) Since feedIn has been theoretically used, it is updated
-							tmpPolAmount += tmpNewNrgProp * tmpPolicies[tmpTechs[sngTechID].policy].feedIN
-							
-							if tmpTechs[sngTechID].cost <= 0:
-								# If the cost is negative the energy is sold, so the cost of the traditional energy has to be added
-								tmpHypCosts += tmpNewNrgProp * tmpTechs[0].cost
-							# .. from month to year
-							tmpHypCosts *= 12
-							
-							# .. SOCIAL ATTRACTIVENESS
-							# .. Cost are rescaled according to the imitation list (note that if the socialLobby parameter is 0 the list remains the same)
-						
-							for RAcnt, sngLobby in enumerate(relativeAttractions):
-								if sngTechID == RAcnt:
-									tmpHypCosts -= tmpHypCosts * sngLobby * self.social_lobby
-								else:
-									tmpHypCosts += tmpHypCosts * sngLobby * self.social_lobby
-								
-							# WACC (Weighted Average Cost of Capital) Computation (incentive amount on interests is computed later)
-							# the equity capital is randomly modified to create variability 
-							self.int_capital = ran.uniform(self.int_capital * 0.9, self.int_capital * 1.1)
-							if self.int_capital < 0: self.int_capital = 0
-							if self.int_capital > 1: self.int_capital = 1
-							tmpINTplantCost = tmpOverallPlantCost * self.int_capital
-							tmpEXTplantCost = tmpOverallPlantCost - tmpINTplantCost
-							wacc = (tmpINTplantCost / tmpOverallPlantCost * self.equityCost) + \
-								   ((tmpEXTplantCost / tmpOverallPlantCost * tmpTechs[sngTechID].interestRate) * (1-tmpPolicies[tmpTechs[sngTechID].policy].taxCredit))
 							
 							# For the years of the investment 
 							netPresentValue = 0
 							payBackPeriod = 0
 							cashFlow = 0
 							for y in range(1,self.invLength + 1):
+								# Compute costs and intentives of the year
+								tmpCostsAndIncs = self.computeAnnualCostandIncs(sngTechID, tmpNewNrgProp, tmpNrgPropReceipt, tmpTechs, tmpPolicies, relativeAttractions, tmpOverallPlantCost)
+								tmpHypCosts = tmpCostsAndIncs[0]
+								tmpPolAmount += tmpCostsAndIncs[1]
+								tmpEXTplantCost = tmpCostsAndIncs[2]
+								tmpINTplantCost = tmpCostsAndIncs[3]
+								wacc = tmpCostsAndIncs[4]
 								# Reset cash flow for this year
 								cashFlow = 0
 								# Compute the tax-credit-investment for the years of the incentive
@@ -194,6 +154,8 @@ class agents:
 									
 							# .. Compute final net present value
 							netPresentValue -= tmpOverallPlantCost
+							
+							# Append analysis value in lists 
 							npvList.append(netPresentValue)
 							pbpList.append(payBackPeriod)
 							recList.append(tmpNrgPropReceipt)
@@ -267,6 +229,67 @@ class agents:
 								
 		return tmpPolicyAmountToRemove
 								
+	# --------------------------------------------------------------|
+	# Compute annual costs and policy amount
+	# --------------------------------------------------------------|
+	def computeAnnualCostandIncs(self, tmpSngTechID, tmp_newNrgProp, tmp_NrgPropReceipt, tmp_techs, tmp_policies, tmpRelativeAttractions, tmp_overallPlantCost):
+		'''This function computes annual costs and annual feed-in incentives according to the technology energy drops'''
+		# .. According to the temporary new tech energy proportion the annual cost is computed
+		tmpCnt = 0
+		tmpCosts = 0
+		tmpIncsAmount = 0
+		# For each already present technology according to the new temporary distribution
+		for tmpNewSngProp in tmp_NrgPropReceipt[:-1]:
+			# Compute distance from source, if distance is 0 this term is 0 and the multiplier does not affect the computation
+			tmpDistanceFromSourceMultiplier = pow(pow(abs(self.x - tmp_techs[self.nrgTechsReceipt[tmpCnt]].X),2) + pow(abs(self.y - tmp_techs[self.nrgTechsReceipt[tmpCnt]].Y),2),0.5)
+			tmpDistanceFromSourceMultiplier *= tmp_techs[self.nrgTechsReceipt[tmpCnt]].transportCosts
+			
+			tmpCosts += tmpNewSngProp * (tmp_techs[self.nrgTechsReceipt[tmpCnt]].cost +\
+										 tmp_policies[self.techPolicy[tmpCnt][0]].carbonTax +\
+										 tmpDistanceFromSourceMultiplier - tmp_policies[self.techPolicy[tmpCnt][0]].feedIN)
+			# (1) Since feedIn has been theoretically used, it is updated
+			tmpIncsAmount += tmpNewSngProp * tmp_policies[self.techPolicy[tmpCnt][0]].feedIN
+			
+			if tmp_techs[self.nrgTechsReceipt[tmpCnt]].cost <= 0:
+				# If the cost is negative the energy is sold, so the cost of the traditional energy has to be added 
+				tmpCosts += tmpNewSngProp * tmpTechs[0].cost
+			tmpCnt += 1
+			
+		# .. The cost associated to the new technologies are added
+		tmpCosts += tmp_newNrgProp * (tmp_techs[tmpSngTechID].cost + tmp_policies[tmp_techs[tmpSngTechID].policy].carbonTax - tmp_policies[tmp_techs[tmpSngTechID].policy].feedIN)
+		
+		# (2) Since feedIn has been theoretically used, it is updated
+		tmpIncsAmount += tmp_newNrgProp * tmp_policies[tmp_techs[tmpSngTechID].policy].feedIN
+		
+		if tmp_techs[tmpSngTechID].cost <= 0:
+			# If the cost is negative the energy is sold, so the cost of the traditional energy has to be added
+			tmpCosts += tmp_newNrgProp * tmp_techs[0].cost
+		# .. from month to year
+		tmpCosts *= 12
+		
+		# .. SOCIAL ATTRACTIVENESS
+		# .. Cost are rescaled according to the imitation list (note that if the socialLobby parameter is 0 the list remains the same)
+	
+		for RAcnt, sngLobby in enumerate(tmpRelativeAttractions):
+			if tmpSngTechID == RAcnt:
+				tmpCosts -= tmpCosts * sngLobby * self.social_lobby
+			else:
+				tmpCosts += tmpCosts * sngLobby * self.social_lobby
+			
+		# WACC (Weighted Average Cost of Capital) Computation (incentive amount on interests is computed later)
+		# the equity capital is randomly modified to create variability 
+		self.int_capital = ran.uniform(self.int_capital * 0.9, self.int_capital * 1.1)
+		if self.int_capital < 0: self.int_capital = 0
+		if self.int_capital > 1: self.int_capital = 1
+		tmp_INTplantCost = tmp_overallPlantCost * self.int_capital
+		tmp_EXTplantCost = tmp_overallPlantCost - tmp_INTplantCost
+		tmp_wacc = (tmp_INTplantCost / tmp_overallPlantCost * self.equityCost) + \
+			   ((tmp_EXTplantCost / tmp_overallPlantCost * tmp_techs[tmpSngTechID].interestRate) * (1-tmp_policies[tmp_techs[tmpSngTechID].policy].taxCredit))
+		
+		# define and initialize the list containing the output variables
+		outList = [tmpCosts,tmpIncsAmount,tmp_EXTplantCost,tmp_INTplantCost,tmp_wacc]
+		return outList
+	
 	# --------------------------------------------------------------|
 	# Re-arrange technologies proportion list. 
 	# --------------------------------------------------------------|							

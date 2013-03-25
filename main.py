@@ -23,6 +23,10 @@ varParList1 = [1]
 varParList2 = [1]
 varParList3 = [1]
 
+print "\n* * * * * * * * * * * * * * * * * * * * * * * * * *"
+print "\tWELCOME, SIMULATION IS GOING TO START..."
+print "* * * * * * * * * * * * * * * * * * * * * * * * * * * \n"
+
 for sngParam1 in varParList1:
 	for sngParam2 in varParList2:
 		for sngParam3 in varParList3:

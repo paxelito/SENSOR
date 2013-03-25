@@ -25,7 +25,7 @@ class environment:
             ''' constructor'''
     		# Parameters file name and path
             paramFile = tmpPath + "/init.conf" # Open Param file 
-            print paramFile
+            print paramFile + "\n"
             try:
     			fid = open(paramFile, 'r')
             except:
@@ -37,7 +37,6 @@ class environment:
                 strLine = line.split('=')
                 if strLine[0] == "randomSeed":
                     self.randomSeed = int(strLine[1])
-                    print self.randomSeed
                 if strLine[0] == "nSeed":
                     self.nSeed = int(strLine[1])
                 if strLine[0] == "agents":
@@ -71,44 +70,44 @@ class environment:
                 if strLine[0] == "socialLobby":
                     self.socialLobby = float(strLine[1])
                 if strLine[0] == "debugLevel":
-                    self.debugLevel = float(strLine[1])									
-    				
-    		if self.randomSeed == 0:
+                    self.debugLevel = float(strLine[1])
+            
+            if self.randomSeed == 1:
     			#! Set randomly the random state and store it in a file
     			ran.seed(int(time.time()))
     			self.saveRandomSeed()
-    		else:
-    			self.loadRandomSeed()																																														
-    																				
-    		# FitnessList and amountList and fitnessSigma have to be of the same length
-    		self.allAgents = []
+            else:
+    			self.loadRandomSeed()
+
+            # FitnessList and amountList and fitnessSigma have to be of the same length
+            self.allAgents = []
     		
     		# Technologies
-    		self.allTechs = []
-    		self.allTechsID = [] # Useful to speed up the computation
+            self.allTechs = []
+            self.allTechsID = [] # Useful to speed up the computation
     		
     		# Policies
-    		self.allPolicies = []
-    		self.overallEnergyNeed = 0
+            self.allPolicies = []
+            self.overallEnergyNeed = 0
     		
     		# STAT VARIABLES
-    		self.totCO2 = []
-    		self.totDebt = []
-    		self.totCosts = []
-    		self.totAids = []
-    		self.tottotCO2 = []
-    		self.tottotDebt = []
-    		self.tottotCosts = []
-    		self.tottotAids = []
-    		self.totTechNRGdist = []
-    		self.totTechKWHdist = []
-    		self.totTechKWdist = []
-    		self.tottotTechNRGdist = []
-    		self.tottotTechKWHdist = []
-    		self.tottotTechKWdist = []
+            self.totCO2 = []
+            self.totDebt = []
+            self.totCosts = []
+            self.totAids = []
+            self.tottotCO2 = []
+            self.tottotDebt = []
+            self.tottotCosts = []
+            self.tottotAids = []
+            self.totTechNRGdist = []
+            self.totTechKWHdist = []
+            self.totTechKWdist = []
+            self.tottotTechNRGdist = []
+            self.tottotTechKWHdist = []
+            self.tottotTechKWdist = []
     		
     		# CREATE SIMULATION FOLDER
-    		self.simFolder = ''
+            self.simFolder = ''
 	
     	# --------------------------------------------------------------|
     	# FUNCTION TO RESET SIMULATIONS (USED WITH DIFFERENT RANDOM SEED|
@@ -164,7 +163,7 @@ class environment:
     		
     		if os.path.exists(seedFile):
     			# Restore the previously saved sate
-    			print 'Found rndstate.dat, initializing random module'
+    			print '\n|- Found rndstate.dat, initializing random module...\n'
     			with open('rndstate.dat', 'rb') as f:
     				state = pickle.load(f)
     			ran.setstate(state)
