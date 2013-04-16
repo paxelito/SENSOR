@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: latin-1 -*-
+
 '''Class environment definition.
 
 .. module:: env
@@ -278,14 +281,14 @@ class environment:
     	# AGENTS NORMAL MONTH FINANCIAL ENERGETIC ACTIVITY
     	# --------------------------------------------------------------|
     	
-    	def agentMonthEnergyActivity(self, tmpGen):
-    		'''Bridge function from the main the agent class'''
-    		for sngAgent in self.allAgents: 
-    			sngAgent.computeMonthNrgCostsAndPoll(self.allTechs, tmpGen, self.allPolicies)
-    			sngAgent.performFinancialActivities()
+        def agentMonthEnergyActivity(self, tmpGen):
+            '''Bridge function from the main the agent class'''
+            for sngAgent in self.allAgents:
+                sngAgent.computeMonthNrgCostsAndPoll(self.allTechs, tmpGen, self.allPolicies)
+                sngAgent.performFinancialActivities()
                 sngAgent.updateEnergyPropAccordingToEfficiencyDrop(self.allTechs)
-    		# Stat functions
-    		self.statFunctions()
+            # Stat functions
+            self.statFunctions()
     
     	# --------------------------------------------------------------|
     	# NEW TECHNOLOGY EVALUATION

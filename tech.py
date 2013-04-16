@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: latin-1 -*-
+
 '''Class tech definition.
 
 .. module:: tech
@@ -19,7 +22,7 @@ class tech:
 		''' Constructor '''
 		
 		self.ID = tmpID
-		self.efficiency = tmpEff
+		self.efficiency = tmpEff # Technology efficiency drop per year. 
 		self.startTime = tmpST
 		self.decay = tmpDecay
 		self.cost = tmpCost # Cost euro/KwH

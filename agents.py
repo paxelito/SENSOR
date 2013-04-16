@@ -109,7 +109,7 @@ class agents:
 							cashFlow = 0
 							for y in range(1,self.invLength + 1):
 								# Compute costs and intentives of the year
-								tmpCostsAndIncs = self.computeAnnualCostandIncs(sngTechID, tmpNewNrgProp, tmpNrgPropReceipt, tmpTechs, tmpPolicies, relativeAttractions, tmpOverallPlantCost)
+								tmpCostsAndIncs = self.computeAnnualCostandIncs(sngTechID, tmpNewNrgProp, tmpNrgPropReceipt, tmpTechs, tmpPolicies, relativeAttractions, tmpOverallPlantCost, y)
 								tmpHypCosts = tmpCostsAndIncs[0]
 								tmpPolAmount += tmpCostsAndIncs[1]
 								tmpEXTplantCost = tmpCostsAndIncs[2]
@@ -232,13 +232,19 @@ class agents:
 	# --------------------------------------------------------------|
 	# Compute annual costs and policy amount
 	# --------------------------------------------------------------|
-	def computeAnnualCostandIncs(self, tmpSngTechID, tmp_newNrgProp, tmp_NrgPropReceipt, tmp_techs, tmp_policies, tmpRelativeAttractions, tmp_overallPlantCost):
+	def computeAnnualCostandIncs(self, tmpSngTechID, tmp_newNrgProp, tmp_NrgPropReceipt, tmp_techs, tmp_policies, tmpRelativeAttractions, tmp_overallPlantCost, tmpTime):
 		'''This function computes annual costs and annual feed-in incentives according to the technology energy drops'''
 		# .. According to the temporary new tech energy proportion the annual cost is computed
 		tmpCnt = 0
 		tmpCosts = 0
 		tmpIncsAmount = 0
+		# Update values within tmp_NrgPropReceipt according to the year of the theoretical investment
+		tmpNewPropWithDrop = tmp_newNrgProp * (tmp_techs[tmpSngTechID].efficiency**tmpTime)
+		# AGGIORNARE ENERGIA 0 CON DROP DELLA NUOVA TECNOLOGIA!!!
+		
 		# For each already present technology according to the new temporary distribution
+		print tmp_NrgPropReceipt, " ", tmpTime, " ", tmp_newNrgProp, tmp_newNrgProp * (tmp_techs[tmpSngTechID].efficiency**tmpTime)
+		raw_input("")
 		for tmpNewSngProp in tmp_NrgPropReceipt[:-1]:
 			# Compute distance from source, if distance is 0 this term is 0 and the multiplier does not affect the computation
 			tmpDistanceFromSourceMultiplier = pow(pow(abs(self.x - tmp_techs[self.nrgTechsReceipt[tmpCnt]].X),2) + pow(abs(self.y - tmp_techs[self.nrgTechsReceipt[tmpCnt]].Y),2),0.5)
@@ -256,14 +262,14 @@ class agents:
 			tmpCnt += 1
 			
 		# .. The cost associated to the new technologies are added
-		tmpCosts += tmp_newNrgProp * (tmp_techs[tmpSngTechID].cost + tmp_policies[tmp_techs[tmpSngTechID].policy].carbonTax - tmp_policies[tmp_techs[tmpSngTechID].policy].feedIN)
+		tmpCosts += tmpNewPropWithDrop * (tmp_techs[tmpSngTechID].cost + tmp_policies[tmp_techs[tmpSngTechID].policy].carbonTax - tmp_policies[tmp_techs[tmpSngTechID].policy].feedIN)
 		
 		# (2) Since feedIn has been theoretically used, it is updated
-		tmpIncsAmount += tmp_newNrgProp * tmp_policies[tmp_techs[tmpSngTechID].policy].feedIN
+		tmpIncsAmount += tmpNewPropWithDrop * tmp_policies[tmp_techs[tmpSngTechID].policy].feedIN
 		
 		if tmp_techs[tmpSngTechID].cost <= 0:
 			# If the cost is negative the energy is sold, so the cost of the traditional energy has to be added
-			tmpCosts += tmp_newNrgProp * tmp_techs[0].cost
+			tmpCosts += tmpNewPropWithDrop * tmp_techs[0].cost
 		# .. from month to year
 		tmpCosts *= 12
 		
