@@ -42,7 +42,7 @@ def importAgents(tmpDir, tmpSeed):
 	for a in agents:
 		if a[0] != '#':
 			tmpID, tmpX, tmpY, tmpEN, tmpSolPot, tmpCO2, tmpSocialLobby, tmpintCap, \
-			tmpEquity, tmpBalance, tmpMbalance, tmpInvL, tmpHealth = a.split()
+			tmpEquity, tmpBalance, tmpMbalance, tmpInvL, tmpHealth, tmpAge = a.split()
 			
 			dimension = int(tmpEN); health = float(tmpHealth); equity = float(tmpintCap); lobby = float(tmpSocialLobby)
 			id = int(tmpID)
@@ -112,7 +112,7 @@ for tmpDir in tmpDirs:
 			for sngRow in agentTechs:
 				if sngRow[0] != '#':
 					tmpAgent, tmpTech, tmpProp, tmpAge = sngRow.split()
-					agentID = int(tmpAgent); tech = int(tmpTech); prop = int(tmpProp); age = int(tmpAge)
+					agentID = int(tmpAgent); tech = int(tmpTech); prop = float(tmpProp); age = int(tmpAge)
 					if cnt == 0:
 						finalMtx = np.array([[agentMtx[agentID,0],agentMtx[agentID,1],agentMtx[agentID,2],agentMtx[agentID,3],agentMtx[agentID,4],\
 											tech, prop, age]])

@@ -444,7 +444,7 @@ class environment:
     	# --------------------------------------------------------------|
     	def importPolicies(self):
     		'''Function to import policies from a file previously prepared'''
-    		print ' |- Policies import process...'
+    		print '\n|- Policies import process...'
     		# file name
     		tmpFileName = os.path.join(self.simPath,'initPolicies.csv')
     		try:
@@ -468,7 +468,7 @@ class environment:
     	# --------------------------------------------------------------|
     	def importTechs(self):
     		'''Function to import technologies from a file previously prepared'''
-    		print '|- TECHNOLOGY IMPORT PROCESS'
+    		print '\n|- Technology import process...'
     		# file name
     		tmpFileName = os.path.join(self.simPath,'initTechs.csv')
     		try:
@@ -515,26 +515,15 @@ class environment:
     	def promptTechs(self):	
     		'''Function to prompt the present technologies'''	
     		print ""
-    		print "* LIST OF TECHNOLOGIES ----------------------------------------"
-    		print ""
+    		print " |---------------------------- LIST OF TECHNOLOGIES ---------------------------------------"
+    		print " |"
+    		print " | ID\tEff\tTime\tDecay\tTechC\tTransC\tPlantC\tR\tLLength\tLTime",\
+    		"\tGHG\tpolicy\tSolar\tX\tY\tConvCoef"
     		for t in self.allTechs:
-    			print '|- TECH ', t.ID
-    			print ' |- Efficiency ', t.efficiency
-    			print ' |- Start Time ', t.startTime
-    			print ' |- Annual Decay ', t.decay
-    			print ' |- Technology Cost (euro/kWh) ', t.cost
-    			print ' |- Transportation Cost (euro/kWh/km) ', t.transportCosts
-    			print ' |- Technology Plant Cost (euro/kW) ', t.plantCost
-    			print ' |- Interest Rate ', t.interestRate
-    			print ' |- Loan Length (months) ', t.loanLength
-    			print ' |- Technology lifetime (years)  ', t.duration
-    			print ' |- Technology Co2 production per KwH ', t.co2
-    			print ' |- Policy ', t.policy
-    			print ' |- Solar Based Flag Var ', t.solarBased	
-    			print ' |- X-position ', t.X
-    			print ' |- Y-position ', t.Y
-    			print ' |- Technology efficiency coefficient ', t.fromKWH2KW
-    		print "|- ---------------------"
+    			print ' | ', t.ID,'\t', t.efficiency,'\t', t.startTime,'\t', t.decay,'\t', t.cost,'\t',\
+    			 t.transportCosts,'\t', t.plantCost,'\t', t.interestRate,'\t', t.loanLength,'\t', t.duration,'\t', \
+    			 t.co2,'\t', t.policy,'\t', t.solarBased,'\t', t.X,'\t', t.Y,'\t', t.fromKWH2KW
+    		print " |-------------------------------------------------------------------------------------------"
     		
     	# --------------------------------------------------------------|
     	# Function to prompt the present policies
