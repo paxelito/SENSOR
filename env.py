@@ -341,11 +341,11 @@ class environment:
     		#self.allTechsID.append(1)
     		#self.allTechs.append(tech.tech(2,1,0,self.months,0,-0.3,3000,0.04,5,0,self.loanLength,self.invLength,[0,0.05,0,0,10],100,1))
     		#self.allTechsID.append(2)
-    		self.allTechs.append(tech.tech(0,1,0,self.months,0,0.08 ,  0,0   ,25,0    ,self.loanLength,self.invLength,0,100,0))
+    		self.allTechs.append(tech.tech(0,1,0,0,self.months,0,0.08 ,  0,0   ,25,0    ,self.loanLength,self.invLength,0,100,0))
     		self.allTechsID.append(0)
-    		self.allTechs.append(tech.tech(1,1,0,self.months,0,0.02 ,4000,0.04,10,0.003,self.loanLength,self.invLength,1,100,0,ran.uniform(0,self.xMaxPos),ran.uniform(0,self.yMaxPos)))
+    		self.allTechs.append(tech.tech(1,1,1,0,self.months,0,0.02 ,4000,0.04,10,0.003,self.loanLength,self.invLength,1,100,0,ran.uniform(0,self.xMaxPos),ran.uniform(0,self.yMaxPos)))
     		self.allTechsID.append(1)
-    		self.allTechs.append(tech.tech(2,1,0,self.months,0,-0.07,4000,0.04, 5,0    ,self.loanLength,self.invLength,2,100,1))
+    		self.allTechs.append(tech.tech(2,1,1,0,self.months,0,-0.07,4000,0.04, 5,0    ,self.loanLength,self.invLength,2,100,1))
     		self.allTechsID.append(2)
     		
     	# --------------------------------------------------------------|
@@ -481,10 +481,10 @@ class environment:
     		# for each technology
     		for t in techs:
     			if t[0] != '#':
-    				tmpID, tmpEFF, tmpST, tmpDecay, tmpCost, tmpTcost, tmpPcost, tmpRate, \
+    				tmpID, tmpRen, tmpEFF, tmpST, tmpDecay, tmpCost, tmpTcost, tmpPcost, tmpRate, \
     				tmpLoanLength, tmpDuration, tmpCO2, tmpSB, tmpP, tmpX, tmpY, tmpConversion = t.split()
     				# Insert technology
-    				self.allTechs.append(tech.tech(int(tmpID), float(tmpEFF), 0, self.months, float(tmpDecay), float(tmpCost), float(tmpPcost),\
+    				self.allTechs.append(tech.tech(int(tmpID), int(tmpRen), float(tmpEFF), 0, self.months, float(tmpDecay), float(tmpCost), float(tmpPcost),\
     									float(tmpRate), float(tmpCO2), float(tmpTcost), int(tmpLoanLength), int(tmpDuration),\
     									int(tmpP), float(tmpConversion), int(tmpSB), float(tmpX), float(tmpY)))
     				self.allTechsID.append(int(tmpID))
@@ -517,7 +517,7 @@ class environment:
     		print ""
     		print " |---------------------------- LIST OF TECHNOLOGIES ---------------------------------------"
     		print " |"
-    		print " | ID\tEff\tTime\tDecay\tTechC\tTransC\tPlantC\tR\tLLength\tLTime",\
+    		print " | ID\tRnw\tEff\tTime\tDecay\tTechC\tTransC\tPlantC\tR\tLLength\tLTime",\
     		"\tGHG\tpolicy\tSolar\tX\tY\tConvCoef"
     		for t in self.allTechs:
     			print ' | ', t.ID,'\t', t.efficiency,'\t', t.startTime,'\t', t.decay,'\t', t.cost,'\t',\
@@ -535,7 +535,7 @@ class environment:
     		print " |"
     		print ' | ID\tFeedIn\tTxc\tTxCinv\tCT\tPolLen\tTime\tAmount\tres\tIntroTech'
     		for t in self.allPolicies:
-    			print ' | ', t.ID,'\t',t.feedIN,'\t',t.taxCredit,'\t',t.taxCreditInv,'\t',t.carbonTax,'\t',\
+    			print ' | ', t.ID,'\t',t.renewable,'\t',t.feedIN,'\t',t.taxCredit,'\t',t.taxCreditInv,'\t',t.carbonTax,'\t',\
     				  t.length,'\t',t.introTime,'\t',t.totalAmount,'\t',t.residue,'\t',t.introTech
     		
     		print " |-------------------------------------------------------------------------------------\n\n"
@@ -588,10 +588,10 @@ class environment:
     		# File handle
     		saveFileStatFid = open(techFileName, 'w')
     		# File init
-    		strTechInit = '#ID\tEff\tStarttime\tdecay\tcost\ttCost\tpCost\trate\tloanLength\tduration\tco2\tsolarBased\tpolicy\tX\tY\tconversion\n'
+    		strTechInit = '#ID\tRnw\tEff\tStarttime\tdecay\tcost\ttCost\tpCost\trate\tloanLength\tduration\tco2\tsolarBased\tpolicy\tX\tY\tconversion\n'
     		saveFileStatFid.write(strTechInit)
     		for t in self.allTechs:
-    			strTech = str(t.ID) + '\t' + str(t.efficiency) + '\t' + str(t.startTime) + '\t' + str(t.decay) + '\t' + \
+    			strTech = str(t.ID) + '\t' + str(t.renewable) + '\t' + str(t.efficiency) + '\t' + str(t.startTime) + '\t' + str(t.decay) + '\t' + \
     			str(t.cost) + '\t' + str(t.transportCosts) + '\t' + str(t.plantCost) + '\t' + str(t.interestRate) + '\t' + \
     			str(t.loanLength) + '\t' + str(t.duration) + '\t' + str(t.co2) + '\t' + str(t.solarBased) + '\t' + \
     			str(t.policy) + '\t' + str(t.X) + '\t' + str(t.Y) + '\t' + str(t.fromKWH2KW) + '\n'
@@ -801,6 +801,7 @@ class environment:
             tempstr = '<technologies>\n'
             for tech in self.allTechs:
                 tempstr += '\t<technology ID=\"' + str(tech.ID) +  '\">\n'
+                tempstr += '\t\t<renewable>' + str(tech.renewable) + '</renewable>\n'
                 tempstr += '\t\t<efficiency>' + str(tech.efficiency) + '</efficiency>\n'
                 tempstr += '\t\t<startTime>' + str(tech.startTime) + '</startTime>\n'
                 tempstr += '\t\t<decay>' + str(tech.decay) + '</decay>\n'
