@@ -520,7 +520,7 @@ class environment:
     		print " | ID\tRnw\tEff\tTime\tDecay\tTechC\tTransC\tPlantC\tR\tLLength\tLTime",\
     		"\tGHG\tpolicy\tSolar\tX\tY\tConvCoef"
     		for t in self.allTechs:
-    			print ' | ', t.ID,'\t', t.efficiency,'\t', t.startTime,'\t', t.decay,'\t', t.cost,'\t',\
+    			print ' | ', t.ID,'\t',t.renewable,'\t', t.efficiency,'\t', t.startTime,'\t', t.decay,'\t', t.cost,'\t',\
     			 t.transportCosts,'\t', t.plantCost,'\t', t.interestRate,'\t', t.loanLength,'\t', t.duration,'\t', \
     			 t.co2,'\t', t.policy,'\t', t.solarBased,'\t', t.X,'\t', t.Y,'\t', t.fromKWH2KW
     		print " |-------------------------------------------------------------------------------------------"
@@ -535,7 +535,7 @@ class environment:
     		print " |"
     		print ' | ID\tFeedIn\tTxc\tTxCinv\tCT\tPolLen\tTime\tAmount\tres\tIntroTech'
     		for t in self.allPolicies:
-    			print ' | ', t.ID,'\t',t.renewable,'\t',t.feedIN,'\t',t.taxCredit,'\t',t.taxCreditInv,'\t',t.carbonTax,'\t',\
+    			print ' | ', t.ID,'\t',t.feedIN,'\t',t.taxCredit,'\t',t.taxCreditInv,'\t',t.carbonTax,'\t',\
     				  t.length,'\t',t.introTime,'\t',t.totalAmount,'\t',t.residue,'\t',t.introTech
     		
     		print " |-------------------------------------------------------------------------------------\n\n"
