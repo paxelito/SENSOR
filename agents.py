@@ -110,6 +110,7 @@ class agents:
 							for y in range(1,self.invLength + 1):
 								# Compute costs and intentives of the year
 								tmpCostsAndIncs = self.computeAnnualCostandIncs(sngTechID, tmpNewNrgProp, tmpNrgPropReceipt, tmpTechs, tmpPolicies, relativeAttractions, tmpOverallPlantCost, y)
+								
 								tmpHypCosts = tmpCostsAndIncs[0]
 								tmpPolAmount += tmpCostsAndIncs[1]
 								tmpEXTplantCost = tmpCostsAndIncs[2]
@@ -185,7 +186,6 @@ class agents:
 						#print self.invLength, " ", betterPayBack, " ", self.health
 						#print tmpRnd
 						if tmpRnd < self.genLogFun((self.invLength - betterPayBack), self.health):
-						
 							
 							# .. If a BETTER new technology exist, it is added to the agent
 							
@@ -240,11 +240,15 @@ class agents:
 		tmpIncsAmount = 0
 		# Update values within tmp_NrgPropReceipt according to the year of the theoretical investment
 		tmpNewPropWithDrop = tmp_newNrgProp * (tmp_techs[tmpSngTechID].efficiency**tmpTime)
-		# AGGIORNARE ENERGIA 0 CON DROP DELLA NUOVA TECNOLOGIA!!!
-		
+		# Update the proportion technology list according to the efficiency drop and the year computed
+		dynNrgPropReceipt = copy.deepcopy(tmp_NrgPropReceipt)
+		for tmpID, tmpUpdateProp in enumerate(dynNrgPropReceipt):
+			tmpValue = dynNrgPropReceipt[tmpID] * (tmp_techs[tmpID].efficiency**tmpTime)
+			dynNrgPropReceipt[tmpID] = tmpValue
+			if tmpID > 0:
+				dynNrgPropReceipt[0] += tmpValue
+						
 		# For each already present technology according to the new temporary distribution
-		print tmp_NrgPropReceipt, " ", tmpTime, " ", tmp_newNrgProp, tmp_newNrgProp * (tmp_techs[tmpSngTechID].efficiency**tmpTime)
-		raw_input("")
 		for tmpNewSngProp in tmp_NrgPropReceipt[:-1]:
 			# Compute distance from source, if distance is 0 this term is 0 and the multiplier does not affect the computation
 			tmpDistanceFromSourceMultiplier = pow(pow(abs(self.x - tmp_techs[self.nrgTechsReceipt[tmpCnt]].X),2) + pow(abs(self.y - tmp_techs[self.nrgTechsReceipt[tmpCnt]].Y),2),0.5)
@@ -258,7 +262,7 @@ class agents:
 			
 			if tmp_techs[self.nrgTechsReceipt[tmpCnt]].cost <= 0:
 				# If the cost is negative the energy is sold, so the cost of the traditional energy has to be added 
-				tmpCosts += tmpNewSngProp * tmpTechs[0].cost
+				tmpCosts += tmpNewSngProp * tmp_techs[0].cost
 			tmpCnt += 1
 			
 		# .. The cost associated to the new technologies are added
@@ -434,9 +438,9 @@ class agents:
 		tmpRelTech = [0]*len(tmpTechs)
 		
 		for sngT in tmpTechs: # For each tech
-			for sngA in tmpAgents:
+			for sngA in tmpAgents: # For each agent
 				if self.ID != sngA.ID: # if the agent is not me
-					if sngT.ID in sngA.nrgTechsReceipt:
+					if sngT.ID in sngA.nrgTechsReceipt: # For each technology used by the agent
 						if sngA.nrgPropReceipt[sngA.nrgTechsReceipt.index(sngT.ID)] > 0:
 							tmpTotTech[sngT.ID] += (float(sngA.totEnergyNeed) / pow(self.distanceList[sngA.ID],2))
 		cnt = 0
@@ -454,14 +458,13 @@ class agents:
 		   Default values are those of the logistic function'''
 		e = 2.71828182845904523536
 		tmpY = 0
-		#print tmpX, " ", tmpExp
-		tmpM += ((1-tmpExp) * 10)
+		valToAdd = tmpM
+		M = ((1-tmpExp) * 10) + valToAdd
 		try:
 			tmpY = tmpLower + ( (tmpUpper - tmpLower) / \
-						( pow(1 + (tmpQ * pow(e,(-tmpGrowth*(tmpX-tmpM)))),(1/tmpExp)) ) )
+						( pow(1 + (tmpQ * pow(e,(-tmpGrowth*(tmpX-M)))),(1/tmpExp)) ) )
 		except:
 			tmpY = 0
-		#print " X - Y ", tmpX, tmpY
-		#raw_input('Apsetta--')
-		
 		return tmpY
+	
+	
