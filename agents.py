@@ -460,6 +460,7 @@ class agents:
 		tmpY = 0
 		valToAdd = tmpM
 		M = ((1-tmpExp) * 10) + valToAdd
+		tmpQ = tmpExp
 		try:
 			tmpY = tmpLower + ( (tmpUpper - tmpLower) / \
 						( pow(1 + (tmpQ * pow(e,(-tmpGrowth*(tmpX-M)))),(1/tmpExp)) ) )
