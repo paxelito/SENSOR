@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: latin-1 -*-
-'''Function to characterize the agents and technologies
+'''Function to characterize agents and technologies
 '''
 
 import sys, os # Standard library
