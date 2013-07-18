@@ -21,7 +21,7 @@ class policy:
         self.introTime = tmpIntroTime # month intro time
         self.totalAmount = tmpA # Percentage of theoretical total possbile amount
         self.residue = tmpRes # Remaining funds
-        self.introTech = tmpIntroTech # Technology to be equipped with policy as soon as policy becames active
+        self.introTech = tmpIntroTech # Technology to be equipped with the policy as soon as the policy starts
             
     def defineTotFinance(self, tmpTotEnergy, tmpConversion):
 		self.residue = (tmpTotEnergy * self.feedIN * self.totalAmount) + (tmpTotEnergy / tmpConversion * self.taxCreditInv * self.totalAmount)

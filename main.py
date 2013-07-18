@@ -19,9 +19,9 @@ except:
 	
 StrPath = os.path.abspath(StrPath)
 	
-varParList1 = [1]
-varParList2 = [1]
-varParList3 = [1]
+varParList1 = [0.25, 0.5, 0.75, 1]
+varParList2 = [0.25, 0.5, 0.75, 1]
+varParList3 = [0.25, 0.5, 0.75, 1]
 
 print "\n* * * * * * * * * * * * * * * * * * * * * * * * * *"
 print "\tWELCOME, SIMULATION IS GOING TO START..."
@@ -42,7 +42,7 @@ for sngParam1 in varParList1:
 			
 				envi.createPopulation()
 				envi.createTechnologies()
-				envi.createPolicies(None, None, None)
+				envi.createPolicies(sngParam1, sngParam2, sngParam3)
 				
 				
 				# DYNAMICS

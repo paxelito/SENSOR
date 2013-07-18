@@ -75,6 +75,7 @@ class environment:
                 if strLine[0] == "debugLevel":
                     self.debugLevel = float(strLine[1])
             
+            print self.randomSeed
             if self.randomSeed == 1:
     			#! Set randomly the random state and store it in a file
     			ran.seed(int(time.time()))
@@ -140,7 +141,6 @@ class environment:
     		self.totTechNRGdist = []
     		self.totTechKWHdist = []
     		self.totTechKWdist = []
-     
     			
     				
     	# --------------------------------------------------------------|
@@ -150,9 +150,8 @@ class environment:
     	def saveRandomSeed(self):
     		'''Function to save the random seed'''
     		
-    		with open('rndstate.dat', 'wb') as f:
+    		with open(os.path.join(self.simPath,"rndstate.dat"), 'wb') as f:
     			pickle.dump(ran.getstate(), f)
-    			
     			
     	
     	# --------------------------------------------------------------|
