@@ -71,7 +71,7 @@ for tmpDir in tmpDirs:
 		FIlist = []; TCIList = []; AmountList = [];
 		for t in policies:
 			if t[0] != '#':
-				tmpID, tmpFI, tmpTC, tmpTCI, tmpCT, tmpL, tmpIT, tmpA, tmpR = t.split()
+				tmpID, tmpFI, tmpTC, tmpTCI, tmpCT, tmpL, tmpIT, tmpA, tmpR, tmpIT = t.split()
 				# Insert technology
 				FIlist.append(float(tmpFI))
 				TCIList.append(float(tmpTCI))

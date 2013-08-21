@@ -681,13 +681,13 @@ class environment:
     		filename = '_overall_aids'
     		self.writeSngStatOnFileWhereISay(filename,self.tottotAids,'%i')
             
-    		#for tID in range(self.numOfTechs):
-    		#	tempTechList = []
-    		#	for s in self.tottotTechNRGdist:
-    		#		tempTechList.append(s[tID])
-    		#	#save technology
-    		#	filename = '_overall_tech_' + str(tID)
-    		#	self.writeSngStatOnFileWhereISay(filename,tempTechList,'%i')
+    		for tID in range(self.numOfTechs):
+    			tempTechList = []
+    			for s in self.tottotTechNRGdist:
+    				tempTechList.append(s[tID])
+    			#save technology
+    			filename = '_overall_tech_' + str(tID)
+    			self.writeSngStatOnFileWhereISay(filename,tempTechList,'%i')
     
     	# --------------------------------------------------------------|
     	# Function to save files
