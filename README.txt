@@ -25,3 +25,7 @@ Libraries:
  	
  |- OUTPUT
  	|- 
+
+
+2014 - 02 - 19 ver.1.0
+- The introduction time is now considered for each technology

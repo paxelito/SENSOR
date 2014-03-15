@@ -24,7 +24,7 @@ import copy
 class environment:
 	'''Class environment definition.'''
 	
-        def __init__(self, tmpPath):
+	def __init__(self, tmpPath):
             ''' constructor'''
     		# Parameters file name and path
             paramFile = tmpPath + "/init.conf" # Open Param file 
@@ -74,6 +74,8 @@ class environment:
                     self.socialLobby = float(strLine[1])
                 if strLine[0] == "debugLevel":
                     self.debugLevel = float(strLine[1])
+                if strLine[0] == "agroMaxDim":
+                    self.agroMaxDim = float(strLine[1])
             
             print self.randomSeed
             if self.randomSeed == 1:
@@ -308,6 +310,32 @@ class environment:
     						if sngTech.policy == polToUpdate[0]:
     							sngTech.policy = 0
     		self.totAids.append(tmp_tAids)
+ 
+ 		# -----------------------------------------------------------------------------|
+		# AGENTS NORMAL MONTH FINANCIAL ENERGETIC ACTIVITY and NEW TECHNOLOGY EVALUATION
+		# -----------------------------------------------------------------------------|
+    		
+	def agentMonthNRGAct_and_newTechAss(self, tmpTime):
+		tmp_tAids = 0
+		for sngAgent in self.allAgents:
+			sngAgent.computeMonthNrgCostsAndPoll(self.allTechs, tmpTime, self.allPolicies)
+			sngAgent.performFinancialActivities()
+			sngAgent.updateEnergyPropAccordingToEfficiencyDrop(self.allTechs)
+			
+			polToUpdate = sngAgent.invAssessment(self.allTechs, self.allTechsID,tmpTime,self.allAgents,self.allPolicies)
+			# Decrement the total amount of incentives to aid within the system
+			if polToUpdate[0] > 0:
+				self.allPolicies[polToUpdate[0]].residue -= polToUpdate[1]
+				tmp_tAids += polToUpdate[1]
+				# If incentives are vanished, standard no inc policy is attributed to all technologies using the vanish policy
+				if self.allPolicies[polToUpdate[0]].residue <= 0:
+					for sngTech in self.allTechs:
+						if sngTech.policy == polToUpdate[0]:
+							sngTech.policy = 0
+		self.totAids.append(tmp_tAids)    			
+		# Stat functions
+		self.statFunctions()
+    		
     			
     		
     	# --------------------------------------------------------------------------|
@@ -330,7 +358,7 @@ class environment:
     	# --------------------------------------------------------------|
     	def createThreeDefaultTechs(self):
     		'''Function to create the three default technologies
-    		   	def __init__(self, tmpID = 0, tmpEff = 0, tmpST = 0, tmpTotTime = 0, tmpDecay = 0, tmpCost = 0, tmpPcost = 0, tmpRate = 0,\
+    		   	def __init__(self, tmpID = 0, tmpEff = 0, tmpST = 0, tmpTotTime = 0, tmpCost = 0, tmpPcost = 0, tmpRate = 0,\
     	             tmpCo2 = 0, tmpTransportCosts = 0, tmpLoanLength = 10, tmpLifeDuration = 50, tmpPolicy = 0, tmpFromKWH2KW = 100, \
     	             tmpSolarBased = 0, tmpX = 0, tmpY = 0):
     	    '''
@@ -340,11 +368,11 @@ class environment:
     		#self.allTechsID.append(1)
     		#self.allTechs.append(tech.tech(2,1,0,self.months,0,-0.3,3000,0.04,5,0,self.loanLength,self.invLength,[0,0.05,0,0,10],100,1))
     		#self.allTechsID.append(2)
-    		self.allTechs.append(tech.tech(0,1,0,0,self.months,0,0.08 ,  0,0   ,25,0    ,self.loanLength,self.invLength,0,100,0))
+    		self.allTechs.append(tech.tech(0,1,0,0,0,self.months,0,0.08 ,  0,0   ,25,0    ,self.loanLength,self.invLength,0,100,0))
     		self.allTechsID.append(0)
-    		self.allTechs.append(tech.tech(1,1,1,0,self.months,0,0.02 ,4000,0.04,10,0.003,self.loanLength,self.invLength,1,100,0,ran.uniform(0,self.xMaxPos),ran.uniform(0,self.yMaxPos)))
+    		self.allTechs.append(tech.tech(1,1,1,0,0,self.months,0,0.02 ,4000,0.04,10,0.003,self.loanLength,self.invLength,1,100,0,ran.uniform(0,self.xMaxPos),ran.uniform(0,self.yMaxPos)))
     		self.allTechsID.append(1)
-    		self.allTechs.append(tech.tech(2,1,1,0,self.months,0,-0.07,4000,0.04, 5,0    ,self.loanLength,self.invLength,2,100,1))
+    		self.allTechs.append(tech.tech(2,1,1,0,0,self.months,0,-0.07,4000,0.04, 5,0    ,self.loanLength,self.invLength,2,100,1))
     		self.allTechsID.append(2)
     		
     	# --------------------------------------------------------------|
@@ -359,9 +387,9 @@ class environment:
     			for i in range(0,self.Nagents):
     				tmprndHealth = ran.random()
     				self.allAgents.append(ag.agents(self.debugLevel,i, ran.uniform(0,self.xMaxPos),ran.uniform(0,self.yMaxPos), \
-    			    	                            ran.randint(self.minNrgDim, self.maxNrgDim),ran.uniform(0,self.socialLobby),\
-    			        	                        ran.uniform(self.minIrradiation,1), self.intRiskRate, self.ratioInternalCapital,\
-    			        	                        self.invLength, tmprndHealth) )
+    			    	                            ran.randint(self.minNrgDim, self.maxNrgDim),ran.uniform(0,self.agroMaxDim),\
+    			    	                            ran.uniform(0,self.socialLobby),ran.uniform(self.minIrradiation,1), self.intRiskRate,\
+    			    	                            self.ratioInternalCapital,self.invLength, tmprndHealth) )
     		else:
     			self.importAgents()
     			
@@ -427,11 +455,11 @@ class environment:
     
     		for a in agents:
     			if a[0] != '#':
-    				tmpID, tmpX, tmpY, tmpEN, tmpSolPot, tmpCO2, tmpSocialLobby, tmpintCap, \
+    				tmpID, tmpX, tmpY, tmpEN, tmpHA, tmpSolPot, tmpCO2, tmpSocialLobby, tmpintCap, \
     				tmpEquity, tmpBalance, tmpMbalance, tmpInvL, tmpHealth, tmpAge = a.split()
     				# Insert Agent
     	             
-    				self.allAgents.append(ag.agents(self.debugLevel, int(tmpID), float(tmpX), float(tmpY), float(tmpEN), float(tmpSocialLobby),\
+    				self.allAgents.append(ag.agents(self.debugLevel, int(tmpID), float(tmpX), float(tmpY), float(tmpEN), float(tmpHA), float(tmpSocialLobby),\
     									 float(tmpSolPot), float(tmpEquity), float(tmpintCap), int(tmpInvL), float(tmpHealth), int(tmpAge), None, None, None, None, \
     									 float(tmpBalance), float(tmpMbalance), None, None, None, None, None))
     		
@@ -480,10 +508,10 @@ class environment:
     		# for each technology
     		for t in techs:
     			if t[0] != '#':
-    				tmpID, tmpRen, tmpEFF, tmpST, tmpDecay, tmpCost, tmpTcost, tmpPcost, tmpRate, \
+    				tmpID, tmpRen, tmpEFF, tmpST, tmpDim, tmpHA2KW, tmpCost, tmpTcost, tmpPcost, tmpRate, \
     				tmpLoanLength, tmpDuration, tmpCO2, tmpSB, tmpP, tmpX, tmpY, tmpConversion = t.split()
     				# Insert technology
-    				self.allTechs.append(tech.tech(int(tmpID), int(tmpRen), float(tmpEFF), 0, self.months, float(tmpDecay), float(tmpCost), float(tmpPcost),\
+    				self.allTechs.append(tech.tech(int(tmpID), int(tmpRen), float(tmpEFF), int(tmpST), int(tmpDim), int(tmpHA2KW), self.months, float(tmpCost), float(tmpPcost),\
     									float(tmpRate), float(tmpCO2), float(tmpTcost), int(tmpLoanLength), int(tmpDuration),\
     									int(tmpP), float(tmpConversion), int(tmpSB), float(tmpX), float(tmpY)))
     				self.allTechsID.append(int(tmpID))
@@ -516,10 +544,10 @@ class environment:
     		print ""
     		print " |---------------------------- LIST OF TECHNOLOGIES ---------------------------------------"
     		print " |"
-    		print " | ID\tRnw\tEff\tTime\tDecay\tTechC\tTransC\tPlantC\tR\tLLength\tLTime",\
+    		print " | ID\tRnw\tEff\tTime\tDim\tTechC\tTransC\tPlantC\tR\tLLength\tLTime",\
     		"\tGHG\tpolicy\tSolar\tX\tY\tConvCoef"
     		for t in self.allTechs:
-    			print ' | ', t.ID,'\t',t.renewable,'\t', t.efficiency,'\t', t.startTime,'\t', t.decay,'\t', t.cost,'\t',\
+    			print ' | ', t.ID,'\t',t.renewable,'\t', t.efficiency,'\t', t.startTime, '\t', t.dimension,'\t', t.cost,'\t',\
     			 t.transportCosts,'\t', t.plantCost,'\t', t.interestRate,'\t', t.loanLength,'\t', t.duration,'\t', \
     			 t.co2,'\t', t.policy,'\t', t.solarBased,'\t', t.X,'\t', t.Y,'\t', t.fromKWH2KW
     		print " |-------------------------------------------------------------------------------------------"
@@ -551,14 +579,14 @@ class environment:
     		saveFileStatFid = open(agentsFileName, 'w')
     		listsFileFid = open(listsFileName, 'w')
     		# File init
-    		strAgentInit = '#ID\tX\tY\tEnergyNeed\tsolPot\tco2\tsocialLobby\tintCap\tequity\tbalance\tmBalance\tinvL\thealth\tage\n'
+    		strAgentInit = '#ID\tX\tY\tEnergyNeed\tha\tsolPot\tco2\tsocialLobby\tintCap\tequity\tbalance\tmBalance\tinvL\thealth\tage\n'
     		strListInit = '#Agent\tTech\tProp\tage\n'
     		# Save first row
     		saveFileStatFid.write(strAgentInit)
     		listsFileFid.write(strListInit)
     		# For each agent
     		for a in self.allAgents:
-    			strAgent = str(a.ID) + '\t' + str(a.x) + '\t' + str(a.y) + '\t' + str(a.totEnergyNeed) + '\t' + \
+    			strAgent = str(a.ID) + '\t' + str(a.x) + '\t' + str(a.y) + '\t' + str(a.totEnergyNeed) + '\t' + str(a.ha) + '\t' + \
     			str(a.solar_potential) + '\t' + str(a.co2) + '\t' + str(a.social_lobby) + '\t' + str(a.int_capital) + '\t' + \
     			str(a.equityCost) + '\t' + str(a.balance) + '\t' + str(a.month_balance) + '\t' + str(a.invLength) + '\t' + \
     			str(a.health) + '\t' + str(a.age) + '\n'
@@ -587,11 +615,11 @@ class environment:
     		# File handle
     		saveFileStatFid = open(techFileName, 'w')
     		# File init
-    		strTechInit = '#ID\tRnw\tEff\tStarttime\tdecay\tcost\ttCost\tpCost\trate\tloanLength\tduration\tco2\tsolarBased\tpolicy\tX\tY\tconversion\n'
+    		strTechInit = '#ID\tRnw\tEff\tStarttime\tDimension\tfromHa2kWhmese\tcost\ttCost\tpCost\trate\tloanLength\tduration\tco2\tsolarBased\tpolicy\tX\tY\tconversion\n'
     		saveFileStatFid.write(strTechInit)
     		for t in self.allTechs:
-    			strTech = str(t.ID) + '\t' + str(t.renewable) + '\t' + str(t.efficiency) + '\t' + str(t.startTime) + '\t' + str(t.decay) + '\t' + \
-    			str(t.cost) + '\t' + str(t.transportCosts) + '\t' + str(t.plantCost) + '\t' + str(t.interestRate) + '\t' + \
+    			strTech = str(t.ID) + '\t' + str(t.renewable) + '\t' + str(t.efficiency) + '\t' + str(t.startTime) + '\t' + str(t.dimension) + '\t' + \
+    			str(t.fromHa2kWhmese) + '\t' + str(t.cost) + '\t' + str(t.transportCosts) + '\t' + str(t.plantCost) + '\t' + str(t.interestRate) + '\t' + \
     			str(t.loanLength) + '\t' + str(t.duration) + '\t' + str(t.co2) + '\t' + str(t.solarBased) + '\t' + \
     			str(t.policy) + '\t' + str(t.X) + '\t' + str(t.Y) + '\t' + str(t.fromKWH2KW) + '\n'
     			
@@ -743,6 +771,7 @@ class environment:
                 tempstr += '\t\t<y>' + str(agent.y) + '</y>\n'
                 tempstr += '\t\t<age>' + str(agent.age) + '</age>\n'
                 tempstr += '\t\t<totEnergyNeed>' + str(agent.totEnergyNeed) + '</totEnergyNeed>\n'
+                tempstr += '\t\t<ha>' + str(agent.ha) + '</ha>\n'
                 tempstr += '\t\t<nrgTechsReceipt>\n'
                 for receipt in agent.nrgTechsReceipt:
                     tempstr += '\t\t\t<nrgTech>' + str(receipt) + '</nrgTech>\n' 
@@ -803,7 +832,8 @@ class environment:
                 tempstr += '\t\t<renewable>' + str(tech.renewable) + '</renewable>\n'
                 tempstr += '\t\t<efficiency>' + str(tech.efficiency) + '</efficiency>\n'
                 tempstr += '\t\t<startTime>' + str(tech.startTime) + '</startTime>\n'
-                tempstr += '\t\t<decay>' + str(tech.decay) + '</decay>\n'
+                tempstr += '\t\t<dimension>' + str(tech.dimension) + '</dimension>\n'
+                tempstr += '\t\t<fromHa2kWhmese>' + str(tech.dimension) + '</fromHa2kWhmese>\n'
                 tempstr += '\t\t<cost>' + str(tech.cost) + '</cost>\n'
                 tempstr += '\t\t<transportCosts>' + str(tech.transportCosts) + '</transportCosts>\n'
                 tempstr += '\t\t<plantCost>' + str(tech.plantCost) + '</plantCost>\n'

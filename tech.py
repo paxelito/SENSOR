@@ -16,16 +16,18 @@ import shutil as sh
 class tech:
 	'''Class tech definition.	
 	'''
-	def __init__(self, tmpID = 0, tmpRen = 0, tmpEff = 0, tmpST = 0, tmpTotTime = 0, tmpDecay = 0, tmpCost = 0, tmpPcost = 0, tmpRate = 0,\
+	def __init__(self, tmpID = 0, tmpRen = 0, tmpEff = 0, tmpST = 0, tmpDim = 0, tmpFromHa2kWhmese = 0, tmpTotTime = 0, tmpCost = 0, tmpPcost = 0, tmpRate = 0,\
 	             tmpCo2 = 0, tmpTransportCosts = 0, tmpLoanLength = 20, tmpLifeDuration = 50, tmpPolicy = 0, tmpFromKWH2KW = 100, \
-	             tmpSolarBased = 0, tmpX = 0, tmpY = 0):
+	             tmpSolarBased = 0, tmpX = 0, tmpY = 0, tmpMinPow = 0):
 		''' Constructor '''
 		
 		self.ID = tmpID
 		self.renewable = tmpRen
 		self.efficiency = tmpEff # Technology efficiency drop per year. 
 		self.startTime = tmpST
-		self.decay = tmpDecay
+		self.dimension = tmpDim # Firm dimension (ha)
+		self.fromHa2kWhmese = tmpFromHa2kWhmese # from ha to kWh/month
+		self.minPow = tmpMinPow # Minimum power of the technology
 		self.cost = tmpCost # Cost euro/KwH
 		self.transportCosts = tmpTransportCosts # Cost for Kwh like with biomass energy
 		self.plantCost = tmpPcost # cost of the investment for each KWh

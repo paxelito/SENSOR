@@ -6,9 +6,10 @@ import random as ran
 import copy
 
 class agents:
-	def __init__(self, tmpDL = 0, tmpID = 0, tmpX = 0, tmpY = 0, tmpNrgDim = 100, tmpSocialLobby = 0, tmpSolPot = ran.uniform(0.5,1), tmpEquityCost = 0.05, \
+	def __init__(self, tmpDL = 0, tmpID = 0, tmpX = 0, tmpY = 0, tmpNrgDim = 100, tmpha = 0, tmpSocialLobby = 0, tmpSolPot = ran.uniform(0.5,1), tmpEquityCost = 0.05, \
 	             tmpIntCap = 0.5, tmpInvLength = 50, tmpHealth = 1, tmpAge = 0, tmpNrgTech = None, tmpNrgTechProp = None, tmpTechPolicy = None, tmpTechAges = None, \
-	             tmpBalance = 0, tmpMBalance = 0, tmpDebts = None, tmpRemDebt = None, tmpDebtTime = None, tmpDebtLen = None, tmpMrep = None):
+	             tmpBalance = 0, tmpMBalance = 0, tmpDebts = None, tmpRemDebt = None, tmpDebtTime = None, tmpDebtLen = None, tmpMrep = None, \
+	             tmpbionrgpot = None):
 		'''Constructor of the agent class'''
 		# General Agent Attributes
 		self.ID = tmpID
@@ -17,6 +18,8 @@ class agents:
 		self.totEnergyNeed = tmpNrgDim # Energetic dimension of the agent
 		self.debugLevel = tmpDL
 		self.age = tmpAge
+		self.bionrgpotential = tmpbionrgpot
+		self.ha = tmpha
 		
 		# Technology Parameters
 		if tmpNrgTech == None:
@@ -33,6 +36,10 @@ class agents:
 		self.solar_potential  = tmpSolPot # Proportion of solar irradiation according to the place where agent is (from 0 to 1) 
 		self.co2 = 0
 		self.social_lobby  = tmpSocialLobby # How much the agent can be influenced by the neighborhoods
+		
+		# BUSINESS PARAMETERS
+		self.suppliers = []
+		self.client = []
 		
 		# FINANCIAL PARAMETERS
 		self.int_capital = tmpIntCap
@@ -93,79 +100,116 @@ class agents:
 					
 					# FOR EACH NEW TECHNOLOGY....
 					for sngTechID in tmpAvaiableTechs:	
-						tmpHypCosts = 0	# hypothetical costs according to this new technology
-						tmpPolAmount = 0 # temporary variable containing the total amount of policy theoretically used with this tech	
-						# Compute the hypothetic annual costs due to the new technology implementation
-						# .. New tech max energy production, the size of the energy partition changes according to the solar orientation of the agent
-						tmpNewNrgProp = int(round(ran.randint(1,self.totEnergyNeed) * (pow(self.solar_potential,tmpTechs[sngTechID].solarBased))))
-						if tmpNewNrgProp > 0:
-							tmpNrgPropReceipt = self.rearrangeTechPropList(tmpNewNrgProp) # Create a temporary new energy proportion list 
-							# Compute the overall cost of the plan according to the relation between kWh and kW. 
-							tmpOverallPlantCost = float(tmpNewNrgProp) / tmpTechs[sngTechID].fromKWH2KW * tmpTechs[sngTechID].plantCost
+						if tmpTime >= tmpTechs[sngTechID].startTime: # If the introduction time is valid for the tecnology
+							tmpHypCosts = 0	# hypothetical costs according to this new technology
+							tmpPolAmount = 0 # temporary variable containing the total amount of policy theoretically used with this tech	
 							
-							# For the years of the investment 
-							netPresentValue = 0
-							payBackPeriod = 0
-							cashFlow = 0
-							for y in range(1,self.invLength + 1):
-								# Compute costs and intentives of the year
-								tmpCostsAndIncs = self.computeAnnualCostandIncs(sngTechID, tmpNewNrgProp, tmpNrgPropReceipt, tmpTechs, tmpPolicies, relativeAttractions, tmpOverallPlantCost, y)
+							# Compute the hypothetic annual costs due to the new technology implementation
+							# .. New tech max energy production, the size of the energy partition changes according to the solar orientation of the agent
+							
+							#############################################################################################
+							# BIONERGY ASSESSMENT (If the agent has a potential bioenergy resource, so he may exploit it) 
+							#############################################################################################
+							
+							if (tmpTechs[sngTechID].solarBased == 0) & (tmpTechs[sngTechID].fromHa2kWhmese > 0):
+								if self.ha > 0:
+									print "bioenergy assessment - agent ", self.ID
+									print "ettari ", self.ha, " - nrg pot: ", self.ha * tmpTechs[sngTechID].fromHa2kWhmese
+									print "Firms sorted by distance"
+									candidateSorted = sorted(range(len(self.distanceList)), key=lambda k: self.distanceList[k])
+									print candidateSorted
+									print "PLant power: ", tmpTechs[sngTechID].dimension * 600, " kWh/month -> Guadagno: ", (tmpTechs[sngTechID].dimension * 600 - self.totEnergyNeed) * 0.28
+									nrgPotToBuy = self.ha * 1750
+									costoAcquisto = 0
+									print "mia copertuna: ", self.ha * 1750, " kwh/month"
+									for tid, i in enumerate(candidateSorted):
+										if nrgPotToBuy < tmpTechs[sngTechID].dimension * 600: 
+											if tid > 0:
+												nrgPotToBuy += tmpAgents[i].ha * 1750
+												costoAcquisto += tmpAgents[i].ha * 1750 * 0.15 * (self.distanceList[i] * tmpTechs[sngTechID].transportCosts)
+												print "\t Agente: ", i, " ettari: ", tmpAgents[i].ha, " potenziale ", tmpAgents[i].ha * 1750,\
+												 " nrgbought: ", nrgPotToBuy, " spesa: ", costoAcquisto
+									
+							
+							if (tmpTechs[sngTechID].solarBased == 0) & (tmpTechs[sngTechID].fromHa2kWhmese > 0):
+								tmpNewNrgProp = self.totEnergyNeed
+							else:
+								tmpNewNrgProp = int(round(ran.randint(1,self.totEnergyNeed) * (pow(self.solar_potential,tmpTechs[sngTechID].solarBased))))
+							
+							if tmpNewNrgProp > 0:
+								tmpNrgPropReceipt = self.rearrangeTechPropList(tmpNewNrgProp) # Create a temporary new energy proportion list 
+								# Compute the overall cost of the plan according to the relation between kWh and kW. 
+								if (tmpTechs[sngTechID].solarBased == 0) & (tmpTechs[sngTechID].fromHa2kWhmese > 0):
+									tmpOverallPlantCost = tmpTechs[sngTechID].dimension * tmpTechs[sngTechID].plantCost 
+								else: # In case of non bioenergy investment
+									tmpOverallPlantCost = float(tmpNewNrgProp) / tmpTechs[sngTechID].fromKWH2KW * tmpTechs[sngTechID].plantCost
+									
+								print "overall plant cost:", tmpOverallPlantCost
+								raw_input("push to continue...")
 								
-								tmpHypCosts = tmpCostsAndIncs[0]
-								tmpPolAmount += tmpCostsAndIncs[1]
-								tmpEXTplantCost = tmpCostsAndIncs[2]
-								tmpINTplantCost = tmpCostsAndIncs[3]
-								wacc = tmpCostsAndIncs[4]
-								# Reset cash flow for this year
+								# For the years of the investment 
+								netPresentValue = 0
+								payBackPeriod = 0
 								cashFlow = 0
-								# Compute the tax-credit-investment for the years of the incentive
-								tmpCredInv = 0
-								if (y <= (tmpPolicies[tmpTechs[sngTechID].policy].length / 12)) & (tmpPolicies[tmpTechs[sngTechID].policy].taxCreditInv > 0):
-									tmpCredInv += tmpOverallPlantCost * tmpPolicies[tmpTechs[sngTechID].policy].taxCreditInv / (tmpPolicies[tmpTechs[sngTechID].policy].length / 12)
-									# (3) Since tax credit investment has been theoretically used, it is updated
-									tmpPolAmount += tmpCredInv
+								for y in range(1,self.invLength + 1):
+									# Compute costs and intentives of the year
+									tmpCostsAndIncs = self.computeAnnualCostandIncs(sngTechID, tmpNewNrgProp, tmpNrgPropReceipt, tmpTechs, tmpPolicies, relativeAttractions, tmpOverallPlantCost, y)
 									
-								# Compute annual interest to pay for the YEARS of the loan
-								if y <= (tmpTechs[sngTechID].loanLength / 12):
-									# Compute clean annual interest
-									tmpAnnualInterest = self.computeLoanAnnualInterest(tmpEXTplantCost, (tmpTechs[sngTechID].loanLength / 12), tmpTechs[sngTechID].interestRate)
-									# If there is an incentive on the interest
-									if (y <= (tmpPolicies[tmpTechs[sngTechID].policy].length / 12)) & (tmpPolicies[tmpTechs[sngTechID].policy].taxCredit > 0):
-										tmpIntRate = tmpTechs[sngTechID].interestRate * (1 - tmpPolicies[tmpTechs[sngTechID].policy].taxCredit)
-										tmpAnnualInterestWithInc = self.computeLoanAnnualInterest(tmpEXTplantCost, (tmpTechs[sngTechID].loanLength / 12), tmpIntRate) 
-										# (4) Since tax credit interest has been theoretically used, it is updated
-										tmpPolAmount += tmpAnnualInterest - tmpAnnualInterestWithInc
-										tmpAnnualInterest = tmpAnnualInterestWithInc
-									
-									# Investment credit + annual savings - interests - credit capital 
-									cashFlow = tmpCredInv + (tmpCurrentAnnualCosts - tmpHypCosts) - tmpAnnualInterest - (tmpEXTplantCost / (tmpTechs[sngTechID].loanLength / 12))
-								else:
-									# Investment credit + annual savings
-									cashFlow = tmpCredInv + (tmpCurrentAnnualCosts - tmpHypCosts)
-									
-								# if there is equity capital it is spent in the first year
-								if ((y == 1) & (tmpINTplantCost > 0)): cashFlow -= tmpINTplantCost
-								# Compute in progress NPV
-								netPresentValue += cashFlow / (pow(1+wacc,y))
-								#print "CF: ", cashFlow, " cred: ", tmpCredInv, " + (HC: ",tmpCurrentAnnualCosts, " - h: ", tmpHypCosts, ") - INT ", tmpAnnualInterest,\
-								#      " = NPV: ", netPresentValue, " - PLANT: ", tmpOverallPlantCost, " delta: %.2f" % (netPresentValue - tmpOverallPlantCost), " dim: ", tmpNewNrgProp
-								# Compute paybackPeriod
-								if (netPresentValue >= tmpOverallPlantCost) & (payBackPeriod == 0):
-									payBackPeriod = y
-									
-							# .. Compute final net present value
-							netPresentValue -= tmpOverallPlantCost
+									tmpHypCosts = tmpCostsAndIncs[0]
+									tmpPolAmount += tmpCostsAndIncs[1]
+									tmpEXTplantCost = tmpCostsAndIncs[2]
+									tmpINTplantCost = tmpCostsAndIncs[3]
+									wacc = tmpCostsAndIncs[4]
+									# Reset cash flow for this year
+									cashFlow = 0
+									# Compute the tax-credit-investment for the years of the incentive
+									tmpCredInv = 0
+									if (y <= (tmpPolicies[tmpTechs[sngTechID].policy].length / 12)) & (tmpPolicies[tmpTechs[sngTechID].policy].taxCreditInv > 0):
+										tmpCredInv += tmpOverallPlantCost * tmpPolicies[tmpTechs[sngTechID].policy].taxCreditInv / (tmpPolicies[tmpTechs[sngTechID].policy].length / 12)
+										# (3) Since tax credit investment has been theoretically used, it is updated
+										tmpPolAmount += tmpCredInv
+										
+									# Compute annual interest to pay for the YEARS of the loan
+									if y <= (tmpTechs[sngTechID].loanLength / 12):
+										# Compute clean annual interest
+										tmpAnnualInterest = self.computeLoanAnnualInterest(tmpEXTplantCost, (tmpTechs[sngTechID].loanLength / 12), tmpTechs[sngTechID].interestRate)
+										# If there is an incentive on the interest
+										if (y <= (tmpPolicies[tmpTechs[sngTechID].policy].length / 12)) & (tmpPolicies[tmpTechs[sngTechID].policy].taxCredit > 0):
+											tmpIntRate = tmpTechs[sngTechID].interestRate * (1 - tmpPolicies[tmpTechs[sngTechID].policy].taxCredit)
+											tmpAnnualInterestWithInc = self.computeLoanAnnualInterest(tmpEXTplantCost, (tmpTechs[sngTechID].loanLength / 12), tmpIntRate) 
+											# (4) Since tax credit interest has been theoretically used, it is updated
+											tmpPolAmount += tmpAnnualInterest - tmpAnnualInterestWithInc
+											tmpAnnualInterest = tmpAnnualInterestWithInc
+										
+										# Investment credit + annual savings - interests - credit capital 
+										cashFlow = tmpCredInv + (tmpCurrentAnnualCosts - tmpHypCosts) - tmpAnnualInterest - (tmpEXTplantCost / (tmpTechs[sngTechID].loanLength / 12))
+									else:
+										# Investment credit + annual savings
+										cashFlow = tmpCredInv + (tmpCurrentAnnualCosts - tmpHypCosts)
+										
+									# if there is equity capital it is spent in the first year
+									if ((y == 1) & (tmpINTplantCost > 0)): cashFlow -= tmpINTplantCost
+									# Compute in progress NPV
+									netPresentValue += cashFlow / (pow(1+wacc,y))
+									#print "CF: ", cashFlow, " cred: ", tmpCredInv, " + (HC: ",tmpCurrentAnnualCosts, " - h: ", tmpHypCosts, ") - INT ", tmpAnnualInterest,\
+									#      " = NPV: ", netPresentValue, " - PLANT: ", tmpOverallPlantCost, " delta: %.2f" % (netPresentValue - tmpOverallPlantCost), " dim: ", tmpNewNrgProp
+									# Compute paybackPeriod
+									if (netPresentValue >= tmpOverallPlantCost) & (payBackPeriod == 0):
+										payBackPeriod = y
+										
+								# .. Compute final net present value
+								netPresentValue -= tmpOverallPlantCost
+								
+								# Append analysis value in lists 
+								npvList.append(netPresentValue)
+								pbpList.append(payBackPeriod)
+								recList.append(tmpNrgPropReceipt)
+								polList.append(tmpPolAmount)
+								
+								if self.debugLevel < -1:
+									print "\t  	  |- Tech: ", cnt, " NPV: %10.2f" % netPresentValue, " PBP: ", payBackPeriod
 							
-							# Append analysis value in lists 
-							npvList.append(netPresentValue)
-							pbpList.append(payBackPeriod)
-							recList.append(tmpNrgPropReceipt)
-							polList.append(tmpPolAmount)
-							
-							if self.debugLevel < -1:
-								print "\t  	  |- Tech: ", cnt, " NPV: %10.2f" % netPresentValue, " PBP: ", payBackPeriod
-						
-						cnt = cnt + 1 # Available technology Counter update
+							cnt = cnt + 1 # Available technology Counter update
 					
 					# .. Compute the better technology
 					betterTechPos = 0
@@ -425,8 +469,6 @@ class agents:
 		self.balance = self.balance + self.month_balance
 		self.co2 = tempPoll
 		self.age += 1
-		
-		
 
 	# --------------------------------------------------------------|
 	# DEFINE TECHNOLOGIES ATTRACTION

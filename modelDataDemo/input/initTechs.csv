@@ -1,4 +1,4 @@
-#ID	Rnw	Eff	Starttime	decay	cost	tCost	pCost	rate	loanLength	duration	co2	solarBased	policy	X	Y	conversion
-0	0	1	0	0	0.07	0	0	0	0	0	500	0	0	0	0	100
-1	1	1	0	0	0.01	0.003	4000	0.04	120	50	1	0	1	443	36	100
-2	1	1	0	0	-0.02	0	4000	0.04	120	50	1	1	0	0	0	100
+#ID	Rnw	Eff	Starttime	Dimension	fromHa2kWhmese	cost	tCost	pCost	rate	loanLength	duration	co2	solarBased	policy	X	Y	conversion
+0	0	1	0	0	0	0.07	0	0	0	0	0	500	0	0	0	0	100
+1	1	1	0	300	1750	-0.28	0.003	4000	0.04	120	50	1	0	0	0	0	100
+2	1	1	0	1000	1750	-0.28	0.003	4000	0.04	120	50	1	0	0	0	0	100
