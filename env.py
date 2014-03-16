@@ -76,6 +76,8 @@ class environment:
                     self.debugLevel = float(strLine[1])
                 if strLine[0] == "agroMaxDim":
                     self.agroMaxDim = float(strLine[1])
+                if strLine[0] == "agroProfit":
+					self.agroProfit = float(strLine[1])                
             
             print self.randomSeed
             if self.randomSeed == 1:
