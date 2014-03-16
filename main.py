@@ -73,6 +73,7 @@ if __name__ == '__main__':
 					envi.saveAgentsOnFile(ns)
 					envi.saveTechsOnFile(ns)
 					envi.savePoliciesOnFile(ns)
+					envi.saveNet('net')
 					
 					# reset simulation 
 					envi.resetSimulation()

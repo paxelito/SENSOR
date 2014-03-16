@@ -20,6 +20,7 @@ class agents:
 		self.age = tmpAge
 		self.bionrgpotential = tmpbionrgpot
 		self.ha = tmpha
+		self.residualHa = tmpha # Remaining available HA for selling potential bioenergy
 		
 		# Technology Parameters
 		if tmpNrgTech == None:
@@ -74,7 +75,7 @@ class agents:
 	# --------------------------------------------------------------| 
 	# NEW INVESTMENT ASSESSMENT
 	# --------------------------------------------------------------|		
-	def invAssessment(self,tmpTechs,tmpTechsID,tmpTime,tmpAgents,tmpPolicies):
+	def invAssessment(self,tmpTechs,tmpTechsID,tmpTime,tmpAgents,tmpPolicies,tmpAgroPrice):
 		'''Function to assess the possible investment'''
 		# first position the policy, second position the total amount of incentive used. To update only if a new technology is used. 
 		tmpPolicyAmountToRemove = [0,0]
@@ -97,6 +98,7 @@ class agents:
 					pbpList = [] # List of all payback periods
 					recList = [] # List of all the possible technology recepits
 					polList = [] # List of all the total amount of policy used. 
+					supData = [] # List of all the supplier in case of bioenergy 
 					
 					# FOR EACH NEW TECHNOLOGY....
 					for sngTechID in tmpAvaiableTechs:	
@@ -110,30 +112,48 @@ class agents:
 							#############################################################################################
 							# BIONERGY ASSESSMENT (If the agent has a potential bioenergy resource, so he may exploit it) 
 							#############################################################################################
-							
+							tempSupplierData = []
 							if (tmpTechs[sngTechID].solarBased == 0) & (tmpTechs[sngTechID].fromHa2kWhmese > 0):
-								if self.ha > 0:
-									print "bioenergy assessment - agent ", self.ID
-									print "ettari ", self.ha, " - nrg pot: ", self.ha * tmpTechs[sngTechID].fromHa2kWhmese
-									print "Firms sorted by distance"
+								if (self.ha > 0) & (len(self.client) == 0):
+									
+									if self.debugLevel > 0: print "bioenergy assessment - agent ", self.ID
+									if self.debugLevel > 0: print "ettari ", self.ha, " - nrg pot: ", self.ha * tmpTechs[sngTechID].fromHa2kWhmese
+									if self.debugLevel > 0: print "Firms sorted by distance"
+									
+									# List of candidate suppliers
 									candidateSorted = sorted(range(len(self.distanceList)), key=lambda k: self.distanceList[k])
-									print candidateSorted
-									print "PLant power: ", tmpTechs[sngTechID].dimension * 600, " kWh/month -> Guadagno: ", (tmpTechs[sngTechID].dimension * 600 - self.totEnergyNeed) * 0.28
-									nrgPotToBuy = self.ha * 1750
+									
+									if self.debugLevel > 0: print candidateSorted
+									if self.debugLevel > 0: print "PLant power: ", tmpTechs[sngTechID].dimension * 600, " kWh/month -> Guadagno: ", (tmpTechs[sngTechID].dimension * 600 - self.totEnergyNeed) * 0.28
+									
+									# Total potential energy to bye at month!!!
+									nrgPotToBuy = (tmpTechs[sngTechID].dimension * 600) - (self.ha * tmpTechs[sngTechID].fromHa2kWhmese)
 									costoAcquisto = 0
-									print "mia copertuna: ", self.ha * 1750, " kwh/month"
+									
+									if self.debugLevel > 0: print "mia copertura: ", self.ha * 1750, " kwh/month"
 									for tid, i in enumerate(candidateSorted):
-										if nrgPotToBuy < tmpTechs[sngTechID].dimension * 600: 
-											if tid > 0:
-												nrgPotToBuy += tmpAgents[i].ha * 1750
-												costoAcquisto += tmpAgents[i].ha * 1750 * 0.15 * (self.distanceList[i] * tmpTechs[sngTechID].transportCosts)
-												print "\t Agente: ", i, " ettari: ", tmpAgents[i].ha, " potenziale ", tmpAgents[i].ha * 1750,\
-												 " nrgbought: ", nrgPotToBuy, " spesa: ", costoAcquisto
+										if nrgPotToBuy > 0: 
+											if tid > 0: # Exlude itself
+												# If sell the potential energy is better than producing normal crops
+												if self.debugLevel > 1: print "vendita energia: ", tmpAgents[i].residualHa * tmpTechs[sngTechID].fromHa2kWhmese * 0.15, " - prezzo mais: ", tmpAgents[i].residualHa * tmpAgroPrice
+												if (tmpAgents[i].residualHa * tmpTechs[sngTechID].fromHa2kWhmese * 0.15) > (tmpAgents[i].residualHa * tmpAgroPrice):
+													if tmpAgents[i].residualHa * tmpTechs[sngTechID].fromHa2kWhmese > nrgPotToBuy:
+														tempSupplierData.append([i,nrgPotToBuy])
+														costoAcquisto += nrgPotToBuy * 0.15 * (self.distanceList[i] * tmpTechs[sngTechID].transportCosts)
+														nrgPotToBuy -= nrgPotToBuy
+													else:
+														nrgPotToBuy -= tmpAgents[i].residualHa * tmpTechs[sngTechID].fromHa2kWhmese
+														tempSupplierData.append([i,tmpAgents[i].residualHa * tmpTechs[sngTechID].fromHa2kWhmese])
+														costoAcquisto += tmpAgents[i].residualHa * tmpTechs[sngTechID].fromHa2kWhmese * 0.15 * (self.distanceList[i] * tmpTechs[sngTechID].transportCosts)
+													
+													if self.debugLevel > 0: print "\t Agente: ", i, " ettari residui: ", tmpAgents[i].residualHa, " potenziale ", tmpAgents[i].residualHa * 1750,\
+													" nrgbought: ", nrgPotToBuy, " spesa: ", costoAcquisto, " - NRG sprecata ", nrgPotToBuy
+													if self.debugLevel > 1: print tempSupplierData
 									
 							
-							if (tmpTechs[sngTechID].solarBased == 0) & (tmpTechs[sngTechID].fromHa2kWhmese > 0):
+							if (tmpTechs[sngTechID].solarBased == 0) & (tmpTechs[sngTechID].fromHa2kWhmese > 0): # If bio-energy
 								tmpNewNrgProp = self.totEnergyNeed
-							else:
+							else: # if solar
 								tmpNewNrgProp = int(round(ran.randint(1,self.totEnergyNeed) * (pow(self.solar_potential,tmpTechs[sngTechID].solarBased))))
 							
 							if tmpNewNrgProp > 0:
@@ -144,8 +164,8 @@ class agents:
 								else: # In case of non bioenergy investment
 									tmpOverallPlantCost = float(tmpNewNrgProp) / tmpTechs[sngTechID].fromKWH2KW * tmpTechs[sngTechID].plantCost
 									
-								print "overall plant cost:", tmpOverallPlantCost
-								raw_input("push to continue...")
+								if self.debugLevel > 0: print "overall plant cost:", tmpOverallPlantCost
+								
 								
 								# For the years of the investment 
 								netPresentValue = 0
@@ -156,6 +176,13 @@ class agents:
 									tmpCostsAndIncs = self.computeAnnualCostandIncs(sngTechID, tmpNewNrgProp, tmpNrgPropReceipt, tmpTechs, tmpPolicies, relativeAttractions, tmpOverallPlantCost, y)
 									
 									tmpHypCosts = tmpCostsAndIncs[0]
+									
+									# If bioenergy hypotetic costs must be incremented with the purchase of external biomass and decreased with energy produced and sold
+									if (tmpTechs[sngTechID].solarBased == 0) & (tmpTechs[sngTechID].fromHa2kWhmese > 0):
+										if len(tempSupplierData) > 0:
+											tmpHypCosts += costoAcquisto * 12
+											tmpHypCosts -= ((tmpTechs[sngTechID].dimension * 600) - nrgPotToBuy) * tmpTechs[sngTechID].cost * 12
+									
 									tmpPolAmount += tmpCostsAndIncs[1]
 									tmpEXTplantCost = tmpCostsAndIncs[2]
 									tmpINTplantCost = tmpCostsAndIncs[3]
@@ -205,13 +232,21 @@ class agents:
 								pbpList.append(payBackPeriod)
 								recList.append(tmpNrgPropReceipt)
 								polList.append(tmpPolAmount)
+								supData.append(tempSupplierData)
+
+								if self.debugLevel > 1: print "NPV: ", npvList
+								if self.debugLevel > 1: print "PBP: ", pbpList
+								if self.debugLevel > 1: print "tmpNrgPropReceipt: ", tmpNrgPropReceipt
+								if self.debugLevel > 1: print "tmpPolAmount: ", tmpPolAmount
+								if self.debugLevel > 1: print "supdata: ", supData
+								if self.debugLevel > 1: raw_input("push to continue...")
 								
 								if self.debugLevel < -1:
 									print "\t  	  |- Tech: ", cnt, " NPV: %10.2f" % netPresentValue, " PBP: ", payBackPeriod
 							
 							cnt = cnt + 1 # Available technology Counter update
 					
-					# .. Compute the better technology
+					# .. Compute the better technology (IF the PBP is satisfied the technology with the better NPV is selected)
 					betterTechPos = 0
 					betterNPV = 0
 					betterPayBack = 0
@@ -261,7 +296,16 @@ class agents:
 							
 							tmpPolicyAmountToRemove = [tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy, polList[betterTechPos]]
 							
-							if self.debugLevel < -1:
+							# IF bioenergy, so supplier are added to the suppliers list and the agent is added as client to the distinst suppliers
+							if (tmpTechs[sngTechID].solarBased == 0) & (tmpTechs[sngTechID].fromHa2kWhmese > 0):
+								for sngData in supData[betterTechPos]: 
+									self.suppliers.append(sngData[0]) # Add pot energy supplier
+									# Residual HA to use is decremented
+									tmpAgents[sngData[0]].residualHa -= sngData[1] / tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].fromHa2kWhmese
+									self.residualHa = 0									
+									tmpAgents[sngData[0]].client.append(self.ID)
+							
+							if self.debugLevel > 0:
 								print "\t 	    |- Agent ", self.ID, " has invested in a new technology:"
 								print "\t 	     \_ New Technology List: ", self.nrgTechsReceipt
 								print "\t 	     \_ New Technology Receipt List: ", self.nrgPropReceipt
@@ -269,7 +313,8 @@ class agents:
 								print "\t 	     \_ New Residual Debts List: ", self.RemainingDebts
 								print "\t 	     \_ New Initial Debts Time List: ", self.debtTime
 								print "\t 	     \_ New Debts Lengths List: ", self.debtLength
-								print "\t 	     \_ New Debts Month Repayment List: ", self.debtMonthRepaymen
+								print "\t 	     \_ New Debts Month Repayment List: ", self.debtMonthRepayment
+								raw_input("next agent")
 								
 		return tmpPolicyAmountToRemove
 								
@@ -323,7 +368,6 @@ class agents:
 		
 		# .. SOCIAL ATTRACTIVENESS
 		# .. Cost are rescaled according to the imitation list (note that if the socialLobby parameter is 0 the list remains the same)
-	
 		for RAcnt, sngLobby in enumerate(tmpRelativeAttractions):
 			if tmpSngTechID == RAcnt:
 				tmpCosts -= tmpCosts * sngLobby * self.social_lobby
@@ -433,6 +477,9 @@ class agents:
 							  + tmpPolicies[self.techPolicy[counter][0]].carbonTax\
 							  - tmpPolicies[self.techPolicy[counter][0]].feedIN)\
 						   + self.debtMonthRepayment[counter]
+						   
+			# If the technology is bioenergy, so I have to pay my suppliers
+			# Io non so quanto sto comprando da ognuno di loro, devo segnarmelo... e cosi chi vende deve sapere quanto mi vende... 
 			
 			# If the incentive is still valid the tax credit on the investment is computed	
 			if (tmpPolicies[self.techPolicy[counter][0]].taxCreditInv > 0) & (self.techPolicy[counter][1] > 0):

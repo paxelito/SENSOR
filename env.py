@@ -301,7 +301,7 @@ class environment:
     		# According to the average investment evaluation time (once per year) and the agent wealth and policy aids are decreased 
     		tmp_tAids = 0
     		for sngAgent in self.allAgents:
-    			polToUpdate = sngAgent.invAssessment(self.allTechs, self.allTechsID,tmpTime,self.allAgents,self.allPolicies)
+    			polToUpdate = sngAgent.invAssessment(self.allTechs, self.allTechsID,tmpTime,self.allAgents,self.allPolicies, self.agroProfit)
     			# Decrement the total amount of incentives to aid within the system
     			if polToUpdate[0] > 0:
     				self.allPolicies[polToUpdate[0]].residue -= polToUpdate[1]
@@ -324,7 +324,7 @@ class environment:
 			sngAgent.performFinancialActivities()
 			sngAgent.updateEnergyPropAccordingToEfficiencyDrop(self.allTechs)
 			
-			polToUpdate = sngAgent.invAssessment(self.allTechs, self.allTechsID,tmpTime,self.allAgents,self.allPolicies)
+			polToUpdate = sngAgent.invAssessment(self.allTechs, self.allTechsID,tmpTime,self.allAgents,self.allPolicies, self.agroProfit)
 			# Decrement the total amount of incentives to aid within the system
 			if polToUpdate[0] > 0:
 				self.allPolicies[polToUpdate[0]].residue -= polToUpdate[1]
@@ -698,6 +698,8 @@ class environment:
     		filename = 'stat_kwDist' + str(tmpSeed)
     		self.writeSngStatOnFileWhereISay(filename,self.totTechKWdist,'%f.2')
     		
+
+    		
     	# --------------------------------------------------------------|
     	# Function to save outcomes after different seeds runs
     	# --------------------------------------------------------------|
@@ -736,6 +738,22 @@ class environment:
     			cnt += 1
     		saveFileStat.close()	
     		os.rename(outFnameStat, os.path.join(self.simPath,self.simFolder,outFnameStat))
+    		
+  		# --------------------------------------------------------------|
+		# Function to save economic network
+		# --------------------------------------------------------------|
+	def saveNet(self, tmpName):
+		'''Function to save statistic on file'''
+		outFnameStat = tmpName + '.csv'
+		saveFileStat = open(outFnameStat, 'w')
+		for sngAgent in self.allAgents:
+			if len(sngAgent.client) > 0:
+				for cl in sngAgent.client:
+					strTypes = str(sngAgent.ID) + '\t' + str(cl) + '\n'
+					saveFileStat.write(strTypes)
+		
+		saveFileStat.close()	
+		os.rename(outFnameStat, os.path.join(self.simPath,self.simFolder,outFnameStat))
     		
     	# --------------------------------------------------------------|
     	# Compute overall Financiable amount
