@@ -396,7 +396,7 @@ class environment:
     			self.importAgents()
     			
     		self.genDistanceLists()
-    		self.promptAgents()
+    		#self.promptAgents()
     		# Compute the overall energy need of the system
     		self.computeTotEnergyNeed()
     

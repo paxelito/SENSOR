@@ -27,5 +27,10 @@ Libraries:
  	|- 
 
 
+2014 - 04 - 16 ver.1.1
+	- The technology awareness behavior has been added
+	- The acceptance of the financial investment has been implemented
+	- Several bugs fixed
+
 2014 - 02 - 19 ver.1.0
 - The introduction time is now considered for each technology

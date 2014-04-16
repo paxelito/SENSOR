@@ -21,6 +21,7 @@ class agents:
 		self.bionrgpotential = tmpbionrgpot
 		self.ha = tmpha
 		self.residualHa = tmpha # Remaining available HA for selling potential bioenergy
+		self.techawareness = False # The agent at the beginning does not know anything about the technology of the system
 		
 		# Technology Parameters
 		if tmpNrgTech == None:
@@ -73,19 +74,32 @@ class agents:
 		self.techPolicy.append([tmpPolicy,tmpPolicyLength])
 		
 	# --------------------------------------------------------------| 
+	# Check if the agent take awareness about the technologies 
+	# --------------------------------------------------------------|
+	def awarenessAssessment(self):
+		'''If the agent does not know the available technologies, it can get them'''
+		if self.techawareness == False: 
+			if ran.random() < (self.health**2): # Check this parameters!!! [C] 
+				self.techawareness = True
+				if self.debugLevel > 0:  "Agent ", self.ID, " H=", self.health, " just discovered the available technologies"
+	
+	# --------------------------------------------------------------| 
 	# NEW INVESTMENT ASSESSMENT
 	# --------------------------------------------------------------|		
 	def invAssessment(self,tmpTechs,tmpTechsID,tmpTime,tmpAgents,tmpPolicies,tmpAgroPrice):
 		'''Function to assess the possible investment'''
 		# first position the policy, second position the total amount of incentive used. To update only if a new technology is used. 
 		tmpPolicyAmountToRemove = [0,0]
-		if 48 - ran.randint(1,48) == 0: 
+		# Evaluate the technology awareness of the agent
+		self.awarenessAssessment()
+		
+		if 12 - ran.randint(1,12) == 0: 
 			if self.debugLevel < 0:
 				print "\t	\_ AGENT ", self.ID, " is assessing its strategy"
 			if self.debugLevel < -1:
 				print "\t  	 \_ Total balance: ", u"\u20AC", "%.2f" % self.balance, " M: ", u"\u20AC", "%.2f" % self.month_balance, " CO2: ", "%.4f" %self.co2
 			# If the agent is in health
-			if self.flagFree == True:
+			if (self.flagFree == True) & (self.techawareness == True):
 				# Define technology attraction list
 				relativeAttractions = self.defineTechAttraction(tmpTechs, tmpAgents)
 				# Create a list with all the available technologies (not already used by the agent)
@@ -99,6 +113,7 @@ class agents:
 					recList = [] # List of all the possible technology recepits
 					polList = [] # List of all the total amount of policy used. 
 					supData = [] # List of all the supplier in case of bioenergy 
+					pCosts = [] # List of all the plant costs
 					
 					# FOR EACH NEW TECHNOLOGY....
 					for sngTechID in tmpAvaiableTechs:	
@@ -164,6 +179,16 @@ class agents:
 								else: # In case of non bioenergy investment
 									tmpOverallPlantCost = float(tmpNewNrgProp) / tmpTechs[sngTechID].fromKWH2KW * tmpTechs[sngTechID].plantCost
 									
+								# Append all the overall cost for the financial assessment 	
+								pCosts.append(tmpOverallPlantCost*(1-self.int_capital))
+								
+								if tmpOverallPlantCost*(1-self.int_capital) == 0:
+									print pCosts
+									print tmpOverallPlantCost
+									print tmpNewNrgProp
+									print tmpTechs[sngTechID].fromKWH2KW
+									print tmpTechs[sngTechID].plantCost
+									raw_input("cusie")
 								if self.debugLevel > 0: print "overall plant cost:", tmpOverallPlantCost
 								
 								
@@ -252,12 +277,16 @@ class agents:
 					betterPayBack = 0
 					if len(npvList) > 1:
 						tmpFinID = 0
-						for sngPbpList in pbpList:
+						for s_id, sngPbpList in enumerate(pbpList):
 							if (sngPbpList > 0) & (sngPbpList < self.invLength):
 								if npvList[tmpFinID] > betterNPV: 
-									betterNPV = npvList[tmpFinID]
-									betterTechPos = tmpFinID
-									betterPayBack = sngPbpList
+									# Ask for the financial aid [C]. 
+									try: (self.health / (pCosts[s_id]/min(pCosts)))
+									except: print pCosts
+									if ran.random() < (self.health / (pCosts[s_id]/min(pCosts))):
+										betterNPV = npvList[tmpFinID]
+										betterTechPos = tmpFinID
+										betterPayBack = sngPbpList
 							tmpFinID += 1
 					
 					if betterNPV > 0:
@@ -296,7 +325,7 @@ class agents:
 							
 							tmpPolicyAmountToRemove = [tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].policy, polList[betterTechPos]]
 							
-							# IF bioenergy, so supplier are added to the suppliers list and the agent is added as client to the distinst suppliers
+							# IF BIOENERGY, so supplier are added to the suppliers list and the agent is added as client to the distinst suppliers
 							if (tmpTechs[sngTechID].solarBased == 0) & (tmpTechs[sngTechID].fromHa2kWhmese > 0):
 								for sngData in supData[betterTechPos]: 
 									self.suppliers.append([sngData[0], sngData[1]]) # Add pot energy supplier
@@ -304,6 +333,8 @@ class agents:
 									tmpAgents[sngData[0]].residualHa -= sngData[1] / tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].fromHa2kWhmese
 									self.residualHa = 0									
 									tmpAgents[sngData[0]].client.append([self.ID,sngData[1]])
+									tmpAgents[sngData[0]].techawareness = True
+									
 							
 							if self.debugLevel > 0:
 								print "\t 	    |- Agent ", self.ID, " has invested in a new technology:"
