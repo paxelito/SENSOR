@@ -79,7 +79,7 @@ class agents:
 		'''Function to assess the possible investment'''
 		# first position the policy, second position the total amount of incentive used. To update only if a new technology is used. 
 		tmpPolicyAmountToRemove = [0,0]
-		if 12 - ran.randint(1,12) == 0: 
+		if 48 - ran.randint(1,48) == 0: 
 			if self.debugLevel < 0:
 				print "\t	\_ AGENT ", self.ID, " is assessing its strategy"
 			if self.debugLevel < -1:
@@ -130,11 +130,11 @@ class agents:
 									nrgPotToBuy = (tmpTechs[sngTechID].dimension * 600) - (self.ha * tmpTechs[sngTechID].fromHa2kWhmese)
 									costoAcquisto = 0
 									
-									if self.debugLevel > 0: print "mia copertura: ", self.ha * 1750, " kwh/month"
+									if self.debugLevel > 0: print "My self consuming: ", self.ha * 1750, " kwh/month"
 									for tid, i in enumerate(candidateSorted):
 										if nrgPotToBuy > 0: 
 											if tid > 0: # Exlude itself
-												# If sell the potential energy is better than producing normal crops
+												# If sell the potential energy is better than producing normal crop
 												if self.debugLevel > 1: print "vendita energia: ", tmpAgents[i].residualHa * tmpTechs[sngTechID].fromHa2kWhmese * 0.15, " - prezzo mais: ", tmpAgents[i].residualHa * tmpAgroPrice
 												if (tmpAgents[i].residualHa * tmpTechs[sngTechID].fromHa2kWhmese * 0.15) > (tmpAgents[i].residualHa * tmpAgroPrice):
 													if tmpAgents[i].residualHa * tmpTechs[sngTechID].fromHa2kWhmese > nrgPotToBuy:
@@ -299,11 +299,11 @@ class agents:
 							# IF bioenergy, so supplier are added to the suppliers list and the agent is added as client to the distinst suppliers
 							if (tmpTechs[sngTechID].solarBased == 0) & (tmpTechs[sngTechID].fromHa2kWhmese > 0):
 								for sngData in supData[betterTechPos]: 
-									self.suppliers.append(sngData[0]) # Add pot energy supplier
+									self.suppliers.append([sngData[0], sngData[1]]) # Add pot energy supplier
 									# Residual HA to use is decremented
 									tmpAgents[sngData[0]].residualHa -= sngData[1] / tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].fromHa2kWhmese
 									self.residualHa = 0									
-									tmpAgents[sngData[0]].client.append(self.ID)
+									tmpAgents[sngData[0]].client.append([self.ID,sngData[1]])
 							
 							if self.debugLevel > 0:
 								print "\t 	    |- Agent ", self.ID, " has invested in a new technology:"

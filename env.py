@@ -749,7 +749,20 @@ class environment:
 		for sngAgent in self.allAgents:
 			if len(sngAgent.client) > 0:
 				for cl in sngAgent.client:
-					strTypes = str(sngAgent.ID) + '\t' + str(cl) + '\n'
+					strTypes = str(sngAgent.ID) + '\t' + str(cl[0]) + '\t' + str(cl[1]) + '\n'
+					saveFileStat.write(strTypes)
+		
+		saveFileStat.close()	
+		os.rename(outFnameStat, os.path.join(self.simPath,self.simFolder,outFnameStat))
+
+	def saveNoActiveAgent(self, tmpName):
+		'''Function to save statistic on file'''
+		outFnameStat = tmpName + '.csv'
+		saveFileStat = open(outFnameStat, 'w')
+		for sngAgent in self.allAgents:
+			if len(sngAgent.client) == 0:
+				if len(sngAgent.suppliers) == 0:
+					strTypes = str(sngAgent.ID) + '\n'
 					saveFileStat.write(strTypes)
 		
 		saveFileStat.close()	
