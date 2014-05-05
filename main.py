@@ -7,11 +7,10 @@
 """
 
 import sys, os
-import env as en
 import random as ran
 from time import time
 from argparse import ArgumentParser
-from lib.classes import env
+from lib.classes import env as en
 
 # Input parameters definition 
 if __name__ == '__main__':

@@ -38,6 +38,7 @@ class agents:
 		self.solar_potential  = tmpSolPot # Proportion of solar irradiation according to the place where agent is (from 0 to 1) 
 		self.co2 = 0
 		self.social_lobby  = tmpSocialLobby # How much the agent can be influenced by the neighborhoods
+		self.riskPredisposition = 1 - self.social_lobby
 		
 		# BUSINESS PARAMETERS
 		self.suppliers = []
