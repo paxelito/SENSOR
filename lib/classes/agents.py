@@ -232,15 +232,17 @@ class agents:
 									tmpCostsAndIncs = self.computeAnnualCostandIncs(sngTechID, tmpNewNrgProp, tmpNrgPropReceipt, tmpTechs, tmpPolicies, relativeAttractions, tmpOverallPlantCost, y)
 									
 									tmpHypCosts = tmpCostsAndIncs[0]
-									
+																											
 									# If bioenergy hypotetic costs must be incremented with the purchase of external biomass and decreased with energy produced and sold
 									if (tmpTechs[sngTechID].solarBased == 0) & (tmpTechs[sngTechID].fromTons2kWhmese > 0):
 										if len(tempSupplierData) > 0:
 											tmpHypCosts += purchaseCost * 12
-											# If the production of energy is greater than the internal needs, a further amount of energy is sold
+																						
+											# Compute costs related to the plant potential exceeding the internal demand		
 											tmpHypCosts += ((tmpTechs[sngTechID].plantDimension * self.bioHoursXMonth * (tmpTechs[sngTechID].efficiency**y)) - \
-														    (tmpNewNrgProp * (tmpTechs[sngTechID].efficiency**y))) * tmpTechs[sngTechID].cost * 12
-									
+														    (tmpNewNrgProp * (tmpTechs[sngTechID].efficiency**y))) * \
+														    (tmpPolicies[tmpTechs[sngTechID].policy].carbonTax + tmpTechs[sngTechID].cost - tmpPolicies[tmpTechs[sngTechID].policy].feedIN) * 12
+											
 									tmpPolAmount += tmpCostsAndIncs[1]
 									tmpEXTplantCost = tmpCostsAndIncs[2]
 									tmpINTplantCost = tmpCostsAndIncs[3]
@@ -267,6 +269,9 @@ class agents:
 											tmpAnnualInterest = tmpAnnualInterestWithInc
 										
 										# Investment credit + annual savings - interests - credit capital 
+										print tmpCurrentAnnualCosts
+										print tmpHypCosts
+										raw_input("cioa")
 										cashFlow = tmpCredInv + (tmpCurrentAnnualCosts - tmpHypCosts) - tmpAnnualInterest - (tmpEXTplantCost / (tmpTechs[sngTechID].loanLength / 12))
 									else:
 										# Investment credit + annual savings
@@ -393,7 +398,6 @@ class agents:
 	def computeAnnualCostandIncs(self, tmpSngTechID, tmp_newNrgProp, tmp_NrgPropReceipt, tmp_techs, tmp_policies, tmpRelativeAttractions, tmp_overallPlantCost, tmpTime):
 		'''This function computes annual costs and annual feed-in incentives according to the technology energy drops'''
 		# .. According to the temporary new tech energy proportion the annual cost is computed
-		tmpCnt = 0
 		tmpCosts = 0
 		tmpIncsAmount = 0
 		# Update values within tmp_NrgPropReceipt according to the year of the theoretical investment
@@ -407,7 +411,7 @@ class agents:
 				dynNrgPropReceipt[0] += tmpValue
 						
 		# For each already present technology according to the new temporary distribution
-		for tmpNewSngProp in tmp_NrgPropReceipt[:-1]:
+		for tmpCnt, tmpNewSngProp in enumerate(tmp_NrgPropReceipt[:-1]):
 			# Compute distance from source, if distance is 0 this term is 0 and the multiplier does not affect the computation
 			if (tmp_techs[self.nrgTechsReceipt[tmpCnt]].X > 0) & (tmp_techs[self.nrgTechsReceipt[tmpCnt]].Y > 0):
 				tmpDistanceFromSourceMultiplier = pow(pow(abs(self.x - tmp_techs[self.nrgTechsReceipt[tmpCnt]].X),2) + pow(abs(self.y - tmp_techs[self.nrgTechsReceipt[tmpCnt]].Y),2),0.5)
@@ -415,27 +419,31 @@ class agents:
 			else:
 				tmpDistanceFromSourceMultiplier = 0
 			
-			# 
-			tmpCosts += tmpNewSngProp * (tmp_techs[self.nrgTechsReceipt[tmpCnt]].cost +\
-										 tmp_policies[self.techPolicy[tmpCnt][0]].carbonTax +\
-										 tmpDistanceFromSourceMultiplier - tmp_policies[self.techPolicy[tmpCnt][0]].feedIN)
+			# Costs related to the already present technologies. 
+			tmpCosts += tmpNewSngProp * \
+			             (tmp_techs[self.nrgTechsReceipt[tmpCnt]].cost + \
+						  tmp_policies[self.techPolicy[tmpCnt][0]].carbonTax + \
+						  tmpDistanceFromSourceMultiplier - \
+						  tmp_policies[self.techPolicy[tmpCnt][0]].feedIN)
+
 			# (1) Since feedIn has been theoretically used, it is updated
 			tmpIncsAmount += tmpNewSngProp * tmp_policies[self.techPolicy[tmpCnt][0]].feedIN
 			
-			if tmp_techs[self.nrgTechsReceipt[tmpCnt]].cost <= 0:
+			if tmp_techs[self.nrgTechsReceipt[tmpCnt]].cost < 0:
 				# If the cost is negative the energy is sold, so the cost of the traditional energy has to be added 
 				tmpCosts += tmpNewSngProp * tmp_techs[0].cost
-			tmpCnt += 1
-			
-		# .. The cost associated to the new technologies are added
-		tmpCosts += tmpNewPropWithDrop * (tmp_techs[tmpSngTechID].cost + tmp_policies[tmp_techs[tmpSngTechID].policy].carbonTax - tmp_policies[tmp_techs[tmpSngTechID].policy].feedIN)
 		
 		# (2) Since feedIn has been theoretically used, it is updated
 		tmpIncsAmount += tmpNewPropWithDrop * tmp_policies[tmp_techs[tmpSngTechID].policy].feedIN
 		
+		tmpCosts += tmpNewPropWithDrop * (tmp_techs[tmpSngTechID].cost + \
+										  tmp_policies[tmp_techs[tmpSngTechID].policy].carbonTax - \
+										  tmp_policies[tmp_techs[tmpSngTechID].policy].feedIN)
+		
+		# If the cost of the new technology is negative, so the traditional energy must be taken into account
 		if tmp_techs[tmpSngTechID].cost <= 0:
-			# If the cost is negative the energy is sold, so the cost of the traditional energy has to be added
 			tmpCosts += tmpNewPropWithDrop * tmp_techs[0].cost
+			
 		# .. from month to year
 		tmpCosts *= 12
 		
@@ -532,7 +540,7 @@ class agents:
 			self.flagFree = True
 				
 	# --------------------------------------------------------------|
-	# Month energy costs  
+	# Month energy costs (WORK HERE)
 	# --------------------------------------------------------------|
 	def computeMonthNrgCostsAndPoll(self, tmpTechs, tmpTime, tmpPolicies):
 		'''Function to assess the monthly energy costs according to the monthly energy needs'''
