@@ -19,7 +19,7 @@ class policy:
         self.carbonTax = tmpCT
         self.length = tmpL # Length of the policy
         self.introTime = tmpIntroTime # month intro time
-        self.totalAmount = tmpA # Percentage of theoretical total possbile amount
+        self.totalAmount = tmpA # Percentage of theoretical total possible aids amount
         self.residue = tmpRes # Remaining funds
         self.introTech = tmpIntroTech # Technology to be equipped with the policy as soon as the policy starts
             

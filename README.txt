@@ -8,7 +8,10 @@ Language: Python
 *****************
 
 2014 - 05 - 05 ver.1.2
+	- bioenergy year yield has been added
+	- Attractiveness is now based on both the energetic and the physical dimension of the agents. 
 	- Source cose has been arranged in folder (a code library has been created) 
+	- Several Bugs Fixed
 
 2014 - 04 - 16 ver.1.1
 	- The technology awareness behavior has been added

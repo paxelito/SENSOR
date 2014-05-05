@@ -170,10 +170,12 @@ class environment:
     		
     		seedFile = os.path.join(self.simPath,"rndstate.dat")
     		
+    		print seedFile
+    		
     		if os.path.exists(seedFile):
     			# Restore the previously saved sate
     			print '\n|- Found rndstate.dat, initializing random module...\n'
-    			with open('rndstate.dat', 'rb') as f:
+    			with open(seedFile, 'rb') as f:
     				state = pickle.load(f)
     			ran.setstate(state)
     		else:
@@ -391,7 +393,7 @@ class environment:
     		if self.agentCreationMethod == 0:
     			for i in range(0,self.Nagents):
     				tmprndHealth = ran.random()
-    				self.allAgents.append(ag.agents(self.debugLevel,i, ran.uniform(0,self.xMaxPos),ran.uniform(0,self.yMaxPos), \
+    				self.allAgents.append(ag.agents(self.debugLevel, i, ran.uniform(0,self.xMaxPos),ran.uniform(0,self.yMaxPos), \
     			    	                            ran.randint(self.minNrgDim, self.maxNrgDim),ran.uniform(0,self.agroMaxDim),\
     			    	                            ran.uniform(0,self.socialLobby),ran.uniform(self.minIrradiation,1), self.intRiskRate,\
     			    	                            self.ratioInternalCapital,self.invLength, tmprndHealth) )
@@ -465,7 +467,7 @@ class environment:
     				# Insert Agent
     	             
     				self.allAgents.append(ag.agents(self.debugLevel, int(tmpID), float(tmpX), float(tmpY), float(tmpEN), float(tmpHA), float(tmpSocialLobby),\
-    									 float(tmpSolPot), float(tmpEquity), float(tmpintCap), int(tmpInvL), float(tmpHealth), int(tmpAge), None, None, None, None, \
+    									 float(tmpSolPot), float(tmpEquity), float(tmpintCap), int(tmpInvL), float(tmpHealth), 55, int(tmpAge), None, None, None, None, \
     									 float(tmpBalance), float(tmpMbalance), None, None, None, None, None))
     		
     		fileFID.close()
@@ -552,7 +554,7 @@ class environment:
     		print " | ID\tRnw\tEff\tTime\tDim\tTechC\tTransC\tPlantC\tR\tLLength\tLTime",\
     		"\tGHG\tpolicy\tSolar\tX\tY\tConvCoef"
     		for t in self.allTechs:
-    			print ' | ', t.ID,'\t',t.renewable,'\t', t.efficiency,'\t', t.startTime, '\t', t.dimension,'\t', t.cost,'\t',\
+    			print ' | ', t.ID,'\t',t.renewable,'\t', t.efficiency,'\t', t.startTime, '\t', t.plantDimension,'\t', t.cost,'\t',\
     			 t.transportCosts,'\t', t.plantCost,'\t', t.interestRate,'\t', t.loanLength,'\t', t.duration,'\t', \
     			 t.co2,'\t', t.policy,'\t', t.solarBased,'\t', t.X,'\t', t.Y,'\t', t.fromKWH2KW
     		print " |-------------------------------------------------------------------------------------------"
@@ -620,10 +622,10 @@ class environment:
     		# File handle
     		saveFileStatFid = open(techFileName, 'w')
     		# File init
-    		strTechInit = '#ID\tRnw\tEff\tStarttime\tDimension\tfromHa2kWhmese\tcost\ttCost\tpCost\trate\tloanLength\tduration\tco2\tsolarBased\tpolicy\tX\tY\tconversion\n'
+    		strTechInit = '#ID\tRnw\tEff\tStarttime\tplantDimension\tfromTons2kWhmese\tcost\ttCost\tpCost\trate\tloanLength\tduration\tco2\tsolarBased\tpolicy\tX\tY\tconversion\n'
     		saveFileStatFid.write(strTechInit)
     		for t in self.allTechs:
-    			strTech = str(t.ID) + '\t' + str(t.renewable) + '\t' + str(t.efficiency) + '\t' + str(t.startTime) + '\t' + str(t.dimension) + '\t' + \
+    			strTech = str(t.ID) + '\t' + str(t.renewable) + '\t' + str(t.efficiency) + '\t' + str(t.startTime) + '\t' + str(t.plantDimension) + '\t' + \
     			str(t.fromHa2kWhmese) + '\t' + str(t.cost) + '\t' + str(t.transportCosts) + '\t' + str(t.plantCost) + '\t' + str(t.interestRate) + '\t' + \
     			str(t.loanLength) + '\t' + str(t.duration) + '\t' + str(t.co2) + '\t' + str(t.solarBased) + '\t' + \
     			str(t.policy) + '\t' + str(t.X) + '\t' + str(t.Y) + '\t' + str(t.fromKWH2KW) + '\n'
@@ -868,8 +870,8 @@ class environment:
                 tempstr += '\t\t<renewable>' + str(tech.renewable) + '</renewable>\n'
                 tempstr += '\t\t<efficiency>' + str(tech.efficiency) + '</efficiency>\n'
                 tempstr += '\t\t<startTime>' + str(tech.startTime) + '</startTime>\n'
-                tempstr += '\t\t<dimension>' + str(tech.dimension) + '</dimension>\n'
-                tempstr += '\t\t<fromHa2kWhmese>' + str(tech.dimension) + '</fromHa2kWhmese>\n'
+                tempstr += '\t\t<plantDimension>' + str(tech.plantDimension) + '</plantDimension>\n'
+                tempstr += '\t\t<fromTons2kWhmese>' + str(tech.fromTons2kWhmese) + '</fromTons2kWhmese>\n'
                 tempstr += '\t\t<cost>' + str(tech.cost) + '</cost>\n'
                 tempstr += '\t\t<transportCosts>' + str(tech.transportCosts) + '</transportCosts>\n'
                 tempstr += '\t\t<plantCost>' + str(tech.plantCost) + '</plantCost>\n'

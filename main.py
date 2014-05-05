@@ -24,12 +24,12 @@ if __name__ == '__main__':
 	
 	initTime = time()
 		
-	varParList1 = [0.25, 0.5, 0.75, 1]
-	varParList2 = [0.25, 0.5, 0.75, 1]
-	varParList3 = [0.25, 0.5, 0.75, 1]
-	varParList1 = [0.25]
-	varParList2 = [0.25]
-	varParList3 = [0.25]
+	#varParList1 = [0.25, 0.5, 0.75, 1]
+	#varParList2 = [0.25, 0.5, 0.75, 1]
+	#varParList3 = [0.25, 0.5, 0.75, 1]
+	varParList1 = [None]
+	varParList2 = [None]
+	varParList3 = [None]
 	
 	print "\n* * * * * * * * * * * * * * * * * * * * * * * * * *"
 	print "\tWELCOME, SIMULATION IS GOING TO START..."
