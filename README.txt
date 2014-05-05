@@ -2,9 +2,31 @@ SENSOR (Socioeconomic ENergy System simulatOR)
 
 Plaftorms: MacOS, Linux, Windows
 Language: Python
+
+*****************
+* RELEASE NOTES *
+*****************
+
+2014 - 05 - 05 ver.1.2
+	- Source cose has been arranged in folder (a code library has been created) 
+
+2014 - 04 - 16 ver.1.1
+	- The technology awareness behavior has been added
+	- The acceptance of the financial investment has been implemented
+	- Several bugs fixed
+
+2014 - 02 - 19 ver.1.0
+- The introduction time is now considered for each technology
+
+*****************
+
+
+
+
 Libraries:
-	SIMULATION: Built-in python libraries
-	ANALYSIS (a_* files): numpy-scipy python scientific libraries.  
+	lib folder:
+		SIMULATION: Built-in python libraries
+		ANALYSIS (a_* files in lib.analysis folder): numpy-scipy python scientific libraries.  
 	
 'modelDataDemo' FOLDER:
  |- INPUT 
@@ -25,12 +47,3 @@ Libraries:
  	
  |- OUTPUT
  	|- 
-
-
-2014 - 04 - 16 ver.1.1
-	- The technology awareness behavior has been added
-	- The acceptance of the financial investment has been implemented
-	- Several bugs fixed
-
-2014 - 02 - 19 ver.1.0
-- The introduction time is now considered for each technology

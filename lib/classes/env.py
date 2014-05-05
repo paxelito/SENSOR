@@ -20,6 +20,9 @@ import random as ran
 import cPickle as pickle
 import shutil 
 import copy
+from ..classes import agents
+from ..classes import policy
+from ..classes import tech
 
 class environment:
 	'''Class environment definition.'''
