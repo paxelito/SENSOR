@@ -52,8 +52,11 @@ if __name__ == '__main__':
 					envi.createTechnologies()
 					envi.createPolicies(sngParam1, sngParam2, sngParam3)
 					
+					# Create file where dynamical activity will be saved
+					tmpFileName = '_dynamicaActivity_' + str(ns) + '.csv'
+					dynActFid = open(os.path.join(StrPath,envi.simFolder,tmpFileName), 'w')
 					
-					# DYNAMICS
+					# DYNAMICSopen(os.path.join(newdirAllResults,tmpFluxFile), 'w')
 					for gen in range(1, envi.months+1):
 						if gen % 10 == 0:
 							try:
@@ -64,8 +67,10 @@ if __name__ == '__main__':
 								envi.totCO2, " TOT COSTS: ", envi.totCosts, " TOT DEBTS: ", envi.totDebt, " dt: ", time()-initTime
 						
 						# Standard month activities and New Technology evaluation
-						envi.agentMonthNRGAct_and_newTechAss(gen)
+						envi.agentMonthNRGAct_and_newTechAss(gen,dynActFid)
 						envi.checkTimeAndSetPolicy(gen)
+					
+					dynActFid.close()
 						
 					# Save results on file 
 					envi.saveAgentsXMLformat()

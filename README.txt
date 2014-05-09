@@ -7,11 +7,13 @@ Language: Python
 * RELEASE NOTES *
 *****************
 
-2014 - 05 - 05 ver.1.2
+2014 - 05 - 08 ver.1.2
 	- bioenergy year yield has been added
 	- Attractiveness is now based on both the energetic and the physical dimension of the agents. 
-	- Source cose has been arranged in folder (a code library has been created) 
+	- Source code has been arranged in folder (a code library has been created) 
+	- Agents technology awareness is now based on the aptitude risk of the agent. 
 	- Several Bugs Fixed
+
 
 2014 - 04 - 16 ver.1.1
 	- The technology awareness behavior has been added
@@ -23,7 +25,9 @@ Language: Python
 
 *****************
 
+sphinx-apidoc -o ./doc/sphynx ./ -A 'Alessandro Filisetti' -V 1.2 -R 20140408 -f -H 'SENSOR: Socio-Economic Energy Simulator' -F 
 
+*****************
 
 
 Libraries:

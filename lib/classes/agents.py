@@ -71,7 +71,7 @@ class agents:
 	# NEW TECHNOLOGY INTRODUCTION
 	# --------------------------------------------------------------|	
 	def newTech(self, tmpTechID, tmpProp, tmpDistance, tmpPolicy, tmpPolicyLength):
-		'''Function to inser a new technology in the agent receipt'''
+		'''Function to insert a new technology in the agent receipt'''
 		self.nrgTechsReceipt.append(tmpTechID)
 		self.nrgPropReceipt.append(self.totEnergyNeed * tmpProp)
 		self.techPolicy.append([tmpPolicy,tmpPolicyLength])
@@ -82,14 +82,14 @@ class agents:
 	def awarenessAssessment(self):
 		'''If the agent does not know the available technologies, it can get them'''
 		if self.techawareness == False: 
-			if ran.random() < (self.health**2): # Check this parameters!!! [C] 
+			if ran.random() < (self.riskPredisposition**2): # Check this parameters!!! [C] 
 				self.techawareness = True
 				if self.debugLevel > 0:  "Agent ", self.ID, " H=", self.health, " just discovered the available technologies"
 	
 	# --------------------------------------------------------------| 
 	# NEW INVESTMENT ASSESSMENT
 	# --------------------------------------------------------------|		
-	def invAssessment(self,tmpTechs,tmpTechsID,tmpTime,tmpAgents,tmpPolicies,tmpAgroPrice):
+	def invAssessment(self,tmpTechs,tmpTechsID,tmpTime,tmpAgents,tmpPolicies,tmpAgroPrice, tmp_dynFileFID):
 		'''Function to assess the possible investment'''
 		# first position the policy, second position the total amount of incentive used. To update only if a new technology is used. 
 		tmpPolicyAmountToRemove = [0,0]
@@ -194,7 +194,7 @@ class agents:
 													if self.debugLevel > 1: print tempSupplierData
 									
 							
-							if (tmpTechs[sngTechID].solarBased == 0) & (tmpTechs[sngTechID].fromTons2kWhmese > 0): # If bio-energy
+							if (tmpTechs[sngTechID].solarBased == 0) & (bioEnergyMonthPotentialYield > 0): # If bio-energy
 								tmpNewNrgProp = self.totEnergyNeed
 							else: # if solar
 								tmpNewNrgProp = int(round(ran.randint(1,self.totEnergyNeed) * (pow(self.solar_potential,tmpTechs[sngTechID].solarBased))))
@@ -269,9 +269,9 @@ class agents:
 											tmpAnnualInterest = tmpAnnualInterestWithInc
 										
 										# Investment credit + annual savings - interests - credit capital 
-										print tmpCurrentAnnualCosts
-										print tmpHypCosts
-										raw_input("cioa")
+										#print tmpCurrentAnnualCosts
+										#print tmpHypCosts
+										#raw_input("cioa")
 										cashFlow = tmpCredInv + (tmpCurrentAnnualCosts - tmpHypCosts) - tmpAnnualInterest - (tmpEXTplantCost / (tmpTechs[sngTechID].loanLength / 12))
 									else:
 										# Investment credit + annual savings
@@ -286,6 +286,7 @@ class agents:
 									# Compute paybackPeriod
 									if (netPresentValue >= tmpOverallPlantCost) & (payBackPeriod == 0):
 										payBackPeriod = y
+								
 										
 								# .. Compute final net present value
 								netPresentValue -= tmpOverallPlantCost
@@ -297,12 +298,13 @@ class agents:
 								polList.append(tmpPolAmount)
 								supData.append(tempSupplierData)
 
-								if self.debugLevel > 1: print "NPV: ", npvList
-								if self.debugLevel > 1: print "PBP: ", pbpList
-								if self.debugLevel > 1: print "tmpNrgPropReceipt: ", tmpNrgPropReceipt
-								if self.debugLevel > 1: print "tmpPolAmount: ", tmpPolAmount
-								if self.debugLevel > 1: print "supdata: ", supData
-								if self.debugLevel > 1: raw_input("push to continue...")
+								if self.debugLevel > 1: 
+									print "NPV: ", npvList
+									print "PBP: ", pbpList
+									print "tmpNrgPropReceipt: ", tmpNrgPropReceipt
+									print "tmpPolAmount: ", tmpPolAmount
+									print "supdata: ", supData
+									raw_input("push to continue...")
 								
 								if self.debugLevel < -1:
 									print "\t  	  |- Tech: ", cnt, " NPV: %10.2f" % netPresentValue, " PBP: ", payBackPeriod
@@ -315,20 +317,34 @@ class agents:
 					betterPayBack = 0
 					if len(npvList) > 1:
 						tmpFinID = 0
-						print npvList
-						print pbpList
-						raw_input("fio")
+						#print npvList
+						#print pbpList
+						#raw_input("fio")
 						for s_id, sngPbpList in enumerate(pbpList):
 							if (sngPbpList > 0) & (sngPbpList < self.invLength):
 								if npvList[tmpFinID] > betterNPV: 
 									# Ask for the financial aid [C]. 
 									# The health of the firm is rescaled with relative cost of the plant
-									try: (self.health / (pCosts[s_id]/min(pCosts)))
-									except: print pCosts
-									if ran.random() < (self.health / (pCosts[s_id]/min(pCosts))):
+									if pCosts[s_id] == 0: 
+										tmpNum = 1 
+									else: tmpNum = pCosts[s_id]
+									if min(pCosts) == 0: 
+										tmpDem = 1 
+									else: tmpDem = min(pCosts)
+									
+									try: (self.health / (tmpNum/tmpDem))
+									except: 
+										print tmpOverallPlantCost
+										print pCosts
+										print self.int_capital
+									if ran.random() < (self.health / (tmpNum/tmpDem)):
 										betterNPV = npvList[tmpFinID]
 										betterTechPos = tmpFinID
 										betterPayBack = sngPbpList
+									#else:
+									#	betterNPV = npvList[tmpFinID]
+									#	betterTechPos = tmpFinID
+									#	betterPayBack = sngPbpList
 							tmpFinID += 1
 							
 					# If there is a positive maximum net present value
@@ -337,7 +353,12 @@ class agents:
 						#print self.invLength, " ", betterPayBack, " ", self.health
 						#print tmpRnd
 						if tmpRnd < self.genLogFun((self.invLength - betterPayBack), self.health):
-							
+							#print tmpRnd
+							#print self.genLogFun((self.invLength - betterPayBack), self.health)
+							#print betterPayBack
+							#print self.invLength - betterPayBack
+							#raw_input("random")
+								
 							# .. If a BETTER new technology exist, it is added to the agent
 							
 							self.flagFree = False # Technology search is blocked
@@ -378,6 +399,12 @@ class agents:
 									tmpAgents[sngData[0]].client.append([self.ID,sngData[1]])
 									tmpAgents[sngData[0]].techawareness = True
 									
+							# Register activity on file
+							strReg = str(tmpTime) + '\t' + str(self.ID) + '\t' + str(self.x) + '\t' + str(self.y) + \
+							         '\t' + str(self.totEnergyNeed) + '\t' + str(tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].ID) + \
+							         '\t' + str(self.riskPredisposition) + '\t' + str(self.social_lobby) + '\t' + str(self.health) + '\n'
+							tmp_dynFileFID.write(strReg)
+									
 							
 							if self.debugLevel > 0:
 								print "\t 	    |- Agent ", self.ID, " has invested in a new technology:"
@@ -397,7 +424,7 @@ class agents:
 	# --------------------------------------------------------------|
 	def computeAnnualCostandIncs(self, tmpSngTechID, tmp_newNrgProp, tmp_NrgPropReceipt, tmp_techs, tmp_policies, tmpRelativeAttractions, tmp_overallPlantCost, tmpTime):
 		'''This function computes annual costs and annual feed-in incentives according to the technology energy drops'''
-		# .. According to the temporary new tech energy proportion the annual cost is computed
+		# .. According to the temporary new tech	 energy proportion the annual cost is computed
 		tmpCosts = 0
 		tmpIncsAmount = 0
 		# Update values within tmp_NrgPropReceipt according to the year of the theoretical investment
@@ -460,6 +487,7 @@ class agents:
 		self.int_capital = ran.uniform(self.int_capital * 0.9, self.int_capital * 1.1)
 		if self.int_capital < 0: self.int_capital = 0
 		if self.int_capital > 1: self.int_capital = 1
+		
 		tmp_INTplantCost = tmp_overallPlantCost * self.int_capital
 		tmp_EXTplantCost = tmp_overallPlantCost - tmp_INTplantCost
 		tmp_wacc = (tmp_INTplantCost / tmp_overallPlantCost * self.equityCost) + \
@@ -474,7 +502,7 @@ class agents:
 	# Re-arrange technologies proportion list. 
 	# --------------------------------------------------------------|							
 	def rearrangeTechPropList(self,tmpNewProp):
-		'''Function to rearrange the proportion of the different technology according to a possibile new one'''
+		'''Function to rearrange the proportion of the different technology according to a possible new one'''
 		cnt = 0
 		newList = []
 		goon = 1	
@@ -554,15 +582,23 @@ class agents:
 			tmpDistanceFromSourceMultiplier *= tmpTechs[tech].transportCosts
 									
 			tempMonthCosts += self.nrgPropReceipt[idtech]\
-						   * (tmpTechs[tech].cost\
-							  + tmpDistanceFromSourceMultiplier\
-							  + tmpPolicies[self.techPolicy[idtech][0]].carbonTax\
-							  - tmpPolicies[self.techPolicy[idtech][0]].feedIN)\
-						   + self.debtMonthRepayment[idtech]
+							   * (tmpTechs[tech].cost\
+								  + tmpDistanceFromSourceMultiplier\
+								  + tmpPolicies[self.techPolicy[idtech][0]].carbonTax\
+								  - tmpPolicies[self.techPolicy[idtech][0]].feedIN)\
+							   + self.debtMonthRepayment[idtech]
+							   
+			# IF BIOENERGY the profit of the entire plant must be computed
+			tempTechAge = round(self.nrgTechAges[idtech] / 12)
+			if (tmpTechs[tech].solarBased == 0) & (tmpTechs[tech].fromTons2kWhmese > 0):
+				tempMonthCosts += ((tmpTechs[tech].plantDimension * self.bioHoursXMonth * (tmpTechs[tech].efficiency**tempTechAge)) - \
+									(self.nrgPropReceipt[idtech] * (tmpTechs[tech].efficiency**tempTechAge))) * \
+									(tmpPolicies[tmpTechs[tech].policy].carbonTax + tmpTechs[tech].cost - \
+									 tmpPolicies[tmpTechs[tech].policy].feedIN)
 						   
-			# If the technology is bioenergy, so I must pay suppliers and have money from clients
+			# If the technology is bio-energy, so I must pay suppliers and have money from clients
 			if len(self.suppliers) > 0:
-				for sup in self.suppliers: tempMonthCosts+= sup[1]
+				for sup in self.suppliers: tempMonthCosts += sup[1]
 				
 			if len(self.client) > 0:
 				for cli in self.client: tempMonthCosts -= cli[1]
@@ -571,10 +607,10 @@ class agents:
 			if (tmpPolicies[self.techPolicy[idtech][0]].taxCreditInv > 0) & (self.techPolicy[idtech][1] > 0):
 				if(tmpTechs[sngTechID].solarBased == 1):
 					tempMonthCosts -= (self.nrgPropReceipt[idtech] / tmpTechs[tech].fromKWH2KW * tmpTechs[tech].plantCost) \
-									  * tmpPolicies[self.techPolicy[idtech][0]].taxCreditInv /  tmpPolicies[self.techPolicy[idtech][0]].length
-		 		elif (tmpTechs[sngTechID].solarBased == 0) & (tmpTechs[sngTechID].fromTons2kWhmese > 0):
+									  * tmpPolicies[self.techPolicy[idtech][0]].taxCreditInv / tmpPolicies[self.techPolicy[idtech][0]].length
+		 		elif (tmpTechs[tech].solarBased == 0) & (tmpTechs[tech].fromTons2kWhmese > 0):
 		 			tempMonthCosts -= (tmpTechs[tech].plantDimension * tmpTechs[tech].plantCost) \
-									  * tmpPolicies[self.techPolicy[idtech][0]].taxCreditInv /  tmpPolicies[self.techPolicy[idtech][0]].length
+									  * tmpPolicies[self.techPolicy[idtech][0]].taxCreditInv / tmpPolicies[self.techPolicy[idtech][0]].length
 		 		
 			
 			# If the technology has a negative price (e.g. solar or bio), then it means that the agent sells energy and it has to buy normal energy
@@ -637,7 +673,10 @@ class agents:
 	# --------------------------------------------------------------|
 	def genLogFun(self, tmpX, tmpExp=1, tmpM=4, tmpUpper=1, tmpLower=0, tmpGrowth=1, tmpQ=1):
 		'''Function to return the general logistic value according to the different paramerts
-		   Default values are those of the logistic function'''
+		   Default values are those of the logistic function
+		   :param tmpX: maximum investment length - payback period
+		   :param tmpExp: agent health
+		'''
 		e = 2.71828182845904523536
 		tmpY = 0
 		valToAdd = tmpM
@@ -645,7 +684,9 @@ class agents:
 		tmpQ = tmpExp
 		try:
 			tmpY = tmpLower + ( (tmpUpper - tmpLower) / \
-						( pow(1 + (tmpQ * pow(e,(-tmpGrowth*(tmpX-M)))),(1/tmpExp)) ) )
+						( pow(1 + (tmpQ * pow(e,(-tmpGrowth*(tmpX-(M*(1-self.riskPredisposition)))))),(1/tmpExp)) ) )
+			#tmpY = tmpLower + ( (tmpUpper - tmpLower) / \
+			#			( pow(1 + (tmpQ * pow(e,(-tmpGrowth*(tmpX-M)))),(1/tmpExp)) ) )
 		except:
 			tmpY = 0
 		return tmpY
