@@ -69,6 +69,8 @@ class environment:
                     self.ratioInternalCapital = float(strLine[1])
                 if strLine[0] == "invLength":
                     self.invLength = int(strLine[1])
+            	if strLine[0] == "creditassessment":
+            		self.creditassessment = int(strLine[1]) 
                 if strLine[0] == "loanLength":
                     self.loanLength = int(strLine[1])	
                 if strLine[0] == "intRiskRate":
@@ -82,7 +84,7 @@ class environment:
                 if strLine[0] == "agroMaxDim":
                     self.agroMaxDim = float(strLine[1])
                 if strLine[0] == "agroProfit":
-					self.agroProfit = float(strLine[1])                
+					self.agroProfit = float(strLine[1])             
             
             print self.randomSeed
             if self.randomSeed == 1:
@@ -269,7 +271,7 @@ class environment:
 		# According to the average investment evaluation time (once per year) and the agent wealth and policy aids are decreased 
 		tmp_tAids = 0
 		for sngAgent in self.allAgents:
-			polToUpdate = sngAgent.invAssessment(self.allTechs, self.allTechsID,tmpTime,self.allAgents,self.allPolicies, self.agroProfit)
+			polToUpdate = sngAgent.invAssessment(self.allTechs, self.allTechsID,tmpTime,self.allAgents,self.allPolicies, self.agroProfit, self.creditAssessment)
 			# Decrement the total amount of incentives to aid within the system
 			if polToUpdate[0] > 0:
 				self.allPolicies[polToUpdate[0]].residue -= polToUpdate[1]
@@ -282,13 +284,16 @@ class environment:
 		self.totAids.append(tmp_tAids)
     		
 	def agentMonthNRGAct_and_newTechAss(self, tmpTime, tmpDynFileFID):
+		''' This function perform all the activity of the agent during the month
+		'''
 		tmp_tAids = 0
 		for sngAgent in self.allAgents:
 			sngAgent.computeMonthNrgCostsAndPoll(self.allTechs, tmpTime, self.allPolicies)
 			sngAgent.performFinancialActivities()
 			sngAgent.updateEnergyPropAccordingToEfficiencyDrop(self.allTechs)
 			
-			polToUpdate = sngAgent.invAssessment(self.allTechs, self.allTechsID,tmpTime,self.allAgents,self.allPolicies, self.agroProfit, tmpDynFileFID)
+			polToUpdate = sngAgent.invAssessment(self.allTechs, self.allTechsID,tmpTime,self.allAgents,self.allPolicies, \
+												 self.agroProfit, tmpDynFileFID, self.creditAssessment)
 			# Decrement the total amount of incentives to aid within the system
 			if polToUpdate[0] > 0:
 				self.allPolicies[polToUpdate[0]].residue -= polToUpdate[1]
@@ -303,7 +308,8 @@ class environment:
 		self.statFunctions()
 		
 	def createTechnologies(self):
-		'''Function to select, according to the techCreationMethod params, the technology creation function'''
+		'''Function to select, according to the techCreationMethod params, the technology creation function
+		'''
 		if self.techCreationMethod == 0:
 			self.createThreeDefaultTechs()
 		elif self.techCreationMethod == 1:

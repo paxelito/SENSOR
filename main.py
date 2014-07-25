@@ -15,7 +15,7 @@ from lib.classes import env as en
 # Input parameters definition 
 if __name__ == '__main__':
 	parser = ArgumentParser(
-				description='ELDA (Emergent Levell Dynamic	 Assessment).'
+				description='ELDA (Emergent Levell Dynamic Assessment).'
 				, epilog='''Copyright Alessandro Filisetti 2013 ''') 
 	parser.add_argument('-p', '--StrPath', help='Path where configuration files are stored', default='./')
 	args = parser.parse_args()

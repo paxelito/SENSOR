@@ -2,7 +2,7 @@ SENSOR (Socioeconomic ENergy System simulatOR)
 
 Plaftorms: MacOS, Linux, Windows
 Language: Python
-
+Comments: The presence of [C] string within comments indicates a WaRNING. Model here must be controlled. 
 *****************
 * RELEASE NOTES *
 *****************

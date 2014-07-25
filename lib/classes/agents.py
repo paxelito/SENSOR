@@ -39,7 +39,7 @@ class agents:
 		self.solar_potential  = tmpSolPot # Proportion of solar irradiation according to the place where agent is (from 0 to 1) 
 		self.co2 = 0
 		self.social_lobby  = tmpSocialLobby # How much the agent can be influenced by the neighborhoods
-		self.riskPredisposition = 1 - self.social_lobby
+		self.riskPredisposition = 1 - self.social_lobby # We assume that the risk predisposition is a function of the imitation 
 		
 		# BUSINESS PARAMETERS
 		self.suppliers = []
@@ -80,7 +80,8 @@ class agents:
 	# Check if the agent take awareness about the technologies 
 	# --------------------------------------------------------------|
 	def awarenessAssessment(self):
-		'''If the agent does not know the available technologies, it can get them'''
+		'''If the agent does not know the available technologies, it can get them
+		'''
 		if self.techawareness == False: 
 			if ran.random() < (self.riskPredisposition**2): # Check this parameters!!! [C] 
 				self.techawareness = True
@@ -89,7 +90,7 @@ class agents:
 	# --------------------------------------------------------------| 
 	# NEW INVESTMENT ASSESSMENT
 	# --------------------------------------------------------------|		
-	def invAssessment(self,tmpTechs,tmpTechsID,tmpTime,tmpAgents,tmpPolicies,tmpAgroPrice, tmp_dynFileFID):
+	def invAssessment(self,tmpTechs,tmpTechsID,tmpTime,tmpAgents,tmpPolicies,tmpAgroPrice, tmp_dynFileFID, tmpCreditAssessment):
 		'''Function to assess the possible investment'''
 		# first position the policy, second position the total amount of incentive used. To update only if a new technology is used. 
 		tmpPolicyAmountToRemove = [0,0]
@@ -170,6 +171,7 @@ class agents:
 										print "Unitary Cost: ", (1500 * float(self.bioHoursXMonth) / tmpTechs[sngTechID].fromTons2kWhmese * 12) / self.TxHA_yield
 										raw_input("-- Years Costs-- ")
 									
+									# For each candidate technology
 									for tid, i in enumerate(candidateSorted):
 										temp_i_kwh = tmpAgents[i].residualHa * tmpAgents[i].TxHA_yield_month * tmpTechs[sngTechID].fromTons2kWhmese
 										if nrgPotToBuy > 0: 
@@ -325,19 +327,24 @@ class agents:
 								if npvList[tmpFinID] > betterNPV: 
 									# Ask for the financial aid [C]. 
 									# The health of the firm is rescaled with relative cost of the plant
-									if pCosts[s_id] == 0: 
-										tmpNum = 1 
-									else: tmpNum = pCosts[s_id]
-									if min(pCosts) == 0: 
-										tmpDem = 1 
-									else: tmpDem = min(pCosts)
-									
-									try: (self.health / (tmpNum/tmpDem))
-									except: 
-										print tmpOverallPlantCost
-										print pCosts
-										print self.int_capital
-									if ran.random() < (self.health / (tmpNum/tmpDem)):
+									if tmpCreditAssessment == 1:
+										if pCosts[s_id] == 0: 
+											tmpNum = 1 
+										else: tmpNum = pCosts[s_id]
+										if min(pCosts) == 0: 
+											tmpDem = 1 
+										else: tmpDem = min(pCosts)
+										
+										try: (self.health / (tmpNum/tmpDem))
+										except: 
+											print tmpOverallPlantCost
+											print pCosts
+											print self.int_capital
+										if ran.random() < (self.health / (tmpNum/tmpDem)):
+											betterNPV = npvList[tmpFinID]
+											betterTechPos = tmpFinID
+											betterPayBack = sngPbpList
+									else:
 										betterNPV = npvList[tmpFinID]
 										betterTechPos = tmpFinID
 										betterPayBack = sngPbpList
@@ -399,7 +406,7 @@ class agents:
 									tmpAgents[sngData[0]].client.append([self.ID,sngData[1]])
 									tmpAgents[sngData[0]].techawareness = True
 									
-							# Register activity on file
+							# In case of investment the action of the agent is registered on this file.
 							strReg = str(tmpTime) + '\t' + str(self.ID) + '\t' + str(self.x) + '\t' + str(self.y) + \
 							         '\t' + str(self.totEnergyNeed) + '\t' + str(tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].ID) + \
 							         '\t' + str(self.riskPredisposition) + '\t' + str(self.social_lobby) + '\t' + str(self.health) + '\n'
