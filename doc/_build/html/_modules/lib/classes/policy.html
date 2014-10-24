@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>lib.classes.policy &mdash; SENSOR 20141022 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '20141022',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="SENSOR 20141022 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">SENSOR 20141022 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for lib.classes.policy</h1><div class="highlight"><pre>
+<span class="sd">&#39;&#39;&#39;Class tech definition.</span>
+
+<span class="sd">.. module:: policy</span>
+<span class="sd">   :platform: Unix, Windows</span>
+<span class="sd">   :synopsis: The module containing the policy class, the class defining the different policies</span>
+<span class="sd">   </span>
+<span class="sd">.. moduleauthor:: Alessandro Filisetti &lt;alessandro.filisetti@unibo.it&gt;</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<div class="viewcode-block" id="policy"><a class="viewcode-back" href="../../../lib.classes.html#lib.classes.policy.policy">[docs]</a><span class="k">class</span> <span class="nc">policy</span><span class="p">:</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tmpID</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tmpFeedIn</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tmpTcred</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tmpTcredInv</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tmpCT</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tmpL</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tmpIntroTime</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tmpEndTime</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tmpA</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tmpRes</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tmpIntroTech</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">			Policy object initializator</span>
+<span class="sd">			</span>
+<span class="sd">			:param tmpID: Policy ID </span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">ID</span> <span class="o">=</span> <span class="n">tmpID</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">feedIN</span> <span class="o">=</span> <span class="n">tmpFeedIn</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">taxCredit</span> <span class="o">=</span> <span class="n">tmpTcred</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">taxCreditInv</span> <span class="o">=</span> <span class="n">tmpTcredInv</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">carbonTax</span> <span class="o">=</span> <span class="n">tmpCT</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">length</span> <span class="o">=</span> <span class="n">tmpL</span> <span class="c"># Length of the policy</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">introTime</span> <span class="o">=</span> <span class="n">tmpIntroTime</span> <span class="c"># month intro time</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">totalAmount</span> <span class="o">=</span> <span class="n">tmpA</span> <span class="c"># Percentage of theoretical total possible aids amount</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">endTime</span> <span class="o">=</span> <span class="n">tmpEndTime</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">residue</span> <span class="o">=</span> <span class="n">tmpRes</span> <span class="c"># Remaining funds</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">introTech</span> <span class="o">=</span> <span class="n">tmpIntroTech</span> <span class="c"># Technology to be equipped with the policy as soon as the policy starts</span>
+
+<div class="viewcode-block" id="policy.defineTotFinance"><a class="viewcode-back" href="../../../lib.classes.html#lib.classes.policy.policy.defineTotFinance">[docs]</a>	<span class="k">def</span> <span class="nf">defineTotFinance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tmpTotEnergy</span><span class="p">,</span> <span class="n">tmpConversion</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">residue</span> <span class="o">=</span> <span class="p">(</span><span class="n">tmpTotEnergy</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">feedIN</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">totalAmount</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">tmpTotEnergy</span> <span class="o">/</span> <span class="n">tmpConversion</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">taxCreditInv</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">totalAmount</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">SENSOR 20141022 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Alessandro.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>

@@ -6,10 +6,17 @@ import random as ran
 import copy
 
 class agents:
-	def __init__(self, tmpDL = 0, tmpID = 0, tmpX = 0, tmpY = 0, tmpNrgDim = 100, tmpha = 0, tmpSocialLobby = 0, tmpSolPot = ran.uniform(0.5,1), tmpEquityCost = 0.05, \
-	             tmpIntCap = 0.5, tmpInvLength = 50, tmpHealth = 1, tmpYield = 55, tmpAge = 0, tmpNrgTech = None, tmpNrgTechProp = None, tmpTechPolicy = None, tmpTechAges = None, \
-	             tmpBalance = 0, tmpMBalance = 0, tmpDebts = None, tmpRemDebt = None, tmpDebtTime = None, tmpDebtLen = None, tmpMrep = None):
-		'''Constructor of the agent class'''
+	
+	def __init__(self, tmpDL = 0, tmpID = 0, tmpX = 0, tmpY = 0, tmpNrgDim = 100, tmpha = 0, \
+				 tmpSocialLobby = 0, tmpSolPot = ran.uniform(0.5,1), tmpEquityCost = 0.05, \
+	             tmpIntCap = 0.5, tmpInvLength = 50, tmpHealth = 1, tmpYield = 55, tmpAge = 0, \
+	             tmpNrgTech = None, tmpNrgTechProp = None, tmpTechPolicy = None, tmpTechAges = None, \
+	             tmpBalance = 0, tmpMBalance = 0, tmpDebts = None, tmpRemDebt = None, tmpDebtTime = None, \
+	             tmpDebtLen = None, tmpMrep = None):
+		'''
+			Constructor of the agent class
+		
+		'''
 		# General Agent Attributes
 		self.ID = tmpID
 		self.x = tmpX
@@ -38,6 +45,7 @@ class agents:
 		# Physical Parameters of the agent
 		self.solar_potential  = tmpSolPot # Proportion of solar irradiation according to the place where agent is (from 0 to 1) 
 		self.co2 = 0
+		# COMMITMENT
 		self.social_lobby  = tmpSocialLobby # How much the agent can be influenced by the neighborhoods
 		self.riskPredisposition = 1 - self.social_lobby # We assume that the risk predisposition is a function of the imitation 
 		
@@ -67,32 +75,31 @@ class agents:
 		self.attraction = [] # define social attraction of the other technologies. 
 		self.bioHoursXMonth = 650 # (7800 hours per year)
 		
-	# --------------------------------------------------------------|
-	# NEW TECHNOLOGY INTRODUCTION
-	# --------------------------------------------------------------|	
 	def newTech(self, tmpTechID, tmpProp, tmpDistance, tmpPolicy, tmpPolicyLength):
-		'''Function to insert a new technology in the agent receipt'''
+		'''
+			Function to insert a new technology in the agent receipt
+			
+		'''
 		self.nrgTechsReceipt.append(tmpTechID)
 		self.nrgPropReceipt.append(self.totEnergyNeed * tmpProp)
 		self.techPolicy.append([tmpPolicy,tmpPolicyLength])
 		
-	# --------------------------------------------------------------| 
-	# Check if the agent take awareness about the technologies 
-	# --------------------------------------------------------------|
 	def awarenessAssessment(self):
-		'''If the agent does not know the available technologies, it can get them
+		'''
+			If the agent does not know the available technologies, it can get them
+		
 		'''
 		if self.techawareness == False: 
 			if ran.random() < (self.riskPredisposition**2): # Check this parameters!!! [C] 
 				self.techawareness = True
 				if self.debugLevel > 0:  "Agent ", self.ID, " H=", self.health, " just discovered the available technologies"
-	
-	# --------------------------------------------------------------| 
-	# NEW INVESTMENT ASSESSMENT
-	# --------------------------------------------------------------|		
+		
 	def invAssessment(self,tmpTechs,tmpTechsID,tmpTime,tmpAgents,tmpPolicies,tmpAgroPrice, tmp_dynFileFID, tmpCreditAssessment):
-		'''Function to assess the possible investment'''
-		# first position the policy, second position the total amount of incentive used. To update only if a new technology is used. 
+		'''
+			Function to assess the possible investment
+		
+		'''
+		# first position the policy, second position the total amount of used incentive. To update only if a new technology is used. 
 		tmpPolicyAmountToRemove = [0,0]
 		# Evaluate the technology awareness of the agent
 		self.awarenessAssessment()
@@ -254,7 +261,8 @@ class agents:
 									# Compute the tax-credit-investment for the years of the incentive
 									tmpCredInv = 0
 									if (y <= (tmpPolicies[tmpTechs[sngTechID].policy].length / 12)) & (tmpPolicies[tmpTechs[sngTechID].policy].taxCreditInv > 0):
-										tmpCredInv += tmpOverallPlantCost * tmpPolicies[tmpTechs[sngTechID].policy].taxCreditInv / (tmpPolicies[tmpTechs[sngTechID].policy].length / 12)
+										tmpCredInv += tmpOverallPlantCost * tmpPolicies[tmpTechs[sngTechID].policy].taxCreditInv / \
+													(tmpPolicies[tmpTechs[sngTechID].policy].length / 12)
 										# (3) Since tax credit investment has been theoretically used, it is updated
 										tmpPolAmount += tmpCredInv
 										
@@ -426,11 +434,12 @@ class agents:
 								
 		return tmpPolicyAmountToRemove
 								
-	# --------------------------------------------------------------|
-	# Compute annual costs and policy amount
-	# --------------------------------------------------------------|
-	def computeAnnualCostandIncs(self, tmpSngTechID, tmp_newNrgProp, tmp_NrgPropReceipt, tmp_techs, tmp_policies, tmpRelativeAttractions, tmp_overallPlantCost, tmpTime):
-		'''This function computes annual costs and annual feed-in incentives according to the technology energy drops'''
+	def computeAnnualCostandIncs(self, tmpSngTechID, tmp_newNrgProp, tmp_NrgPropReceipt, tmp_techs, tmp_policies, \
+								tmpRelativeAttractions, tmp_overallPlantCost, tmpTime):
+		'''
+			This function computes annual costs and annual feed-in incentives according to the technology energy drops
+			
+		'''
 		# .. According to the temporary new tech	 energy proportion the annual cost is computed
 		tmpCosts = 0
 		tmpIncsAmount = 0
@@ -438,7 +447,7 @@ class agents:
 		tmpNewPropWithDrop = tmp_newNrgProp * (tmp_techs[tmpSngTechID].efficiency**tmpTime)
 		# Update the proportion technology list according to the efficiency drop and the year computed
 		dynNrgPropReceipt = copy.deepcopy(tmp_NrgPropReceipt)
-		for tmpID, tmpUpdateProp in enumerate(dynNrgPropReceipt):
+		for tmpID, _ in enumerate(dynNrgPropReceipt):
 			tmpValue = dynNrgPropReceipt[tmpID] * (tmp_techs[tmpID].efficiency**tmpTime)
 			dynNrgPropReceipt[tmpID] = tmpValue
 			if tmpID > 0:
@@ -504,13 +513,13 @@ class agents:
 		# define and initialize the list containing the output variables
 		outList = [tmpCosts,tmpIncsAmount,tmp_EXTplantCost,tmp_INTplantCost,tmp_wacc]
 		return outList
-	
-	# --------------------------------------------------------------|
-	# Re-arrange technologies proportion list. 
-	# --------------------------------------------------------------|							
+							
 	def rearrangeTechPropList(self,tmpNewProp):
-		'''Function to rearrange the proportion of the different technology according to a possible new one'''
-		cnt = 0
+		'''
+			Function to rearrange the proportion of the different technology according to a possible new one
+			
+			:param tmpNewProp: New energy receipt proportion list		
+		'''
 		newList = []
 		goon = 1	
 		tmpNewPropResidue = copy.deepcopy(tmpNewProp)
@@ -530,12 +539,13 @@ class agents:
 		
 		return newList
 
-	# --------------------------------------------------------------|
-	# Update technologies energy proportion list.
-	# --------------------------------------------------------------|
 	def updateEnergyPropAccordingToEfficiencyDrop(self, tmpAllTechs):
-		'''Update energy tech proportions list according to the efficiency prop parameter of the technologies'''
-		for IDtech, tech in enumerate(self.nrgPropReceipt):
+		'''
+			Update energy tech proportions list according to the efficiency prop parameter of the technologies
+			
+			:param tmpAllTechs: All technologies list
+		'''
+		for IDtech, _ in enumerate(self.nrgPropReceipt):
 			if (self.nrgTechAges[IDtech] % 12 == 0) & (self.nrgPropReceipt[IDtech] > 0):
 				# Compute new technology energy contribute
 				tmpNewTechProp = round(self.nrgPropReceipt[IDtech] * tmpAllTechs[self.nrgTechsReceipt[IDtech]].efficiency)
@@ -546,23 +556,23 @@ class agents:
 				if IDtech != 0:
 					self.nrgPropReceipt[IDtech] -= tmpDelta
 				
-		
-	# --------------------------------------------------------------|
-	# Compute Investment interest
-	# --------------------------------------------------------------|
 	def computeLoanAnnualInterest(self, tmpCapital, tmpYears, tmpRate):
-
-		'''Compute investment annual interests'''
+		'''
+			Compute investment annual interests
+			
+			:param tmpCapital: Overall amount of capitals
+			:param tmpYears: Years of the investment
+			:param tmpRate: Rate of the investment 
+		'''
 		annualInt = (tmpCapital * tmpYears * tmpRate) / tmpYears
 		return annualInt
 		
-	# --------------------------------------------------------------|
-	# Pay month debits 
-	# --------------------------------------------------------------|
 	def performFinancialActivities(self):
-		'''This procedure performs all the month financial activities, monthly debts payments'''
-		cnt = 0
-		for sngDept in self.RemainingDebts:
+		'''
+			This procedure performs all the month financial activities, monthly debts payments
+		'''
+		
+		for cnt, sngDept in enumerate(self.RemainingDebts):
 			if sngDept > 0:
 				self.RemainingDebts[cnt] -= self.debtMonthRepayment[cnt]
 				if self.RemainingDebts[cnt] < 0:
@@ -572,16 +582,19 @@ class agents:
 				self.debtMonthRepayment[cnt] = 0
 			cnt += 1
 		if sum(self.RemainingDebts) == 0:
-			self.flagFree = True
-				
-	# --------------------------------------------------------------|
-	# Month energy costs (WORK HERE)
-	# --------------------------------------------------------------|
+			self.flagFree = True		
+
 	def computeMonthNrgCostsAndPoll(self, tmpTechs, tmpTime, tmpPolicies):
-		'''Function to assess the monthly energy costs according to the monthly energy needs'''
+		'''
+			Function to assess the monthly energy costs according to the monthly energy needs
+		
+			:param tmpTechs: List of all the technologies
+			:param tmpTime: Current month
+			:param tmpPolicies: list of the present policies	
+		'''
 		tempMonthCosts = 0
 		tempPoll = 0
-		counter = 0
+		#counter = 0
 		for idtech, tech in enumerate(self.nrgTechsReceipt):
 		
 			# .. compute costs and revenues
@@ -594,7 +607,7 @@ class agents:
 								  + tmpPolicies[self.techPolicy[idtech][0]].carbonTax\
 								  - tmpPolicies[self.techPolicy[idtech][0]].feedIN)\
 							   + self.debtMonthRepayment[idtech]
-							   
+
 			# IF BIOENERGY the profit of the entire plant must be computed
 			tempTechAge = round(self.nrgTechAges[idtech] / 12)
 			if (tmpTechs[tech].solarBased == 0) & (tmpTechs[tech].fromTons2kWhmese > 0):
@@ -602,23 +615,22 @@ class agents:
 									(self.nrgPropReceipt[idtech] * (tmpTechs[tech].efficiency**tempTechAge))) * \
 									(tmpPolicies[tmpTechs[tech].policy].carbonTax + tmpTechs[tech].cost - \
 									 tmpPolicies[tmpTechs[tech].policy].feedIN)
-						   
+
 			# If the technology is bio-energy, so I must pay suppliers and have money from clients
 			if len(self.suppliers) > 0:
-				for sup in self.suppliers: tempMonthCosts += sup[1]
-				
+				for sup in self.suppliers: tempMonthCosts += sup[1]				
 			if len(self.client) > 0:
 				for cli in self.client: tempMonthCosts -= cli[1]
 							
 			# If the incentive is still valid the tax credit on the investment is computed	
 			if (tmpPolicies[self.techPolicy[idtech][0]].taxCreditInv > 0) & (self.techPolicy[idtech][1] > 0):
-				if(tmpTechs[sngTechID].solarBased == 1):
+				if(tmpTechs[tech].solarBased == 1):
 					tempMonthCosts -= (self.nrgPropReceipt[idtech] / tmpTechs[tech].fromKWH2KW * tmpTechs[tech].plantCost) \
 									  * tmpPolicies[self.techPolicy[idtech][0]].taxCreditInv / tmpPolicies[self.techPolicy[idtech][0]].length
-		 		elif (tmpTechs[tech].solarBased == 0) & (tmpTechs[tech].fromTons2kWhmese > 0):
-		 			tempMonthCosts -= (tmpTechs[tech].plantDimension * tmpTechs[tech].plantCost) \
+				elif (tmpTechs[tech].solarBased == 0) & (tmpTechs[tech].fromTons2kWhmese > 0):
+					tempMonthCosts -= (tmpTechs[tech].plantDimension * tmpTechs[tech].plantCost) \
 									  * tmpPolicies[self.techPolicy[idtech][0]].taxCreditInv / tmpPolicies[self.techPolicy[idtech][0]].length
-		 		
+				
 			
 			# If the technology has a negative price (e.g. solar or bio), then it means that the agent sells energy and it has to buy normal energy
 			if tmpTechs[tech].cost <= 0:
@@ -649,10 +661,7 @@ class agents:
 		self.balance = self.balance + self.month_balance
 		self.co2 = tempPoll
 		self.age += 1
-
-	# --------------------------------------------------------------|
-	# DEFINE TECHNOLOGIES ATTRACTION
-	# --------------------------------------------------------------|		
+		
 	def defineTechAttraction(self, tmpTechs, tmpAgents):
 		'''Define technology attraction according to the neighborhood characteristics'''
 		
@@ -668,8 +677,8 @@ class agents:
 							# Attractiveness is measured by the energy dimension and physical dimension of the agent over the square distance
 							tmpTotTech[sngT.ID] += (float(sngA.totEnergyNeed) / pow(self.distanceList[sngA.ID],2))
 							tmpHaTech[sngT.ID]  += (float(sngA.ha) / pow(self.distanceList[sngA.ID],2))
-		cnt = 0
-		for relT in tmpRelTech:
+
+		for cnt, _ in enumerate(tmpRelTech):
 			tmpRelTech[cnt] = (tmpTotTech[cnt] + tmpHaTech[cnt]) / (float(sum(tmpTotTech)) + float(sum(tmpHaTech)))
 			cnt += 1	
 			
@@ -678,12 +687,16 @@ class agents:
 	# --------------------------------------------------------------|
 	# DEFINE TECHNOLOGIES ATTRACTION
 	# --------------------------------------------------------------|
+
 	def genLogFun(self, tmpX, tmpExp=1, tmpM=4, tmpUpper=1, tmpLower=0, tmpGrowth=1, tmpQ=1):
-		'''Function to return the general logistic value according to the different paramerts
-		   Default values are those of the logistic function
-		   :param tmpX: maximum investment length - payback period
-		   :param tmpExp: agent health
 		'''
+			Function to return the general logistic value according to the different paramerts
+			Default values are those of the logistic function
+			
+			:param tmpX: maximum investment length - payback period
+			:param tmpExp: agent health
+		'''
+		
 		e = 2.71828182845904523536
 		tmpY = 0
 		valToAdd = tmpM

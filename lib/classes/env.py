@@ -14,13 +14,13 @@
 import sys, os
 import time
 import agents as ag
-import tech
-import policy
+#import tech
+#import policy
 import random as ran
 import cPickle as pickle
 import shutil 
-import copy
-from ..classes import agents
+#import copy
+#from ..classes import agents
 from ..classes import policy
 from ..classes import tech
 
@@ -28,109 +28,118 @@ class environment:
 	'''Class environment definition.'''
 	
 	def __init__(self, tmpPath):
-            ''' constructor'''
-    		# Parameters file name and path
-            paramFile = tmpPath + "/init.conf" # Open Param file 
-            print paramFile + "\n"
-            try:
-    			fid = open(paramFile, 'r')
-            except:
-    			print 'impossible to load ', paramFile; sys.exit(1)	
-                
-            self.simPath = os.path.abspath(tmpPath)
-                            
-            for line in fid:
-                strLine = line.split('=')
-                if strLine[0] == "randomSeed":
-                    self.randomSeed = int(strLine[1])
-                if strLine[0] == "nSeed":
-                    self.nSeed = int(strLine[1])
-                if strLine[0] == "agents":
-                    self.Nagents = int(strLine[1])	
-                if strLine[0] == "techCreationMethod":
-                    self.techCreationMethod = int(strLine[1])
-                if strLine[0] == "agentCreationMethod":
-                    self.agentCreationMethod = int(strLine[1])	
-                if strLine[0] == "policyCreationMethod":
-                    self.policyCreationMethod = int(strLine[1])	
-                if strLine[0] == "months":
-                    self.months = int(strLine[1])	
-                if strLine[0] == "xMaxPos":
-                    self.xMaxPos = int(strLine[1])	
-                if strLine[0] == "yMaxPos":
-                    self.yMaxPos = int(strLine[1])
-                if strLine[0] == "minIrradiation":
-                    self.minIrradiation = int(strLine[1])
-                if strLine[0] == "minNrgDim":
-                    self.minNrgDim = int(strLine[1])
-                if strLine[0] == "maxNrgDim":
-                    self.maxNrgDim = int(strLine[1])
-                if strLine[0] == "ratioInternalCapital":
-                    self.ratioInternalCapital = float(strLine[1])
-                if strLine[0] == "invLength":
-                    self.invLength = int(strLine[1])
-            	if strLine[0] == "creditassessment":
-            		self.creditassessment = int(strLine[1]) 
-                if strLine[0] == "loanLength":
-                    self.loanLength = int(strLine[1])	
-                if strLine[0] == "intRiskRate":
-                    self.intRiskRate = float(strLine[1])
-                if strLine[0] == "socialLobby":
-                    self.socialLobby = float(strLine[1])
-                if strLine[0] == "health":
-					self.H = float(strLine[1])            
-                if strLine[0] == "debugLevel":
-                    self.debugLevel = float(strLine[1])
-                if strLine[0] == "agroMaxDim":
-                    self.agroMaxDim = float(strLine[1])
-                if strLine[0] == "agroProfit":
-					self.agroProfit = float(strLine[1])             
-            
-            print self.randomSeed
-            if self.randomSeed == 1:
-    			#! Set randomly the random state and store it in a file
-    			ran.seed(int(time.time()))
-    			self.saveRandomSeed()
-            else:
-    			self.loadRandomSeed()
+		'''
+			constructor
+		'''
+		# Parameters file name and path
+		paramFile = tmpPath + "/init.conf" # Open Param file
+		print paramFile + "\n"
+		try:
+			fid = open(paramFile, 'r')
+		except:
+			print 'impossible to load ', paramFile; sys.exit(1)	
 
-            # FitnessList and amountList and fitnessSigma have to be of the same length
-            self.allAgents = []
-    		
-    		# Technologies
-            self.allTechs = []
-            self.allTechsID = [] # Useful to speed up the computation
-    		
-    		# Policies
-            self.allPolicies = []
-            self.overallEnergyNeed = 0
-    		
-    		# STAT VARIABLES
-            self.totCO2 = []
-            self.totDebt = []
-            self.totCosts = []
-            self.totAids = []
-            self.tottotCO2 = []
-            self.tottotDebt = []
-            self.tottotCosts = []
-            self.tottotAids = []
-            self.totTechNRGdist = []
-            self.totTechKWHdist = []
-            self.totTechKWdist = []
-            self.tottotTechNRGdist = []
-            self.tottotTechKWHdist = []
-            self.tottotTechKWdist = []
-    		
-    		# CREATE SIMULATION FOLDER
-            self.simFolder = ''
+		self.simPath = os.path.abspath(tmpPath)
+		
+		for line in fid:
+			strLine = line.split('=')
+			if strLine[0] == "randomSeed":
+				self.randomSeed = int(strLine[1]); continue
+			if strLine[0] == "nSeed":
+				self.nSeed = int(strLine[1]); continue
+			if strLine[0] == "agents":
+				self.Nagents = int(strLine[1]); continue
+			if strLine[0] == "techCreationMethod":
+				self.techCreationMethod = int(strLine[1]); continue
+			if strLine[0] == "agentCreationMethod":
+				self.agentCreationMethod = int(strLine[1]); continue	
+			if strLine[0] == "policyCreationMethod":
+				self.policyCreationMethod = int(strLine[1]); continue
+			if strLine[0] == "months":
+				self.months = int(strLine[1]); continue	
+			if strLine[0] == "xMaxPos":
+				self.xMaxPos = int(strLine[1]); continue	
+			if strLine[0] == "yMaxPos":
+				self.yMaxPos = int(strLine[1]); continue
+			if strLine[0] == "minIrradiation":
+				self.minIrradiation = int(strLine[1]); continue
+			if strLine[0] == "minNrgDim":
+				self.minNrgDim = int(strLine[1]); continue
+			if strLine[0] == "maxNrgDim":
+				self.maxNrgDim = int(strLine[1]); continue
+			if strLine[0] == "ratioInternalCapital":
+				self.ratioInternalCapital = float(strLine[1]); continue
+			if strLine[0] == "invLength":
+				self.invLength = int(strLine[1]); continue
+			if strLine[0] == "creditAssessment":
+				self.creditAssessment = int(strLine[1]); continue
+			if strLine[0] == "loanLength":
+				self.loanLength = int(strLine[1]); continue	
+			if strLine[0] == "intRiskRate":
+				self.intRiskRate = float(strLine[1]); continue
+			if strLine[0] == "socialLobby":
+				self.socialLobby = float(strLine[1]); continue
+			if strLine[0] == "health":
+				self.H = float(strLine[1]); continue           
+			if strLine[0] == "debugLevel":
+				self.debugLevel = float(strLine[1]); continue
+			if strLine[0] == "agroMaxDim":
+				self.agroMaxDim = float(strLine[1]); continue
+			if strLine[0] == "agroProfit":
+				self.agroProfit = float(strLine[1]); continue
+					
+		# DEFAULT parameters
+		if 'randomSeed' not in dir(self): self.randomSeed = 0
+		if 'creditAssessment' not in dir(self): self.creditAssessment = 0
+		
+		if self.randomSeed == 1:
+			#! Set randomly the random state and store it in a file
+			ran.seed(int(time.time()))
+			self.saveRandomSeed()
+		else:
+			self.loadRandomSeed()
+
+		# FitnessList and amountList and fitnessSigma have to be of the same length
+		self.allAgents = []
+
+		# Technologies
+		self.allTechs = []
+		self.allTechsID = [] # Useful to speed up the computation
+		# Policies
+		self.allPolicies = []
+		self.overallEnergyNeed = 0
+		
+		# STAT VARIABLES
+		self.totCO2 = []
+		self.totDebt = []
+		self.totCosts = []
+		self.totAids = []
+		self.tottotCO2 = []
+		self.tottotDebt = []
+		self.tottotCosts = []
+		self.tottotAids = []
+		self.totTechNRGdist = []
+		self.totTechKWHdist = []
+		self.totTechKWdist = []
+		self.tottotTechNRGdist = []
+		self.tottotTechKWHdist = []
+		self.tottotTechKWdist = []
+		
+		# Solar summary
+		self.totSolarBasedInstallation = []
+		self.totSolarBasedKW = []
+		self.totSolarBasedKWh = []
+
+# CREATE SIMULATION FOLDER
+		self.simFolder = ''
 
 	def resetSimulation(self):	
 		'''Function to reset simulation'''
 
-		self.allAgents = []
-		self.allTechs = []
-		self.allTechsID = [] # Useful to speed up the computation
-		self.allPolicies = [] # Useful to speed up the computation
+		del self.allAgents[:]
+		del self.allTechs[:]
+		del self.allTechsID[:] # Useful to speed up the computation
+		del self.allPolicies[:] # Useful to speed up the computation
 		
 		# STAT VARIABLES
 		self.tottotCO2.append(self.totCO2)
@@ -142,20 +151,20 @@ class environment:
 		self.tottotTechKWHdist.append(self.totTechKWHdist)
 		self.tottotTechKWdist.append(self.totTechKWdist)
 		
-		self.totCO2 = []
-		self.totDebt = []
-		self.totCosts = []	
-		self.totAids = []
-		self.totTechNRGdist = []
-		self.totTechKWHdist = []
-		self.totTechKWdist = []
+		del self.totCO2[:]
+		del self.totDebt[:]
+		del self.totCosts[:]	
+		del self.totAids[:]
+		del self.totTechNRGdist[:]
+		del self.totTechKWHdist[:]
+		del self.totTechKWdist[:]
 					
 	def saveRandomSeed(self):
 		'''Function to save the random seed'''
 		
 		with open(os.path.join(self.simPath,"rndstate.dat"), 'wb') as f:
 			pickle.dump(ran.getstate(), f)
-  	
+
 	def loadRandomSeed(self):
 		'''Function to load a previously saved random seed'''
 		
@@ -173,7 +182,7 @@ class environment:
 			# Use a well-known start state
 			print 'No rndstate.dat, seeding a random state'
 			ran.seed(int(time.time()))	
-    	
+
 	def createFolderAndSaveInitialConditions(self, tmpPar, tmpPar2, tmpPar3):
 		'''Function to create the simulation folder and save the initial conditions'''
 		#: this is the folder name
@@ -183,7 +192,7 @@ class environment:
 		#Copy file into results folder (copy2 because also file metadata are copied)
 		shutil.copy2(os.path.join(self.simPath,"rndstate.dat"),os.path.join(self.simPath,self.simFolder,"rndstate.dat"))
 		shutil.copy2(os.path.join(self.simPath,"init.conf"),os.path.join(self.simPath,self.simFolder,"init.conf"))
-    	
+
 	def printPopulation(self):
 		''' Function to output some parameters of the population
 		
@@ -201,7 +210,7 @@ class environment:
 				print "- AGENT ", i.ID
 				print "\t|- Coordinates: ", i.x, " ", i.y, " - EN: ", i.totEnergyNeed
 				count = count + 1
-    			
+
 	def printParams(self):
 		''' Function to print all simulation parameters (e.g.)
 		
@@ -239,12 +248,6 @@ class environment:
 		print "	|- loanLength (Month): ", self.loanLength
 		print "	|- intRiskRate: ", self.intRiskRate
 		
-    		
-    		
-    	# --------------------------------------------------------------|
-    	# Function to generate the distance matrix between agents 		|
-    	# --------------------------------------------------------------|
-    	
 	def genDistanceLists(self):
 		''' Function to generate the distances matrix containing all the distances between agents'''
 		
@@ -257,16 +260,16 @@ class environment:
 				singleAgent.distanceList.append(pow(pow((singleAgent.x - ag_col.x),2) + pow((singleAgent.y - ag_col.y),2),0.5))
 				ID_c = ID_c + 1
 			ID_r = ID_r + 1 
-    	
-	def agentMonthEnergyActivity(self, tmpGen):
-		'''Bridge function from the main the agent class'''
-		for sngAgent in self.allAgents:
-			sngAgent.computeMonthNrgCostsAndPoll(self.allTechs, tmpGen, self.allPolicies)
-			sngAgent.performFinancialActivities()
-			sngAgent.updateEnergyPropAccordingToEfficiencyDrop(self.allTechs)
-		# Stat functions
-		self.statFunctions()
-    			
+
+# 	def agentMonthEnergyActivity(self, tmpGen):
+# 		'''Bridge function from the main the agent class'''
+# 		for sngAgent in self.allAgents:
+# 			sngAgent.computeMonthNrgCostsAndPoll(self.allTechs, tmpGen, self.allPolicies)
+# 			sngAgent.performFinancialActivities()
+# 			sngAgent.updateEnergyPropAccordingToEfficiencyDrop(self.allTechs)
+# 		# Stat functions
+# 		self.statFunctions()
+
 	def newTechAssessment(self,tmpTime):
 		# According to the average investment evaluation time (once per year) and the agent wealth and policy aids are decreased 
 		tmp_tAids = 0
@@ -282,9 +285,13 @@ class environment:
 						if sngTech.policy == polToUpdate[0]:
 							sngTech.policy = 0
 		self.totAids.append(tmp_tAids)
-    		
+
 	def agentMonthNRGAct_and_newTechAss(self, tmpTime, tmpDynFileFID):
-		''' This function perform all the activity of the agent during the month
+		''' 
+			This function perform all the activity of the agent during the month
+			
+			:param tmpTime: current time (month)
+			:param tmpDynFileFID: Handle to the file containing dynamical data
 		'''
 		tmp_tAids = 0
 		for sngAgent in self.allAgents:
@@ -316,10 +323,10 @@ class environment:
 			self.importTechs()
 		else: 
 			"an other function to implement... random technology creation"	
-        
+
 		self.promptTechs()
 		self.numOfTechs = len(self.allTechs)
-            
+
 	def createThreeDefaultTechs(self):
 		'''Function to create the three default technologies
 		   	def __init__(self, tmpID = 0, tmpEff = 0, tmpST = 0, tmpTotTime = 0, tmpCost = 0, tmpPcost = 0, tmpRate = 0,\
@@ -332,7 +339,7 @@ class environment:
 		self.allTechsID.append(1)
 		self.allTechs.append(tech.tech(2,1,1,0,0,self.months,0,-0.07,4000,0.04, 5,0    ,self.loanLength,self.invLength,2,100,1))
 		self.allTechsID.append(2)
-    	
+
 	def createPopulation(self):
 		'''Function to create the population
     	'''
@@ -352,14 +359,14 @@ class environment:
 		#self.promptAgents()
 		# Compute the overall energy need of the system
 		self.computeTotEnergyNeed()
-    	
+
 	def createPolicies(self, tmpP=None, tmpP2=None, tmpP3=None):
 		'''Function to create the population
     	'''
 		# if agentCreationMethod is equal to 0 random population is created otherwise it is uploaded from file
 		if self.policyCreationMethod == 0:
 			self.allPolicies.append(policy.policy())
-			self.allPolicies.append(policy.policy(1,0,0.04,0,0,5,0,0,0,0))
+			#self.allPolicies.append(policy.policy(1,0,0.04,0,0,5,0,0,0,0,0))
 		else:
 			self.importPolicies()
 			
@@ -377,44 +384,42 @@ class environment:
 			sngPol.defineTotFinance(self.overallEnergyNeed, 100)
 			
 		self.promptPolicies()
-    		
+
 	def createDefaultNoPolicy(self):
 		'''Function to create the default policy, i.e. no incentives at all'''
 		self.allPolicies.append(policy.policy())
-    		
-    	
-    	# --------------------------------------------------------------|
-    	# Function to load agents
-    	# --------------------------------------------------------------|
 
 	def importAgents(self):
-		'''Function to import agents from a file previously prepared'''
+		'''
+			Function to import agents from a file previously prepared
+			
+		'''
 		print '\n|- AGENTS IMPORT PROCESS...'
 		# file name
 		tmpFileName = os.path.join(self.simPath,'initAgents.csv')
+		
 		try:
 			fileFID = open(tmpFileName, 'r')
 		except:
 			print "Technology file has not been found: ", tmpFileName; sys.exit(1)
-		fileFID = open(tmpFileName, 'r')
+			
 		#read file
 		agents = fileFID.readlines()
 		
 		# for each Agent
-
 		for a in agents:
 			if a[0] != '#':
 				tmpID, tmpX, tmpY, tmpEN, tmpHA, tmpSolPot, tmpCO2, tmpSocialLobby, tmpintCap, \
 				tmpEquity, tmpBalance, tmpMbalance, tmpInvL, tmpHealth, tmpAge = a.split()
 				# Insert Agent
-	             
+
 				self.allAgents.append(ag.agents(self.debugLevel, int(tmpID), float(tmpX), float(tmpY), float(tmpEN), float(tmpHA), float(tmpSocialLobby),\
 									 float(tmpSolPot), float(tmpEquity), float(tmpintCap), int(tmpInvL), float(tmpHealth), 55, int(tmpAge), None, None, None, None, \
 									 float(tmpBalance), float(tmpMbalance), None, None, None, None, None))
 		
 		fileFID.close()
 		print ' |- done...'
-    		
+
 	def importPolicies(self):
 		'''Function to import policies from a file previously prepared'''
 		print '\n|- Policies import process...'
@@ -424,15 +429,14 @@ class environment:
 			fileFID = open(tmpFileName, 'r')
 		except:
 			print "Policies file has not been found: ", tmpFileName; sys.exit(1)
-		fileFID = open(tmpFileName, 'r')
 		#read file
 		policies = fileFID.readlines()
 		# for each technology
 		for t in policies:
 			if t[0] != '#':
-				tmpID, tmpFI, tmpTC, tmpTCI, tmpCT, tmpL, tmpIT, tmpA, tmpR, tmpIntroTech = t.split()
+				tmpID, tmpFI, tmpTC, tmpTCI, tmpCT, tmpL, tmpIT, tmpEnd, tmpA, tmpR, tmpIntroTech = t.split()
 				self.allPolicies.append(policy.policy(int(tmpID), float(tmpFI), float(tmpTC), float(tmpTCI),\
-                                             		 float(tmpCT), int(tmpL), int(tmpIT), float(tmpA), float(tmpR), \
+                                             		 float(tmpCT), int(tmpL), int(tmpIT), int(tmpEnd), float(tmpA), float(tmpR), \
                                              		 int(tmpIntroTech)))
 		fileFID.close()
 			
@@ -445,7 +449,6 @@ class environment:
 			fileFID = open(tmpFileName, 'r')
 		except:
 			print "Technology file has not been found: ", tmpFileName; sys.exit(1)
-		fileFID = open(tmpFileName, 'r')
 		#read file
 		techs = fileFID.readlines()
 		# for each technology
@@ -459,7 +462,7 @@ class environment:
 									int(tmpP), float(tmpConversion), int(tmpSB), float(tmpX), float(tmpY)))
 				self.allTechsID.append(int(tmpID))
 		fileFID.close()
-    		
+
 	def promptAgents(self):	
 		'''Function to prompt the present Agents'''	
 		print ""
@@ -494,13 +497,13 @@ class environment:
 		print ""
 		print " |---------------------------- LIST OF POLICIES ---------------------------------------"
 		print " |"
-		print ' | ID\tFeedIn\tTxc\tTxCinv\tCT\tPolLen\tTime\tAmount\tres\tIntroTech'
+		print ' | ID\tFeedIn\tTxc\tTxCinv\tCT\tPolLen\tIntro Time\tEnd Time\tAmount\tres\tIntroTech'
 		for t in self.allPolicies:
 			print ' | ', t.ID,'\t',t.feedIN,'\t',t.taxCredit,'\t',t.taxCreditInv,'\t',t.carbonTax,'\t',\
-				  t.length,'\t',t.introTime,'\t',t.totalAmount,'\t',t.residue,'\t',t.introTech
+				  t.length,'\t',t.introTime, '\t', t.endTime,'\t',t.totalAmount,'\t',t.residue,'\t',t.introTech
 		
 		print " |-------------------------------------------------------------------------------------\n\n"
-    		
+
 	def saveAgentsOnFile(self, tmpSeed):
 		'''Function to save agents on file'''
 		# Filenames
@@ -566,28 +569,42 @@ class environment:
 		saveFileFid.write(strInit)
 		for t in self.allPolicies:
 			strInit = str(t.ID) + '\t' + str(t.feedIN) + '\t' + str(t.taxCredit) + '\t' + str(t.taxCreditInv) + '\t' + \
-			str(t.carbonTax) + '\t' + str(t.length) + '\t' + str(t.introTime) + '\t' + str(t.totalAmount) + '\t' + \
+			str(t.carbonTax) + '\t' + str(t.length) + '\t' + str(t.introTime) + '\t' + str(t.endTime) + '\t' + str(t.totalAmount) + '\t' + \
             str(t.residue) + '\t' + str(t.introTech) + '\n'
 			
 			saveFileFid.write(strInit)
 			
 		saveFileFid.close()
 		os.rename(FileName, os.path.join(self.simPath,self.simFolder,FileName))
-    				
+
 	def statFunctions(self):
-	 	
-	 	tmp_tCO2 = 0
-	 	tmp_totalDebt = 0
-	 	tmp_totalCosts = 0
-	 	tmp_totalRepayments = 0
-	 	for sngAgent in self.allAgents:
-	 		tmp_tCO2 += sngAgent.co2
-	 		tmp_totalDebt += sum(sngAgent.RemainingDebts)
-	 		tmp_totalRepayments += sum(sngAgent.debtMonthRepayment)
-	 		tmp_totalCosts += sngAgent.month_balance
-	 	tmp_totalCosts -= tmp_totalRepayments
-	 	
-	 	# STAT VARIABLES
+		
+		tmp_tCO2 = 0
+		tmp_totalDebt = 0
+		tmp_totalCosts = 0
+		tmp_totalRepayments = 0
+		# For each agent
+		for sngAgent in self.allAgents:
+			tmp_tCO2 += sngAgent.co2
+			tmp_totalDebt += sum(sngAgent.RemainingDebts)
+			tmp_totalRepayments += sum(sngAgent.debtMonthRepayment)
+			tmp_totalCosts += sngAgent.month_balance
+		tmp_totalCosts -= tmp_totalRepayments
+		
+		# For each technology, is it is solar based the diffusion of the technology is registeres
+		temp_current_diffusion = 0
+		temp_kWh = 0
+		temp_kW = 0
+		for sT in self.allTechs:
+			if sT.solarBased == 1:
+				temp_current_diffusion += sT.currentDiffusion
+				temp_kWh += sT.currentKWhinstalled
+				temp_kW += sT.currentKWinstalled
+		self.totSolarBasedInstallation.append(temp_current_diffusion)
+		self.totSolarBasedKWh.append(temp_kWh)
+		self.totSolarBasedKW.append(temp_kW)				
+		
+		# STAT VARIABLES
 		self.totCO2.append(tmp_tCO2)
 		self.totDebt.append(tmp_totalDebt)
 		self.totCosts.append(tmp_totalCosts)
@@ -621,17 +638,17 @@ class environment:
 		self.writeSngStatOnFileWhereISay(filename,self.tottotCosts,'%i')
 		filename = '_overall_aids'
 		self.writeSngStatOnFileWhereISay(filename,self.tottotAids,'%i')
-        
-		for tID in range(self.numOfTechs):
-			tempTechList = []
-			for s in self.tottotTechNRGdist:
-				tempTechList.append(s[tID])
+
+		for tID, _ in enumerate(self.allTechs):
+			tempTechList = [s[tID] for s in self.tottotTechNRGdist]
 			#save technology
 			filename = '_overall_tech_' + str(tID)
 			self.writeSngStatOnFileWhereISay(filename,tempTechList,'%i')
 
 	def writeSngStatOnFileWhereISay(self, tmpName, tmpStats, tmpFormat):
-		'''Function to save statistic on file'''
+		'''
+			Function to save statistic on file
+		'''
 		outFnameStat = tmpName + '.csv'
 		saveFileStat = open(outFnameStat, 'w')
 		cnt = 0
@@ -674,7 +691,7 @@ class environment:
 		
 		saveFileStat.close()	
 		os.rename(outFnameStat, os.path.join(self.simPath,self.simFolder,outFnameStat))
-    		
+
 	def computeTotEnergyNeed(self):
 		'''
 			Compute overall Financiable amount
@@ -685,16 +702,19 @@ class environment:
 	def checkTimeAndSetPolicy(self, tmpTime):
 		for pol in self.allPolicies:
 			if pol.introTime == tmpTime: self.allTechs[pol.introTech].policy = pol.ID
+			elif pol.endTime == tmpTime: self.allTechs[pol.introTech].policy = 0
 			
 	def saveAgentsXMLformat(self):
-		'''Function to save statistic on file'''
+		'''
+			Function to save statistic on file
+		'''
 		outFnameStat = os.path.join(self.simPath,self.simFolder,'structures.xml')
 		xmlFile = open(outFnameStat, 'w')
 		tempstr = '<?xml version="1.0" encoding="UTF-8"?>\n'
 		xmlFile.write(tempstr)
 		tempstr = '<xml>\n'
 		xmlFile.write(tempstr)
-        
+
 		# AGENTS
 		tempstr = '<agents>\n'
 		xmlFile.write(tempstr)
@@ -757,7 +777,7 @@ class environment:
 			xmlFile.write(tempstr)
 		tempstr = '</agents>\n'
 		xmlFile.write(tempstr)
-        
+
 		# TECHNOLOGIES
 		tempstr = '<technologies>\n'
 		for tech in self.allTechs:
@@ -781,7 +801,7 @@ class environment:
 			tempstr += '\t</technology>\n'
 		tempstr += '</technologies>\n'
 		xmlFile.write(tempstr)
-        
+
 		# POLICIES
 		tempstr = '<policies>\n'
 		for pol in self.allPolicies:
@@ -792,13 +812,14 @@ class environment:
 			tempstr += '\t\t<carbonTax>' + str(pol.carbonTax) + '</carbonTax>\n'
 			tempstr += '\t\t<length>' + str(pol.length) + '</length>\n'
 			tempstr += '\t\t<introTime>' + str(pol.introTime) + '</introTime>\n'
+			tempstr += '\t\t<endTime>' + str(pol.endTime) + '</endTime>\n'
 			tempstr += '\t\t<totalAmount>' + str(pol.totalAmount) + '</totalAmount>\n'
 			tempstr += '\t\t<residue>' + str(pol.residue) + '</residue>\n'
 			tempstr += '\t\t<introTech>' + str(pol.introTech) + '</introTech>\n'              
 			tempstr += '\t</policy>\n'
 		tempstr += '</policies>\n'
 		xmlFile.write(tempstr)    
-                
+
 		tempstr = '</xml>'
 		xmlFile.write(tempstr)
 		xmlFile.close()

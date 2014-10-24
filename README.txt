@@ -3,9 +3,16 @@ SENSOR (Socioeconomic ENergy System simulatOR)
 Plaftorms: MacOS, Linux, Windows
 Language: Python
 Comments: The presence of [C] string within comments indicates a WaRNING. Model here must be controlled. 
+
 *****************
 * RELEASE NOTES *
 *****************
+
+2014 - 10 - 24 ver.1.3
+	- Configuration file has been extended with new params
+	- Policy end time has been added to the policy class
+	- main_GA.py (main devoted to the introduction of a genetic algorithm) has been 
+	- !!! Add and remove agents each month (%)
 
 2014 - 05 - 08 ver.1.2
 	- bioenergy year yield has been added
@@ -21,36 +28,10 @@ Comments: The presence of [C] string within comments indicates a WaRNING. Model 
 	- Several bugs fixed
 
 2014 - 02 - 19 ver.1.0
-- The introduction time is now considered for each technology
+	- The introduction time is now considered for each technology
 
 *****************
 
-sphinx-apidoc -o ./doc/sphynx ./ -A 'Alessandro Filisetti' -V 1.2 -R 20140408 -f -H 'SENSOR: Socio-Economic Energy Simulator' -F 
+sphinx-apidoc -o ./doc/sphynx ./ -A 'Alessandro Filisetti' -V 1.3 -R 20141010 -f -H 'SENSOR: Socio-Economic Energy Simulator' -F 
 
 *****************
-
-
-Libraries:
-	lib folder:
-		SIMULATION: Built-in python libraries
-		ANALYSIS (a_* files in lib.analysis folder): numpy-scipy python scientific libraries.  
-	
-'modelDataDemo' FOLDER:
- |- INPUT 
- 	|- init.conf		Configuration file
- 	|- initAgents.csv 	Initial agent file (if agentCreationMethod=0 random)
- 	|- initPolicies.csv Initial policies file (if policyCreationMethod=0 random)
- 		|- .ID = Policy ID
-        |- .feedIN = Feed-In tariff (Û/kWh produced)
-        |- .taxCredit = Tax Credit Incentive (affect WACC computation)
-        |- .taxCreditInv = Credit Incentive (percentage of plant investment)
-        |- .carbonTax = Carbon Tax (Û/GHG)
-        |- .length = Length of the policy, after this time policy becames no longer availabe  
-        |- .introTime = Time (months) of the introduction of the policy
-        |- .totalAmount = Percentage of the theoretical overall possibile incentives
-        |- .residue = Remaining funds
-        |- .introTech = Technology to be equipped with policy as soon as the policy becames active
- 	|- initTechs.csv 	Initial technologies file (if techCreationMethod=0 random)
- 	
- |- OUTPUT
- 	|- 

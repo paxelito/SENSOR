@@ -1,9 +1,0 @@
-digraph "lib/analysis" {
-  compound=true
-  node [ fontsize="10", fontname="Helvetica"];
-  edge [ labelfontsize="10", labelfontname="Helvetica"];
-  subgraph clusterdir_97aefd0d527b934f1d99a682da8fe6a9 {
-    graph [ bgcolor="#ddddee", pencolor="black", label="lib" fontname="Helvetica", fontsize="10", URL="dir_97aefd0d527b934f1d99a682da8fe6a9.html"]
-  dir_29d4636ba0a007cef5607ee5866aad47 [shape=box, label="analysis", style="filled", fillcolor="#eeeeff", pencolor="black", URL="dir_29d4636ba0a007cef5607ee5866aad47.html"];
-  }
-}

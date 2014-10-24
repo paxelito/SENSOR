@@ -1,29 +1,19 @@
-.. Socio-Economic energy propagation documentation master file, created by
-   sphinx-quickstart on Wed Oct  3 19:26:44 2012.
+.. SENSOR documentation master file, created by
+   sphinx-quickstart on Wed Oct 22 11:25:10 2014.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Socio-Economic energy propagation's documentation!
-=============================================================
-
-This is my first documentation in python 
-
-Requirements:
-
-*Plaftorms: MacOS, Linux, Windows
-*Language: Python
-*Libraries:
-	*SIMULATION: Built-in python libraries
-	*ANALYSIS (a_* files): numpy-scipy python scientific libraries.
+Welcome to SENSOR's documentation!
+==================================
 
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
 
-   tutorial
-   project
-   code
+   lib
+   main
+
 
 Indices and tables
 ==================

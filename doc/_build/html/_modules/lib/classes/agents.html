@@ -1,0 +1,807 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>lib.classes.agents &mdash; SENSOR 20141022 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '20141022',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="SENSOR 20141022 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">SENSOR 20141022 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for lib.classes.agents</h1><div class="highlight"><pre>
+<span class="c">#!/usr/bin/env python</span>
+<span class="c"># -*- coding: latin-1 -*-</span>
+
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">random</span> <span class="kn">as</span> <span class="nn">ran</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+
+<div class="viewcode-block" id="agents"><a class="viewcode-back" href="../../../lib.classes.html#lib.classes.agents.agents">[docs]</a><span class="k">class</span> <span class="nc">agents</span><span class="p">:</span>
+	
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tmpDL</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tmpID</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tmpX</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tmpY</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tmpNrgDim</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="n">tmpha</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> \
+				 <span class="n">tmpSocialLobby</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tmpSolPot</span> <span class="o">=</span> <span class="n">ran</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">tmpEquityCost</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span> \
+	             <span class="n">tmpIntCap</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">tmpInvLength</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">tmpHealth</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">tmpYield</span> <span class="o">=</span> <span class="mi">55</span><span class="p">,</span> <span class="n">tmpAge</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> \
+	             <span class="n">tmpNrgTech</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">tmpNrgTechProp</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">tmpTechPolicy</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">tmpTechAges</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> \
+	             <span class="n">tmpBalance</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tmpMBalance</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="n">tmpDebts</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">tmpRemDebt</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">tmpDebtTime</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> \
+	             <span class="n">tmpDebtLen</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span> <span class="n">tmpMrep</span> <span class="o">=</span> <span class="bp">None</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">			Constructor of the agent class</span>
+<span class="sd">		</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="c"># General Agent Attributes</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">ID</span> <span class="o">=</span> <span class="n">tmpID</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">tmpX</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">tmpY</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">totEnergyNeed</span> <span class="o">=</span> <span class="n">tmpNrgDim</span> <span class="c"># Energetic dimension of the agent</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">debugLevel</span> <span class="o">=</span> <span class="n">tmpDL</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">tmpAge</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">ha</span> <span class="o">=</span> <span class="n">tmpha</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">TxHA_yield</span> <span class="o">=</span> <span class="n">tmpYield</span> <span class="c"># tons per ha per year - bio raw material yield</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">TxHA_yield_month</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TxHA_yield</span><span class="p">)</span> <span class="o">/</span> <span class="mi">12</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">residualHa</span> <span class="o">=</span> <span class="n">tmpha</span> <span class="c"># Remaining available HA for selling potential bioenergy</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">techawareness</span> <span class="o">=</span> <span class="bp">False</span> <span class="c"># The agent at the beginning does not know anything about the technology of the system</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">sludgeDimension</span> <span class="o">=</span> <span class="mi">10</span> <span class="c"># Dimension of the agent in term of sludge</span>
+		
+		<span class="c"># Technology Parameters</span>
+		<span class="k">if</span> <span class="n">tmpNrgTech</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">nrgTechsReceipt</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c"># technologies vectors</span>
+		<span class="k">if</span> <span class="n">tmpNrgTechProp</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">nrgPropReceipt</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">totEnergyNeed</span><span class="p">]</span> <span class="c"># KW provided by the different technologies. </span>
+		<span class="k">if</span> <span class="n">tmpTechPolicy</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">techPolicy</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span> <span class="c"># tmpPolicy tmpPolicyLength. </span>
+		<span class="k">if</span> <span class="n">tmpTechAges</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">nrgTechAges</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c"># technology ages. Time elapsed from the installation </span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">flagFree</span> <span class="o">=</span> <span class="bp">True</span>
+		
+		<span class="c"># Physical Parameters of the agent</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">solar_potential</span>  <span class="o">=</span> <span class="n">tmpSolPot</span> <span class="c"># Proportion of solar irradiation according to the place where agent is (from 0 to 1) </span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">co2</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="c"># COMMITMENT</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">social_lobby</span>  <span class="o">=</span> <span class="n">tmpSocialLobby</span> <span class="c"># How much the agent can be influenced by the neighborhoods</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">riskPredisposition</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">social_lobby</span> <span class="c"># We assume that the risk predisposition is a function of the imitation </span>
+		
+		<span class="c"># BUSINESS PARAMETERS</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">suppliers</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="p">[]</span>
+		
+		<span class="c"># FINANCIAL PARAMETERS</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">int_capital</span> <span class="o">=</span> <span class="n">tmpIntCap</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">equityCost</span> <span class="o">=</span> <span class="n">tmpEquityCost</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">balance</span> <span class="o">=</span> <span class="n">tmpBalance</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">month_balance</span> <span class="o">=</span> <span class="n">tmpMBalance</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">invLength</span> <span class="o">=</span> <span class="n">tmpInvLength</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">health</span> <span class="o">=</span> <span class="n">tmpHealth</span> <span class="c"># This parameter represents the health of the agent. Once that the agent has assessed the possible investment, this is the probability to actually invest</span>
+		<span class="k">if</span> <span class="n">tmpDebts</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">debts</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c"># initial debts list of the agent</span>
+		<span class="k">if</span> <span class="n">tmpRemDebt</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">RemainingDebts</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c"># List of the remaining part of the debt for each technology</span>
+		<span class="k">if</span> <span class="n">tmpDebtTime</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">debtTime</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c"># Time elapsed from the beginning of the investment for each technology</span>
+		<span class="k">if</span> <span class="n">tmpDebtLen</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">debtLength</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c"># length of the different investments</span>
+		<span class="k">if</span> <span class="n">tmpMrep</span> <span class="o">==</span> <span class="bp">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">debtMonthRepayment</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c"># month payment for each investment</span>
+		
+		<span class="bp">self</span><span class="o">.</span><span class="n">distanceList</span> <span class="o">=</span> <span class="p">[]</span> <span class="c"># initialize distance list </span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">attraction</span> <span class="o">=</span> <span class="p">[]</span> <span class="c"># define social attraction of the other technologies. </span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">bioHoursXMonth</span> <span class="o">=</span> <span class="mi">650</span> <span class="c"># (7800 hours per year)</span>
+		
+<div class="viewcode-block" id="agents.newTech"><a class="viewcode-back" href="../../../lib.classes.html#lib.classes.agents.agents.newTech">[docs]</a>	<span class="k">def</span> <span class="nf">newTech</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tmpTechID</span><span class="p">,</span> <span class="n">tmpProp</span><span class="p">,</span> <span class="n">tmpDistance</span><span class="p">,</span> <span class="n">tmpPolicy</span><span class="p">,</span> <span class="n">tmpPolicyLength</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">			Function to insert a new technology in the agent receipt</span>
+<span class="sd">			</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">nrgTechsReceipt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmpTechID</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">nrgPropReceipt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">totEnergyNeed</span> <span class="o">*</span> <span class="n">tmpProp</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">techPolicy</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">tmpPolicy</span><span class="p">,</span><span class="n">tmpPolicyLength</span><span class="p">])</span>
+		</div>
+<div class="viewcode-block" id="agents.awarenessAssessment"><a class="viewcode-back" href="../../../lib.classes.html#lib.classes.agents.agents.awarenessAssessment">[docs]</a>	<span class="k">def</span> <span class="nf">awarenessAssessment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">			If the agent does not know the available technologies, it can get them</span>
+<span class="sd">		</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">techawareness</span> <span class="o">==</span> <span class="bp">False</span><span class="p">:</span> 
+			<span class="k">if</span> <span class="n">ran</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">riskPredisposition</span><span class="o">**</span><span class="mi">2</span><span class="p">):</span> <span class="c"># Check this parameters!!! [C] </span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">techawareness</span> <span class="o">=</span> <span class="bp">True</span>
+				<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debugLevel</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>  <span class="s">&quot;Agent &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="s">&quot; H=&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">health</span><span class="p">,</span> <span class="s">&quot; just discovered the available technologies&quot;</span>
+		</div>
+<div class="viewcode-block" id="agents.invAssessment"><a class="viewcode-back" href="../../../lib.classes.html#lib.classes.agents.agents.invAssessment">[docs]</a>	<span class="k">def</span> <span class="nf">invAssessment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tmpTechs</span><span class="p">,</span><span class="n">tmpTechsID</span><span class="p">,</span><span class="n">tmpTime</span><span class="p">,</span><span class="n">tmpAgents</span><span class="p">,</span><span class="n">tmpPolicies</span><span class="p">,</span><span class="n">tmpAgroPrice</span><span class="p">,</span> <span class="n">tmp_dynFileFID</span><span class="p">,</span> <span class="n">tmpCreditAssessment</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">			Function to assess the possible investment</span>
+<span class="sd">		</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="c"># first position the policy, second position the total amount of used incentive. To update only if a new technology is used. </span>
+		<span class="n">tmpPolicyAmountToRemove</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+		<span class="c"># Evaluate the technology awareness of the agent</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">awarenessAssessment</span><span class="p">()</span>
+		
+		<span class="k">if</span> <span class="mi">12</span> <span class="o">-</span> <span class="n">ran</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">12</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> 
+			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debugLevel</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+				<span class="k">print</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">	\_ AGENT &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="s">&quot; is assessing its strategy&quot;</span>
+			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debugLevel</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+				<span class="k">print</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">  	 \_ Total balance: &quot;</span><span class="p">,</span> <span class="s">u&quot;</span><span class="se">\u20AC</span><span class="s">&quot;</span><span class="p">,</span> <span class="s">&quot;</span><span class="si">%.2f</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">balance</span><span class="p">,</span> <span class="s">&quot; M: &quot;</span><span class="p">,</span> <span class="s">u&quot;</span><span class="se">\u20AC</span><span class="s">&quot;</span><span class="p">,</span> <span class="s">&quot;</span><span class="si">%.2f</span><span class="s">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">month_balance</span><span class="p">,</span> <span class="s">&quot; CO2: &quot;</span><span class="p">,</span> <span class="s">&quot;</span><span class="si">%.4f</span><span class="s">&quot;</span> <span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">co2</span>
+			<span class="c"># If the agent is in health</span>
+			<span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flagFree</span> <span class="o">==</span> <span class="bp">True</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">techawareness</span> <span class="o">==</span> <span class="bp">True</span><span class="p">):</span>
+				<span class="c"># Define technology attraction list</span>
+				<span class="n">relativeAttractions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">defineTechAttraction</span><span class="p">(</span><span class="n">tmpTechs</span><span class="p">,</span> <span class="n">tmpAgents</span><span class="p">)</span>
+				<span class="c"># Create a list with all the available technologies (not already used by the agent)</span>
+				<span class="n">tmpAvaiableTechs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">tmpTechsID</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nrgTechsReceipt</span><span class="p">)))</span>
+				<span class="n">cnt</span> <span class="o">=</span> <span class="mi">0</span> <span class="c"># counter	</span>
+				<span class="n">tmpCurrentAnnualCosts</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">month_balance</span> <span class="o">*</span> <span class="mi">12</span> <span class="c"># Compute current annual costs</span>
+				<span class="c"># .. If there are available technologies </span>
+				<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmpAvaiableTechs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+					<span class="n">npvList</span> <span class="o">=</span> <span class="p">[]</span> <span class="c"># List of all net present values</span>
+					<span class="n">pbpList</span> <span class="o">=</span> <span class="p">[]</span> <span class="c"># List of all payback periods</span>
+					<span class="n">recList</span> <span class="o">=</span> <span class="p">[]</span> <span class="c"># List of all the possible technology recepits</span>
+					<span class="n">polList</span> <span class="o">=</span> <span class="p">[]</span> <span class="c"># List of all the total amount of policy used. </span>
+					<span class="n">supData</span> <span class="o">=</span> <span class="p">[]</span> <span class="c"># List of all the supplier in case of bioenergy </span>
+					<span class="n">pCosts</span> <span class="o">=</span> <span class="p">[]</span> <span class="c"># List of all the plant costs</span>
+					
+					<span class="c"># FOR EACH NEW TECHNOLOGY....</span>
+					<span class="k">for</span> <span class="n">sngTechID</span> <span class="ow">in</span> <span class="n">tmpAvaiableTechs</span><span class="p">:</span>	
+						<span class="k">if</span> <span class="n">tmpTime</span> <span class="o">&gt;=</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">startTime</span><span class="p">:</span> <span class="c"># If the introduction time is valid for the tecnology</span>
+							<span class="n">tmpHypCosts</span> <span class="o">=</span> <span class="mi">0</span>	<span class="c"># hypothetical costs according to this new technology</span>
+							<span class="n">tmpPolAmount</span> <span class="o">=</span> <span class="mi">0</span> <span class="c"># temporary variable containing the total amount of policy theoretically used with this tech	</span>
+							
+							<span class="c"># Compute the hypothetic annual costs due to the new technology implementation</span>
+							<span class="c"># .. New tech max energy production, the size of the energy partition changes according to the solar orientation of the agent</span>
+							
+							<span class="c">#############################################################################################</span>
+							<span class="c"># BIONERGY ASSESSMENT (If the agent has a potential bioenergy resource, so he may exploit it) </span>
+							<span class="c">#############################################################################################</span>
+							
+							<span class="c"># Compute the overall bio energy potential yield </span>
+							<span class="c"># hectares * tons_per_ha * kwh_x_tons / 12 month</span>
+							<span class="n">bioEnergyMonthPotentialYield</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ha</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">TxHA_yield_month</span> <span class="o">*</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">fromTons2kWhmese</span>
+							
+							<span class="n">tempSupplierData</span> <span class="o">=</span> <span class="p">[]</span>
+							<span class="k">if</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">solarBased</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">bioEnergyMonthPotentialYield</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+								<span class="c"># Plant Energy Potential</span>
+								<span class="n">plantPotential</span> <span class="o">=</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">plantDimension</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bioHoursXMonth</span><span class="p">)</span>
+								<span class="c"># If the agent has an agri dimension and it is not a client for an other agent</span>
+								<span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ha</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+									
+									<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debugLevel</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="k">print</span> <span class="s">&quot;bioenergy assessment - agent &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ID</span>
+									<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debugLevel</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="k">print</span> <span class="s">&quot;ettari &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ha</span><span class="p">,</span> <span class="s">&quot; - nrg pot: &quot;</span><span class="p">,</span> <span class="n">bioEnergyMonthPotentialYield</span>
+									<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debugLevel</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="k">print</span> <span class="s">&quot;Firms sorted by distance&quot;</span>
+									
+									<span class="c"># List of candidate suppliers</span>
+									<span class="n">candidateSorted</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">distanceList</span><span class="p">)),</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">k</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">distanceList</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+									
+									<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debugLevel</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="k">print</span> <span class="s">&quot;Sorted suppliers candidates: &quot;</span><span class="p">,</span> <span class="n">candidateSorted</span>
+									<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debugLevel</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+										<span class="k">print</span> <span class="s">&quot;Plant power: &quot;</span><span class="p">,</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">plantDimension</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">bioHoursXMonth</span><span class="p">,</span> \
+									    <span class="s">&quot; kWh/month -&gt; Profit: &quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">plantDimension</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">bioHoursXMonth</span> <span class="o">*</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">cost</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> \
+									    						<span class="o">+</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">plantDimension</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">bioHoursXMonth</span> <span class="o">*</span> <span class="n">tmpPolicies</span><span class="p">[</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">policy</span><span class="p">]</span><span class="o">.</span><span class="n">feedIN</span><span class="p">)</span> \
+									    					    <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">totEnergyNeed</span> <span class="o">*</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cost</span><span class="p">)</span>
+									
+									<span class="c"># Total potential energy to bye at month!!!</span>
+									<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debugLevel</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> 
+										<span class="k">print</span> <span class="s">&quot;Plant Theoretical Total Power: &quot;</span><span class="p">,</span> <span class="n">plantPotential</span>
+										<span class="k">print</span> <span class="s">&quot;Bio Energy Potential: &quot;</span><span class="p">,</span> <span class="n">bioEnergyMonthPotentialYield</span>
+										<span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;-- Energy Potentials -- &quot;</span><span class="p">)</span>
+									
+									<span class="n">nrgPotToBuy</span> <span class="o">=</span> <span class="n">plantPotential</span> <span class="o">-</span> <span class="n">bioEnergyMonthPotentialYield</span>
+									<span class="n">purchaseCost</span> <span class="o">=</span> <span class="mi">0</span>
+									
+									<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debugLevel</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> 
+										<span class="k">print</span> <span class="s">&quot;Year Crop Needs: &quot;</span><span class="p">,</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bioHoursXMonth</span><span class="p">)</span> <span class="o">/</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">fromTons2kWhmese</span> <span class="o">*</span> <span class="mi">12</span>
+										<span class="k">print</span> <span class="s">&quot;Unitary Cost: &quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1500</span> <span class="o">*</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bioHoursXMonth</span><span class="p">)</span> <span class="o">/</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">fromTons2kWhmese</span> <span class="o">*</span> <span class="mi">12</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">TxHA_yield</span>
+										<span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;-- Years Costs-- &quot;</span><span class="p">)</span>
+									
+									<span class="c"># For each candidate technology</span>
+									<span class="k">for</span> <span class="n">tid</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">candidateSorted</span><span class="p">):</span>
+										<span class="n">temp_i_kwh</span> <span class="o">=</span> <span class="n">tmpAgents</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">residualHa</span> <span class="o">*</span> <span class="n">tmpAgents</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">TxHA_yield_month</span> <span class="o">*</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">fromTons2kWhmese</span>
+										<span class="k">if</span> <span class="n">nrgPotToBuy</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> 
+											<span class="k">if</span> <span class="n">tid</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="c"># Exlude itself</span>
+												<span class="c"># If trading the potential energy is better than producing normal crop</span>
+												<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debugLevel</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> 
+													<span class="k">print</span> <span class="s">&quot;Energy Sale: &quot;</span><span class="p">,</span><span class="n">temp_i_kwh</span>  <span class="o">*</span> <span class="mf">0.15</span><span class="p">,</span>\
+														   <span class="s">&quot; - crop price: &quot;</span><span class="p">,</span> <span class="n">tmpAgents</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">residualHa</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">TxHA_yield_month</span> <span class="o">*</span> <span class="n">tmpAgroPrice</span><span class="p">;</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;cioa&quot;</span><span class="p">)</span>
+												<span class="c">#(tmpAgents[i].residualHa * tmpAgents[i].TxHA_yield_month * tmpTechs[sngTechID].fromTons2kWhmese * 0.15) &gt; (tmpAgents[i].residualHa * tmpAgents[i].TxHA_yield_month * tmpAgroPrice)		   </span>
+												<span class="k">if</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">fromTons2kWhmese</span> <span class="o">*</span> <span class="mf">0.15</span><span class="p">)</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">tmpAgroPrice</span><span class="p">):</span>
+													<span class="k">if</span> <span class="n">temp_i_kwh</span> <span class="o">&gt;</span> <span class="n">nrgPotToBuy</span><span class="p">:</span>
+														<span class="n">tempSupplierData</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i</span><span class="p">,</span><span class="n">nrgPotToBuy</span><span class="p">])</span>
+														<span class="n">purchaseCost</span> <span class="o">+=</span> <span class="n">nrgPotToBuy</span> <span class="o">*</span> <span class="mf">0.15</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">distanceList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">transportCosts</span><span class="p">)</span>
+														<span class="n">nrgPotToBuy</span> <span class="o">-=</span> <span class="n">nrgPotToBuy</span>
+													<span class="k">else</span><span class="p">:</span>
+														<span class="n">nrgPotToBuy</span> <span class="o">-=</span> <span class="n">temp_i_kwh</span>
+														<span class="n">tempSupplierData</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">i</span><span class="p">,</span><span class="n">temp_i_kwh</span><span class="p">])</span>
+														<span class="n">purchaseCost</span> <span class="o">+=</span> <span class="n">temp_i_kwh</span> <span class="o">*</span> <span class="mf">0.15</span> <span class="o">*</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">distanceList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">transportCosts</span><span class="p">)</span>
+													
+													<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debugLevel</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="k">print</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s"> Agente: &quot;</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="s">&quot; ettari residui: &quot;</span><span class="p">,</span> <span class="n">tmpAgents</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">residualHa</span><span class="p">,</span> <span class="s">&quot; potenziale &quot;</span><span class="p">,</span> <span class="n">temp_i_kwh</span><span class="p">,</span>\
+													<span class="s">&quot; nrgbought: &quot;</span><span class="p">,</span> <span class="n">nrgPotToBuy</span><span class="p">,</span> <span class="s">&quot; spesa: &quot;</span><span class="p">,</span> <span class="n">purchaseCost</span><span class="p">,</span> <span class="s">&quot; - NRG sprecata &quot;</span><span class="p">,</span> <span class="n">nrgPotToBuy</span>
+													<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debugLevel</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="k">print</span> <span class="n">tempSupplierData</span>
+									
+							
+							<span class="k">if</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">solarBased</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">bioEnergyMonthPotentialYield</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> <span class="c"># If bio-energy</span>
+								<span class="n">tmpNewNrgProp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">totEnergyNeed</span>
+							<span class="k">else</span><span class="p">:</span> <span class="c"># if solar</span>
+								<span class="n">tmpNewNrgProp</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">ran</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">totEnergyNeed</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nb">pow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">solar_potential</span><span class="p">,</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">solarBased</span><span class="p">))))</span>
+							
+							<span class="k">if</span> <span class="n">tmpNewNrgProp</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+								<span class="n">tmpNrgPropReceipt</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rearrangeTechPropList</span><span class="p">(</span><span class="n">tmpNewNrgProp</span><span class="p">)</span> <span class="c"># Create a temporary new energy proportion list </span>
+								<span class="c"># Compute the overall cost of the plan according to the relation between kWh and kW. </span>
+								<span class="k">if</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">solarBased</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">fromTons2kWhmese</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span> <span class="c">#(BIOENERGY)</span>
+									<span class="n">tmpOverallPlantCost</span> <span class="o">=</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">plantDimension</span> <span class="o">*</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">plantCost</span> 
+								<span class="k">else</span><span class="p">:</span> <span class="c"># In case of non bioenergy investment</span>
+									<span class="n">tmpOverallPlantCost</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">tmpNewNrgProp</span><span class="p">)</span> <span class="o">/</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">fromKWH2KW</span> <span class="o">*</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">plantCost</span>
+									
+								<span class="c"># Append all the overall cost for the financial assessment 	</span>
+								<span class="n">pCosts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmpOverallPlantCost</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">int_capital</span><span class="p">))</span>
+								
+								<span class="k">if</span> <span class="n">tmpOverallPlantCost</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">int_capital</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+									<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debugLevel</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+										<span class="k">print</span> <span class="n">pCosts</span>
+										<span class="k">print</span> <span class="n">tmpOverallPlantCost</span>
+										<span class="k">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">int_capital</span>
+										<span class="k">print</span> <span class="n">tmpNewNrgProp</span>
+										<span class="k">print</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">fromKWH2KW</span>
+										<span class="k">print</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">plantCost</span>
+										<span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;cusie&quot;</span><span class="p">)</span>
+								<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debugLevel</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span> <span class="k">print</span> <span class="s">&quot;overall plant cost:&quot;</span><span class="p">,</span> <span class="n">tmpOverallPlantCost</span><span class="p">;</span> <span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;---plant overall cost---&quot;</span><span class="p">)</span>
+								
+								<span class="c"># -------------------------------</span>
+								<span class="c"># FOR THE YEARS OF THE INVESTMENT</span>
+								<span class="c"># ------------------------------- </span>
+								<span class="n">netPresentValue</span> <span class="o">=</span> <span class="mi">0</span>
+								<span class="n">payBackPeriod</span> <span class="o">=</span> <span class="mi">0</span>
+								<span class="n">cashFlow</span> <span class="o">=</span> <span class="mi">0</span>
+								<span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">invLength</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+									<span class="c"># Compute costs and intentives of the year</span>
+									<span class="n">tmpCostsAndIncs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">computeAnnualCostandIncs</span><span class="p">(</span><span class="n">sngTechID</span><span class="p">,</span> <span class="n">tmpNewNrgProp</span><span class="p">,</span> <span class="n">tmpNrgPropReceipt</span><span class="p">,</span> <span class="n">tmpTechs</span><span class="p">,</span> <span class="n">tmpPolicies</span><span class="p">,</span> <span class="n">relativeAttractions</span><span class="p">,</span> <span class="n">tmpOverallPlantCost</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+									
+									<span class="n">tmpHypCosts</span> <span class="o">=</span> <span class="n">tmpCostsAndIncs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+																											
+									<span class="c"># If bioenergy hypotetic costs must be incremented with the purchase of external biomass and decreased with energy produced and sold</span>
+									<span class="k">if</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">solarBased</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">fromTons2kWhmese</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+										<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">tempSupplierData</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+											<span class="n">tmpHypCosts</span> <span class="o">+=</span> <span class="n">purchaseCost</span> <span class="o">*</span> <span class="mi">12</span>
+																						
+											<span class="c"># Compute costs related to the plant potential exceeding the internal demand		</span>
+											<span class="n">tmpHypCosts</span> <span class="o">+=</span> <span class="p">((</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">plantDimension</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">bioHoursXMonth</span> <span class="o">*</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">efficiency</span><span class="o">**</span><span class="n">y</span><span class="p">))</span> <span class="o">-</span> \
+														    <span class="p">(</span><span class="n">tmpNewNrgProp</span> <span class="o">*</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">efficiency</span><span class="o">**</span><span class="n">y</span><span class="p">)))</span> <span class="o">*</span> \
+														    <span class="p">(</span><span class="n">tmpPolicies</span><span class="p">[</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">policy</span><span class="p">]</span><span class="o">.</span><span class="n">carbonTax</span> <span class="o">+</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">cost</span> <span class="o">-</span> <span class="n">tmpPolicies</span><span class="p">[</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">policy</span><span class="p">]</span><span class="o">.</span><span class="n">feedIN</span><span class="p">)</span> <span class="o">*</span> <span class="mi">12</span>
+											
+									<span class="n">tmpPolAmount</span> <span class="o">+=</span> <span class="n">tmpCostsAndIncs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+									<span class="n">tmpEXTplantCost</span> <span class="o">=</span> <span class="n">tmpCostsAndIncs</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+									<span class="n">tmpINTplantCost</span> <span class="o">=</span> <span class="n">tmpCostsAndIncs</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+									<span class="n">wacc</span> <span class="o">=</span> <span class="n">tmpCostsAndIncs</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+									<span class="c"># Reset cash flow for this year</span>
+									<span class="n">cashFlow</span> <span class="o">=</span> <span class="mi">0</span>
+									<span class="c"># Compute the tax-credit-investment for the years of the incentive</span>
+									<span class="n">tmpCredInv</span> <span class="o">=</span> <span class="mi">0</span>
+									<span class="k">if</span> <span class="p">(</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">tmpPolicies</span><span class="p">[</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">policy</span><span class="p">]</span><span class="o">.</span><span class="n">length</span> <span class="o">/</span> <span class="mi">12</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">tmpPolicies</span><span class="p">[</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">policy</span><span class="p">]</span><span class="o">.</span><span class="n">taxCreditInv</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+										<span class="n">tmpCredInv</span> <span class="o">+=</span> <span class="n">tmpOverallPlantCost</span> <span class="o">*</span> <span class="n">tmpPolicies</span><span class="p">[</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">policy</span><span class="p">]</span><span class="o">.</span><span class="n">taxCreditInv</span> <span class="o">/</span> \
+													<span class="p">(</span><span class="n">tmpPolicies</span><span class="p">[</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">policy</span><span class="p">]</span><span class="o">.</span><span class="n">length</span> <span class="o">/</span> <span class="mi">12</span><span class="p">)</span>
+										<span class="c"># (3) Since tax credit investment has been theoretically used, it is updated</span>
+										<span class="n">tmpPolAmount</span> <span class="o">+=</span> <span class="n">tmpCredInv</span>
+										
+									<span class="c"># Compute annual interest to pay for the YEARS of the loan</span>
+									<span class="k">if</span> <span class="n">y</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">loanLength</span> <span class="o">/</span> <span class="mi">12</span><span class="p">):</span>
+										<span class="c"># Compute clean annual interest</span>
+										<span class="n">tmpAnnualInterest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">computeLoanAnnualInterest</span><span class="p">(</span><span class="n">tmpEXTplantCost</span><span class="p">,</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">loanLength</span> <span class="o">/</span> <span class="mi">12</span><span class="p">),</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">interestRate</span><span class="p">)</span>
+										<span class="c"># If there is an incentive on the interest</span>
+										<span class="k">if</span> <span class="p">(</span><span class="n">y</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="n">tmpPolicies</span><span class="p">[</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">policy</span><span class="p">]</span><span class="o">.</span><span class="n">length</span> <span class="o">/</span> <span class="mi">12</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">tmpPolicies</span><span class="p">[</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">policy</span><span class="p">]</span><span class="o">.</span><span class="n">taxCredit</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+											<span class="n">tmpIntRate</span> <span class="o">=</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">interestRate</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">tmpPolicies</span><span class="p">[</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">policy</span><span class="p">]</span><span class="o">.</span><span class="n">taxCredit</span><span class="p">)</span>
+											<span class="n">tmpAnnualInterestWithInc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">computeLoanAnnualInterest</span><span class="p">(</span><span class="n">tmpEXTplantCost</span><span class="p">,</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">loanLength</span> <span class="o">/</span> <span class="mi">12</span><span class="p">),</span> <span class="n">tmpIntRate</span><span class="p">)</span> 
+											<span class="c"># (4) Since tax credit interest has been theoretically used, it is updated</span>
+											<span class="n">tmpPolAmount</span> <span class="o">+=</span> <span class="n">tmpAnnualInterest</span> <span class="o">-</span> <span class="n">tmpAnnualInterestWithInc</span>
+											<span class="n">tmpAnnualInterest</span> <span class="o">=</span> <span class="n">tmpAnnualInterestWithInc</span>
+										
+										<span class="c"># Investment credit + annual savings - interests - credit capital </span>
+										<span class="c">#print tmpCurrentAnnualCosts</span>
+										<span class="c">#print tmpHypCosts</span>
+										<span class="c">#raw_input(&quot;cioa&quot;)</span>
+										<span class="n">cashFlow</span> <span class="o">=</span> <span class="n">tmpCredInv</span> <span class="o">+</span> <span class="p">(</span><span class="n">tmpCurrentAnnualCosts</span> <span class="o">-</span> <span class="n">tmpHypCosts</span><span class="p">)</span> <span class="o">-</span> <span class="n">tmpAnnualInterest</span> <span class="o">-</span> <span class="p">(</span><span class="n">tmpEXTplantCost</span> <span class="o">/</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">loanLength</span> <span class="o">/</span> <span class="mi">12</span><span class="p">))</span>
+									<span class="k">else</span><span class="p">:</span>
+										<span class="c"># Investment credit + annual savings</span>
+										<span class="n">cashFlow</span> <span class="o">=</span> <span class="n">tmpCredInv</span> <span class="o">+</span> <span class="p">(</span><span class="n">tmpCurrentAnnualCosts</span> <span class="o">-</span> <span class="n">tmpHypCosts</span><span class="p">)</span>
+										
+									<span class="c"># if there is equity capital it is spent in the first year</span>
+									<span class="k">if</span> <span class="p">((</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">tmpINTplantCost</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)):</span> <span class="n">cashFlow</span> <span class="o">-=</span> <span class="n">tmpINTplantCost</span>
+									<span class="c"># Compute in progress NPV</span>
+									<span class="n">netPresentValue</span> <span class="o">+=</span> <span class="n">cashFlow</span> <span class="o">/</span> <span class="p">(</span><span class="nb">pow</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">wacc</span><span class="p">,</span><span class="n">y</span><span class="p">))</span>
+									<span class="c">#print &quot;CF: &quot;, cashFlow, &quot; cred: &quot;, tmpCredInv, &quot; + (HC: &quot;,tmpCurrentAnnualCosts, &quot; - h: &quot;, tmpHypCosts, &quot;) - INT &quot;, tmpAnnualInterest,\</span>
+									<span class="c">#      &quot; = NPV: &quot;, netPresentValue, &quot; - PLANT: &quot;, tmpOverallPlantCost, &quot; delta: %.2f&quot; % (netPresentValue - tmpOverallPlantCost), &quot; dim: &quot;, tmpNewNrgProp</span>
+									<span class="c"># Compute paybackPeriod</span>
+									<span class="k">if</span> <span class="p">(</span><span class="n">netPresentValue</span> <span class="o">&gt;=</span> <span class="n">tmpOverallPlantCost</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">payBackPeriod</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+										<span class="n">payBackPeriod</span> <span class="o">=</span> <span class="n">y</span>
+								
+										
+								<span class="c"># .. Compute final net present value</span>
+								<span class="n">netPresentValue</span> <span class="o">-=</span> <span class="n">tmpOverallPlantCost</span>
+								
+								<span class="c"># Append analysis value in lists </span>
+								<span class="n">npvList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">netPresentValue</span><span class="p">)</span>
+								<span class="n">pbpList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">payBackPeriod</span><span class="p">)</span>
+								<span class="n">recList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmpNrgPropReceipt</span><span class="p">)</span>
+								<span class="n">polList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmpPolAmount</span><span class="p">)</span>
+								<span class="n">supData</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tempSupplierData</span><span class="p">)</span>
+
+								<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debugLevel</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> 
+									<span class="k">print</span> <span class="s">&quot;NPV: &quot;</span><span class="p">,</span> <span class="n">npvList</span>
+									<span class="k">print</span> <span class="s">&quot;PBP: &quot;</span><span class="p">,</span> <span class="n">pbpList</span>
+									<span class="k">print</span> <span class="s">&quot;tmpNrgPropReceipt: &quot;</span><span class="p">,</span> <span class="n">tmpNrgPropReceipt</span>
+									<span class="k">print</span> <span class="s">&quot;tmpPolAmount: &quot;</span><span class="p">,</span> <span class="n">tmpPolAmount</span>
+									<span class="k">print</span> <span class="s">&quot;supdata: &quot;</span><span class="p">,</span> <span class="n">supData</span>
+									<span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;push to continue...&quot;</span><span class="p">)</span>
+								
+								<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debugLevel</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+									<span class="k">print</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s">  	  |- Tech: &quot;</span><span class="p">,</span> <span class="n">cnt</span><span class="p">,</span> <span class="s">&quot; NPV: </span><span class="si">%10.2f</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">netPresentValue</span><span class="p">,</span> <span class="s">&quot; PBP: &quot;</span><span class="p">,</span> <span class="n">payBackPeriod</span>
+							
+							<span class="n">cnt</span> <span class="o">=</span> <span class="n">cnt</span> <span class="o">+</span> <span class="mi">1</span> <span class="c"># Available technology Counter update</span>
+					
+					<span class="c"># .. Compute the better technology (IF the PBP is satisfied the technology with the better NPV is selected)</span>
+					<span class="n">betterTechPos</span> <span class="o">=</span> <span class="mi">0</span>
+					<span class="n">betterNPV</span> <span class="o">=</span> <span class="mi">0</span>
+					<span class="n">betterPayBack</span> <span class="o">=</span> <span class="mi">0</span>
+					<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">npvList</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+						<span class="n">tmpFinID</span> <span class="o">=</span> <span class="mi">0</span>
+						<span class="c">#print npvList</span>
+						<span class="c">#print pbpList</span>
+						<span class="c">#raw_input(&quot;fio&quot;)</span>
+						<span class="k">for</span> <span class="n">s_id</span><span class="p">,</span> <span class="n">sngPbpList</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pbpList</span><span class="p">):</span>
+							<span class="k">if</span> <span class="p">(</span><span class="n">sngPbpList</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">sngPbpList</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">invLength</span><span class="p">):</span>
+								<span class="k">if</span> <span class="n">npvList</span><span class="p">[</span><span class="n">tmpFinID</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">betterNPV</span><span class="p">:</span> 
+									<span class="c"># Ask for the financial aid [C]. </span>
+									<span class="c"># The health of the firm is rescaled with relative cost of the plant</span>
+									<span class="k">if</span> <span class="n">tmpCreditAssessment</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+										<span class="k">if</span> <span class="n">pCosts</span><span class="p">[</span><span class="n">s_id</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> 
+											<span class="n">tmpNum</span> <span class="o">=</span> <span class="mi">1</span> 
+										<span class="k">else</span><span class="p">:</span> <span class="n">tmpNum</span> <span class="o">=</span> <span class="n">pCosts</span><span class="p">[</span><span class="n">s_id</span><span class="p">]</span>
+										<span class="k">if</span> <span class="nb">min</span><span class="p">(</span><span class="n">pCosts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> 
+											<span class="n">tmpDem</span> <span class="o">=</span> <span class="mi">1</span> 
+										<span class="k">else</span><span class="p">:</span> <span class="n">tmpDem</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">pCosts</span><span class="p">)</span>
+										
+										<span class="k">try</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">health</span> <span class="o">/</span> <span class="p">(</span><span class="n">tmpNum</span><span class="o">/</span><span class="n">tmpDem</span><span class="p">))</span>
+										<span class="k">except</span><span class="p">:</span> 
+											<span class="k">print</span> <span class="n">tmpOverallPlantCost</span>
+											<span class="k">print</span> <span class="n">pCosts</span>
+											<span class="k">print</span> <span class="bp">self</span><span class="o">.</span><span class="n">int_capital</span>
+										<span class="k">if</span> <span class="n">ran</span><span class="o">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">health</span> <span class="o">/</span> <span class="p">(</span><span class="n">tmpNum</span><span class="o">/</span><span class="n">tmpDem</span><span class="p">)):</span>
+											<span class="n">betterNPV</span> <span class="o">=</span> <span class="n">npvList</span><span class="p">[</span><span class="n">tmpFinID</span><span class="p">]</span>
+											<span class="n">betterTechPos</span> <span class="o">=</span> <span class="n">tmpFinID</span>
+											<span class="n">betterPayBack</span> <span class="o">=</span> <span class="n">sngPbpList</span>
+									<span class="k">else</span><span class="p">:</span>
+										<span class="n">betterNPV</span> <span class="o">=</span> <span class="n">npvList</span><span class="p">[</span><span class="n">tmpFinID</span><span class="p">]</span>
+										<span class="n">betterTechPos</span> <span class="o">=</span> <span class="n">tmpFinID</span>
+										<span class="n">betterPayBack</span> <span class="o">=</span> <span class="n">sngPbpList</span>
+									<span class="c">#else:</span>
+									<span class="c">#	betterNPV = npvList[tmpFinID]</span>
+									<span class="c">#	betterTechPos = tmpFinID</span>
+									<span class="c">#	betterPayBack = sngPbpList</span>
+							<span class="n">tmpFinID</span> <span class="o">+=</span> <span class="mi">1</span>
+							
+					<span class="c"># If there is a positive maximum net present value</span>
+					<span class="k">if</span> <span class="n">betterNPV</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+						<span class="n">tmpRnd</span> <span class="o">=</span> <span class="n">ran</span><span class="o">.</span><span class="n">random</span><span class="p">()</span>
+						<span class="c">#print self.invLength, &quot; &quot;, betterPayBack, &quot; &quot;, self.health</span>
+						<span class="c">#print tmpRnd</span>
+						<span class="k">if</span> <span class="n">tmpRnd</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">genLogFun</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">invLength</span> <span class="o">-</span> <span class="n">betterPayBack</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">health</span><span class="p">):</span>
+							<span class="c">#print tmpRnd</span>
+							<span class="c">#print self.genLogFun((self.invLength - betterPayBack), self.health)</span>
+							<span class="c">#print betterPayBack</span>
+							<span class="c">#print self.invLength - betterPayBack</span>
+							<span class="c">#raw_input(&quot;random&quot;)</span>
+								
+							<span class="c"># .. If a BETTER new technology exist, it is added to the agent</span>
+							
+							<span class="bp">self</span><span class="o">.</span><span class="n">flagFree</span> <span class="o">=</span> <span class="bp">False</span> <span class="c"># Technology search is blocked</span>
+							<span class="bp">self</span><span class="o">.</span><span class="n">nrgTechsReceipt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmpTechsID</span><span class="p">[</span><span class="n">tmpAvaiableTechs</span><span class="p">[</span><span class="n">betterTechPos</span><span class="p">]])</span>
+							<span class="bp">self</span><span class="o">.</span><span class="n">nrgPropReceipt</span> <span class="o">=</span> <span class="n">recList</span><span class="p">[</span><span class="n">betterTechPos</span><span class="p">]</span>
+							<span class="bp">self</span><span class="o">.</span><span class="n">nrgTechAges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+							<span class="bp">self</span><span class="o">.</span><span class="n">techPolicy</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">tmpTechsID</span><span class="p">[</span><span class="n">tmpAvaiableTechs</span><span class="p">[</span><span class="n">betterTechPos</span><span class="p">]]]</span><span class="o">.</span><span class="n">policy</span><span class="p">,</span>\
+												<span class="n">tmpPolicies</span><span class="p">[</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">tmpTechsID</span><span class="p">[</span><span class="n">tmpAvaiableTechs</span><span class="p">[</span><span class="n">betterTechPos</span><span class="p">]]]</span><span class="o">.</span><span class="n">policy</span><span class="p">]</span><span class="o">.</span><span class="n">length</span><span class="p">])</span>
+							<span class="c"># ... Compute total interest</span>
+							<span class="n">totInterestsToPay</span> <span class="o">=</span> <span class="mi">0</span>
+							<span class="k">for</span> <span class="n">iyears</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">tmpAvaiableTechs</span><span class="p">[</span><span class="n">betterTechPos</span><span class="p">]]</span><span class="o">.</span><span class="n">loanLength</span> <span class="o">/</span> <span class="mi">12</span><span class="p">)):</span>
+								<span class="k">if</span> <span class="n">iyears</span> <span class="o">&lt;</span> <span class="p">(</span><span class="n">tmpPolicies</span><span class="p">[</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">tmpTechsID</span><span class="p">[</span><span class="n">tmpAvaiableTechs</span><span class="p">[</span><span class="n">betterTechPos</span><span class="p">]]]</span><span class="o">.</span><span class="n">policy</span><span class="p">]</span><span class="o">.</span><span class="n">length</span> <span class="o">/</span> <span class="mi">12</span><span class="p">):</span>
+									<span class="n">tmpIntRate</span> <span class="o">=</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nrgTechsReceipt</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">interestRate</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">tmpPolicies</span><span class="p">[</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">tmpTechsID</span><span class="p">[</span><span class="n">tmpAvaiableTechs</span><span class="p">[</span><span class="n">betterTechPos</span><span class="p">]]]</span><span class="o">.</span><span class="n">policy</span><span class="p">]</span><span class="o">.</span><span class="n">taxCredit</span><span class="p">)</span>
+									<span class="n">tmpAnnualInterest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">computeLoanAnnualInterest</span><span class="p">(</span><span class="n">tmpEXTplantCost</span><span class="p">,</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nrgTechsReceipt</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">loanLength</span> <span class="o">/</span> <span class="mi">12</span><span class="p">),</span> <span class="n">tmpIntRate</span><span class="p">)</span> 
+								<span class="k">else</span><span class="p">:</span>
+									<span class="n">tmpAnnualInterest</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">computeLoanAnnualInterest</span><span class="p">(</span><span class="n">tmpEXTplantCost</span><span class="p">,</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nrgTechsReceipt</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span><span class="o">.</span><span class="n">loanLength</span> <span class="o">/</span> <span class="mi">12</span><span class="p">),</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">interestRate</span><span class="p">)</span>	
+								<span class="n">totInterestsToPay</span> <span class="o">+=</span> <span class="n">tmpAnnualInterest</span>
+																				
+							<span class="n">tmpTotalDept</span> <span class="o">=</span> <span class="n">tmpEXTplantCost</span> <span class="o">+</span> <span class="n">totInterestsToPay</span>
+							<span class="bp">self</span><span class="o">.</span><span class="n">debts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmpTotalDept</span><span class="p">)</span>
+							<span class="bp">self</span><span class="o">.</span><span class="n">RemainingDebts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmpTotalDept</span><span class="p">)</span>
+							<span class="bp">self</span><span class="o">.</span><span class="n">debtTime</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmpTime</span><span class="p">)</span> 
+							<span class="bp">self</span><span class="o">.</span><span class="n">debtLength</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">tmpAvaiableTechs</span><span class="p">[</span><span class="n">betterTechPos</span><span class="p">]]</span><span class="o">.</span><span class="n">loanLength</span> <span class="o">/</span> <span class="mi">12</span><span class="p">))</span>
+							<span class="bp">self</span><span class="o">.</span><span class="n">debtMonthRepayment</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmpTotalDept</span> <span class="o">/</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">tmpAvaiableTechs</span><span class="p">[</span><span class="n">betterTechPos</span><span class="p">]]</span><span class="o">.</span><span class="n">loanLength</span><span class="p">)</span>
+							<span class="c"># Init Inv Payment</span>
+							<span class="bp">self</span><span class="o">.</span><span class="n">month_balance</span> <span class="o">=</span> <span class="n">tmpINTplantCost</span>
+							<span class="bp">self</span><span class="o">.</span><span class="n">balance</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">month_balance</span>
+							
+							<span class="n">tmpPolicyAmountToRemove</span> <span class="o">=</span> <span class="p">[</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">tmpTechsID</span><span class="p">[</span><span class="n">tmpAvaiableTechs</span><span class="p">[</span><span class="n">betterTechPos</span><span class="p">]]]</span><span class="o">.</span><span class="n">policy</span><span class="p">,</span> <span class="n">polList</span><span class="p">[</span><span class="n">betterTechPos</span><span class="p">]]</span>
+							
+							<span class="c"># IF BIOENERGY, so supplier are added to the suppliers list and the agent is added as client to the distinct suppliers</span>
+							<span class="k">if</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">solarBased</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">sngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">fromTons2kWhmese</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+								<span class="k">for</span> <span class="n">sngData</span> <span class="ow">in</span> <span class="n">supData</span><span class="p">[</span><span class="n">betterTechPos</span><span class="p">]:</span> 
+									<span class="bp">self</span><span class="o">.</span><span class="n">suppliers</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">sngData</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">sngData</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span> <span class="c"># Add pot energy supplier</span>
+									<span class="c"># Residual HA to use is decremented</span>
+									<span class="n">tmpAgents</span><span class="p">[</span><span class="n">sngData</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">residualHa</span> <span class="o">-=</span> <span class="n">sngData</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">tmpTechsID</span><span class="p">[</span><span class="n">tmpAvaiableTechs</span><span class="p">[</span><span class="n">betterTechPos</span><span class="p">]]]</span><span class="o">.</span><span class="n">fromTons2kWhmese</span>
+									<span class="bp">self</span><span class="o">.</span><span class="n">residualHa</span> <span class="o">=</span> <span class="mi">0</span>									
+									<span class="n">tmpAgents</span><span class="p">[</span><span class="n">sngData</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span><span class="n">sngData</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
+									<span class="n">tmpAgents</span><span class="p">[</span><span class="n">sngData</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">techawareness</span> <span class="o">=</span> <span class="bp">True</span>
+									
+							<span class="c"># In case of investment the action of the agent is registered on this file.</span>
+							<span class="n">strReg</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tmpTime</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ID</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">+</span> \
+							         <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">totEnergyNeed</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">tmpTechsID</span><span class="p">[</span><span class="n">tmpAvaiableTechs</span><span class="p">[</span><span class="n">betterTechPos</span><span class="p">]]]</span><span class="o">.</span><span class="n">ID</span><span class="p">)</span> <span class="o">+</span> \
+							         <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">riskPredisposition</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">social_lobby</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">health</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+							<span class="n">tmp_dynFileFID</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">strReg</span><span class="p">)</span>
+									
+							
+							<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">debugLevel</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+								<span class="k">print</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s"> 	    |- Agent &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">ID</span><span class="p">,</span> <span class="s">&quot; has invested in a new technology:&quot;</span>
+								<span class="k">print</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s"> 	     \_ New Technology List: &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrgTechsReceipt</span>
+								<span class="k">print</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s"> 	     \_ New Technology Receipt List: &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrgPropReceipt</span>
+								<span class="k">print</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s"> 	     \_ New Debts List: &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">debts</span>
+								<span class="k">print</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s"> 	     \_ New Residual Debts List: &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">RemainingDebts</span>
+								<span class="k">print</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s"> 	     \_ New Initial Debts Time List: &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">debtTime</span>
+								<span class="k">print</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s"> 	     \_ New Debts Lengths List: &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">debtLength</span>
+								<span class="k">print</span> <span class="s">&quot;</span><span class="se">\t</span><span class="s"> 	     \_ New Debts Month Repayment List: &quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">debtMonthRepayment</span>
+								<span class="nb">raw_input</span><span class="p">(</span><span class="s">&quot;next agent&quot;</span><span class="p">)</span>
+								
+		<span class="k">return</span> <span class="n">tmpPolicyAmountToRemove</span>
+								</div>
+<div class="viewcode-block" id="agents.computeAnnualCostandIncs"><a class="viewcode-back" href="../../../lib.classes.html#lib.classes.agents.agents.computeAnnualCostandIncs">[docs]</a>	<span class="k">def</span> <span class="nf">computeAnnualCostandIncs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tmpSngTechID</span><span class="p">,</span> <span class="n">tmp_newNrgProp</span><span class="p">,</span> <span class="n">tmp_NrgPropReceipt</span><span class="p">,</span> <span class="n">tmp_techs</span><span class="p">,</span> <span class="n">tmp_policies</span><span class="p">,</span> \
+								<span class="n">tmpRelativeAttractions</span><span class="p">,</span> <span class="n">tmp_overallPlantCost</span><span class="p">,</span> <span class="n">tmpTime</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">			This function computes annual costs and annual feed-in incentives according to the technology energy drops</span>
+<span class="sd">			</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="c"># .. According to the temporary new tech	 energy proportion the annual cost is computed</span>
+		<span class="n">tmpCosts</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="n">tmpIncsAmount</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="c"># Update values within tmp_NrgPropReceipt according to the year of the theoretical investment</span>
+		<span class="n">tmpNewPropWithDrop</span> <span class="o">=</span> <span class="n">tmp_newNrgProp</span> <span class="o">*</span> <span class="p">(</span><span class="n">tmp_techs</span><span class="p">[</span><span class="n">tmpSngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">efficiency</span><span class="o">**</span><span class="n">tmpTime</span><span class="p">)</span>
+		<span class="c"># Update the proportion technology list according to the efficiency drop and the year computed</span>
+		<span class="n">dynNrgPropReceipt</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">tmp_NrgPropReceipt</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">tmpID</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">dynNrgPropReceipt</span><span class="p">):</span>
+			<span class="n">tmpValue</span> <span class="o">=</span> <span class="n">dynNrgPropReceipt</span><span class="p">[</span><span class="n">tmpID</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">tmp_techs</span><span class="p">[</span><span class="n">tmpID</span><span class="p">]</span><span class="o">.</span><span class="n">efficiency</span><span class="o">**</span><span class="n">tmpTime</span><span class="p">)</span>
+			<span class="n">dynNrgPropReceipt</span><span class="p">[</span><span class="n">tmpID</span><span class="p">]</span> <span class="o">=</span> <span class="n">tmpValue</span>
+			<span class="k">if</span> <span class="n">tmpID</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+				<span class="n">dynNrgPropReceipt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">tmpValue</span>
+						
+		<span class="c"># For each already present technology according to the new temporary distribution</span>
+		<span class="k">for</span> <span class="n">tmpCnt</span><span class="p">,</span> <span class="n">tmpNewSngProp</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tmp_NrgPropReceipt</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
+			<span class="c"># Compute distance from source, if distance is 0 this term is 0 and the multiplier does not affect the computation</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">tmp_techs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nrgTechsReceipt</span><span class="p">[</span><span class="n">tmpCnt</span><span class="p">]]</span><span class="o">.</span><span class="n">X</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">tmp_techs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nrgTechsReceipt</span><span class="p">[</span><span class="n">tmpCnt</span><span class="p">]]</span><span class="o">.</span><span class="n">Y</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+				<span class="n">tmpDistanceFromSourceMultiplier</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="nb">pow</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">tmp_techs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nrgTechsReceipt</span><span class="p">[</span><span class="n">tmpCnt</span><span class="p">]]</span><span class="o">.</span><span class="n">X</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="nb">pow</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">tmp_techs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nrgTechsReceipt</span><span class="p">[</span><span class="n">tmpCnt</span><span class="p">]]</span><span class="o">.</span><span class="n">Y</span><span class="p">),</span><span class="mi">2</span><span class="p">),</span><span class="mf">0.5</span><span class="p">)</span>
+				<span class="n">tmpDistanceFromSourceMultiplier</span> <span class="o">*=</span> <span class="n">tmp_techs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nrgTechsReceipt</span><span class="p">[</span><span class="n">tmpCnt</span><span class="p">]]</span><span class="o">.</span><span class="n">transportCosts</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">tmpDistanceFromSourceMultiplier</span> <span class="o">=</span> <span class="mi">0</span>
+			
+			<span class="c"># Costs related to the already present technologies. </span>
+			<span class="n">tmpCosts</span> <span class="o">+=</span> <span class="n">tmpNewSngProp</span> <span class="o">*</span> \
+			             <span class="p">(</span><span class="n">tmp_techs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nrgTechsReceipt</span><span class="p">[</span><span class="n">tmpCnt</span><span class="p">]]</span><span class="o">.</span><span class="n">cost</span> <span class="o">+</span> \
+						  <span class="n">tmp_policies</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">techPolicy</span><span class="p">[</span><span class="n">tmpCnt</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">carbonTax</span> <span class="o">+</span> \
+						  <span class="n">tmpDistanceFromSourceMultiplier</span> <span class="o">-</span> \
+						  <span class="n">tmp_policies</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">techPolicy</span><span class="p">[</span><span class="n">tmpCnt</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">feedIN</span><span class="p">)</span>
+
+			<span class="c"># (1) Since feedIn has been theoretically used, it is updated</span>
+			<span class="n">tmpIncsAmount</span> <span class="o">+=</span> <span class="n">tmpNewSngProp</span> <span class="o">*</span> <span class="n">tmp_policies</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">techPolicy</span><span class="p">[</span><span class="n">tmpCnt</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">feedIN</span>
+			
+			<span class="k">if</span> <span class="n">tmp_techs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nrgTechsReceipt</span><span class="p">[</span><span class="n">tmpCnt</span><span class="p">]]</span><span class="o">.</span><span class="n">cost</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+				<span class="c"># If the cost is negative the energy is sold, so the cost of the traditional energy has to be added </span>
+				<span class="n">tmpCosts</span> <span class="o">+=</span> <span class="n">tmpNewSngProp</span> <span class="o">*</span> <span class="n">tmp_techs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cost</span>
+		
+		<span class="c"># (2) Since feedIn has been theoretically used, it is updated</span>
+		<span class="n">tmpIncsAmount</span> <span class="o">+=</span> <span class="n">tmpNewPropWithDrop</span> <span class="o">*</span> <span class="n">tmp_policies</span><span class="p">[</span><span class="n">tmp_techs</span><span class="p">[</span><span class="n">tmpSngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">policy</span><span class="p">]</span><span class="o">.</span><span class="n">feedIN</span>
+		
+		<span class="n">tmpCosts</span> <span class="o">+=</span> <span class="n">tmpNewPropWithDrop</span> <span class="o">*</span> <span class="p">(</span><span class="n">tmp_techs</span><span class="p">[</span><span class="n">tmpSngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">cost</span> <span class="o">+</span> \
+										  <span class="n">tmp_policies</span><span class="p">[</span><span class="n">tmp_techs</span><span class="p">[</span><span class="n">tmpSngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">policy</span><span class="p">]</span><span class="o">.</span><span class="n">carbonTax</span> <span class="o">-</span> \
+										  <span class="n">tmp_policies</span><span class="p">[</span><span class="n">tmp_techs</span><span class="p">[</span><span class="n">tmpSngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">policy</span><span class="p">]</span><span class="o">.</span><span class="n">feedIN</span><span class="p">)</span>
+		
+		<span class="c"># If the cost of the new technology is negative, so the traditional energy must be taken into account</span>
+		<span class="k">if</span> <span class="n">tmp_techs</span><span class="p">[</span><span class="n">tmpSngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">cost</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="n">tmpCosts</span> <span class="o">+=</span> <span class="n">tmpNewPropWithDrop</span> <span class="o">*</span> <span class="n">tmp_techs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cost</span>
+			
+		<span class="c"># .. from month to year</span>
+		<span class="n">tmpCosts</span> <span class="o">*=</span> <span class="mi">12</span>
+		
+		<span class="c"># .. SOCIAL ATTRACTIVENESS</span>
+		<span class="c"># .. Cost are rescaled according to the imitation list (note that if the socialLobby parameter is 0 the list remains the same)</span>
+		<span class="k">for</span> <span class="n">RAcnt</span><span class="p">,</span> <span class="n">sngLobby</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tmpRelativeAttractions</span><span class="p">):</span>
+			<span class="k">if</span> <span class="n">tmpSngTechID</span> <span class="o">==</span> <span class="n">RAcnt</span><span class="p">:</span>
+				<span class="n">tmpCosts</span> <span class="o">-=</span> <span class="n">tmpCosts</span> <span class="o">*</span> <span class="n">sngLobby</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">social_lobby</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">tmpCosts</span> <span class="o">+=</span> <span class="n">tmpCosts</span> <span class="o">*</span> <span class="n">sngLobby</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">social_lobby</span>
+			
+		<span class="c"># WACC (Weighted Average Cost of Capital) Computation (incentive amount on interests is computed later)</span>
+		<span class="c"># the equity capital is randomly modified to create variability </span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">int_capital</span> <span class="o">=</span> <span class="n">ran</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">int_capital</span> <span class="o">*</span> <span class="mf">0.9</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">int_capital</span> <span class="o">*</span> <span class="mf">1.1</span><span class="p">)</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">int_capital</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">int_capital</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">int_capital</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">int_capital</span> <span class="o">=</span> <span class="mi">1</span>
+		
+		<span class="n">tmp_INTplantCost</span> <span class="o">=</span> <span class="n">tmp_overallPlantCost</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">int_capital</span>
+		<span class="n">tmp_EXTplantCost</span> <span class="o">=</span> <span class="n">tmp_overallPlantCost</span> <span class="o">-</span> <span class="n">tmp_INTplantCost</span>
+		<span class="n">tmp_wacc</span> <span class="o">=</span> <span class="p">(</span><span class="n">tmp_INTplantCost</span> <span class="o">/</span> <span class="n">tmp_overallPlantCost</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">equityCost</span><span class="p">)</span> <span class="o">+</span> \
+			       <span class="p">((</span><span class="n">tmp_EXTplantCost</span> <span class="o">/</span> <span class="n">tmp_overallPlantCost</span> <span class="o">*</span> <span class="n">tmp_techs</span><span class="p">[</span><span class="n">tmpSngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">interestRate</span><span class="p">)</span> <span class="o">*</span> \
+			       <span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">tmp_policies</span><span class="p">[</span><span class="n">tmp_techs</span><span class="p">[</span><span class="n">tmpSngTechID</span><span class="p">]</span><span class="o">.</span><span class="n">policy</span><span class="p">]</span><span class="o">.</span><span class="n">taxCredit</span><span class="p">))</span>
+		
+		<span class="c"># define and initialize the list containing the output variables</span>
+		<span class="n">outList</span> <span class="o">=</span> <span class="p">[</span><span class="n">tmpCosts</span><span class="p">,</span><span class="n">tmpIncsAmount</span><span class="p">,</span><span class="n">tmp_EXTplantCost</span><span class="p">,</span><span class="n">tmp_INTplantCost</span><span class="p">,</span><span class="n">tmp_wacc</span><span class="p">]</span>
+		<span class="k">return</span> <span class="n">outList</span>
+							</div>
+<div class="viewcode-block" id="agents.rearrangeTechPropList"><a class="viewcode-back" href="../../../lib.classes.html#lib.classes.agents.agents.rearrangeTechPropList">[docs]</a>	<span class="k">def</span> <span class="nf">rearrangeTechPropList</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">tmpNewProp</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">			Function to rearrange the proportion of the different technology according to a possible new one</span>
+<span class="sd">			</span>
+<span class="sd">			:param tmpNewProp: New energy receipt proportion list		</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="n">newList</span> <span class="o">=</span> <span class="p">[]</span>
+		<span class="n">goon</span> <span class="o">=</span> <span class="mi">1</span>	
+		<span class="n">tmpNewPropResidue</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="n">tmpNewProp</span><span class="p">)</span>
+		<span class="k">for</span> <span class="n">sngTech</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrgPropReceipt</span><span class="p">:</span>
+			<span class="n">tmpValue</span> <span class="o">=</span> <span class="n">sngTech</span> <span class="o">-</span> <span class="n">tmpNewPropResidue</span> <span class="c"># Compute the different between the extant proportion and the new one</span>
+			<span class="k">if</span> <span class="n">goon</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span> 
+				<span class="k">if</span> <span class="n">tmpValue</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+					<span class="n">newList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmpValue</span><span class="p">)</span>
+					<span class="n">goon</span> <span class="o">=</span> <span class="mi">0</span>
+				<span class="k">else</span><span class="p">:</span>
+					<span class="n">newList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+					<span class="n">tmpNewPropResidue</span> <span class="o">-=</span> <span class="n">sngTech</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="n">newList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sngTech</span><span class="p">)</span>
+		
+		<span class="n">newList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tmpNewProp</span><span class="p">)</span>
+		
+		<span class="k">return</span> <span class="n">newList</span>
+</div>
+<div class="viewcode-block" id="agents.updateEnergyPropAccordingToEfficiencyDrop"><a class="viewcode-back" href="../../../lib.classes.html#lib.classes.agents.agents.updateEnergyPropAccordingToEfficiencyDrop">[docs]</a>	<span class="k">def</span> <span class="nf">updateEnergyPropAccordingToEfficiencyDrop</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tmpAllTechs</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">			Update energy tech proportions list according to the efficiency prop parameter of the technologies</span>
+<span class="sd">			</span>
+<span class="sd">			:param tmpAllTechs: All technologies list</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="k">for</span> <span class="n">IDtech</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nrgPropReceipt</span><span class="p">):</span>
+			<span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nrgTechAges</span><span class="p">[</span><span class="n">IDtech</span><span class="p">]</span> <span class="o">%</span> <span class="mi">12</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nrgPropReceipt</span><span class="p">[</span><span class="n">IDtech</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+				<span class="c"># Compute new technology energy contribute</span>
+				<span class="n">tmpNewTechProp</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nrgPropReceipt</span><span class="p">[</span><span class="n">IDtech</span><span class="p">]</span> <span class="o">*</span> <span class="n">tmpAllTechs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nrgTechsReceipt</span><span class="p">[</span><span class="n">IDtech</span><span class="p">]]</span><span class="o">.</span><span class="n">efficiency</span><span class="p">)</span>
+				<span class="c"># Compute the difference with the old contribute</span>
+				<span class="n">tmpDelta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrgPropReceipt</span><span class="p">[</span><span class="n">IDtech</span><span class="p">]</span> <span class="o">-</span> <span class="n">tmpNewTechProp</span>
+				<span class="c"># Update energy prop list removing inefficiency and adding the energy drop to the traditional energy</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">nrgPropReceipt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">tmpDelta</span>
+				<span class="k">if</span> <span class="n">IDtech</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">nrgPropReceipt</span><span class="p">[</span><span class="n">IDtech</span><span class="p">]</span> <span class="o">-=</span> <span class="n">tmpDelta</span>
+				</div>
+<div class="viewcode-block" id="agents.computeLoanAnnualInterest"><a class="viewcode-back" href="../../../lib.classes.html#lib.classes.agents.agents.computeLoanAnnualInterest">[docs]</a>	<span class="k">def</span> <span class="nf">computeLoanAnnualInterest</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tmpCapital</span><span class="p">,</span> <span class="n">tmpYears</span><span class="p">,</span> <span class="n">tmpRate</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">			Compute investment annual interests</span>
+<span class="sd">			</span>
+<span class="sd">			:param tmpCapital: Overall amount of capitals</span>
+<span class="sd">			:param tmpYears: Years of the investment</span>
+<span class="sd">			:param tmpRate: Rate of the investment </span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="n">annualInt</span> <span class="o">=</span> <span class="p">(</span><span class="n">tmpCapital</span> <span class="o">*</span> <span class="n">tmpYears</span> <span class="o">*</span> <span class="n">tmpRate</span><span class="p">)</span> <span class="o">/</span> <span class="n">tmpYears</span>
+		<span class="k">return</span> <span class="n">annualInt</span>
+		</div>
+<div class="viewcode-block" id="agents.performFinancialActivities"><a class="viewcode-back" href="../../../lib.classes.html#lib.classes.agents.agents.performFinancialActivities">[docs]</a>	<span class="k">def</span> <span class="nf">performFinancialActivities</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">			This procedure performs all the month financial activities, monthly debts payments</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		
+		<span class="k">for</span> <span class="n">cnt</span><span class="p">,</span> <span class="n">sngDept</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">RemainingDebts</span><span class="p">):</span>
+			<span class="k">if</span> <span class="n">sngDept</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">RemainingDebts</span><span class="p">[</span><span class="n">cnt</span><span class="p">]</span> <span class="o">-=</span> <span class="bp">self</span><span class="o">.</span><span class="n">debtMonthRepayment</span><span class="p">[</span><span class="n">cnt</span><span class="p">]</span>
+				<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">RemainingDebts</span><span class="p">[</span><span class="n">cnt</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+					<span class="bp">self</span><span class="o">.</span><span class="n">RemainingDebts</span><span class="p">[</span><span class="n">cnt</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+			<span class="k">else</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">RemainingDebts</span><span class="p">[</span><span class="n">cnt</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">debtMonthRepayment</span><span class="p">[</span><span class="n">cnt</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+			<span class="n">cnt</span> <span class="o">+=</span> <span class="mi">1</span>
+		<span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">RemainingDebts</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">flagFree</span> <span class="o">=</span> <span class="bp">True</span>		
+</div>
+<div class="viewcode-block" id="agents.computeMonthNrgCostsAndPoll"><a class="viewcode-back" href="../../../lib.classes.html#lib.classes.agents.agents.computeMonthNrgCostsAndPoll">[docs]</a>	<span class="k">def</span> <span class="nf">computeMonthNrgCostsAndPoll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tmpTechs</span><span class="p">,</span> <span class="n">tmpTime</span><span class="p">,</span> <span class="n">tmpPolicies</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">			Function to assess the monthly energy costs according to the monthly energy needs</span>
+<span class="sd">		</span>
+<span class="sd">			:param tmpTechs: List of all the technologies</span>
+<span class="sd">			:param tmpTime: Current month</span>
+<span class="sd">			:param tmpPolicies: list of the present policies	</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="n">tempMonthCosts</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="n">tempPoll</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="c">#counter = 0</span>
+		<span class="k">for</span> <span class="n">idtech</span><span class="p">,</span> <span class="n">tech</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nrgTechsReceipt</span><span class="p">):</span>
+		
+			<span class="c"># .. compute costs and revenues</span>
+			<span class="n">tmpDistanceFromSourceMultiplier</span> <span class="o">=</span> <span class="nb">pow</span><span class="p">(</span><span class="nb">pow</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">-</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span><span class="o">.</span><span class="n">X</span><span class="p">),</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="nb">pow</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">y</span> <span class="o">-</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span><span class="o">.</span><span class="n">Y</span><span class="p">),</span><span class="mi">2</span><span class="p">),</span><span class="mf">0.5</span><span class="p">)</span>
+			<span class="n">tmpDistanceFromSourceMultiplier</span> <span class="o">*=</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span><span class="o">.</span><span class="n">transportCosts</span>
+									
+			<span class="n">tempMonthCosts</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrgPropReceipt</span><span class="p">[</span><span class="n">idtech</span><span class="p">]</span>\
+							   <span class="o">*</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span><span class="o">.</span><span class="n">cost</span>\
+								  <span class="o">+</span> <span class="n">tmpDistanceFromSourceMultiplier</span>\
+								  <span class="o">+</span> <span class="n">tmpPolicies</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">techPolicy</span><span class="p">[</span><span class="n">idtech</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">carbonTax</span>\
+								  <span class="o">-</span> <span class="n">tmpPolicies</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">techPolicy</span><span class="p">[</span><span class="n">idtech</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">feedIN</span><span class="p">)</span>\
+							   <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">debtMonthRepayment</span><span class="p">[</span><span class="n">idtech</span><span class="p">]</span>
+
+			<span class="c"># IF BIOENERGY the profit of the entire plant must be computed</span>
+			<span class="n">tempTechAge</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nrgTechAges</span><span class="p">[</span><span class="n">idtech</span><span class="p">]</span> <span class="o">/</span> <span class="mi">12</span><span class="p">)</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span><span class="o">.</span><span class="n">solarBased</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span><span class="o">.</span><span class="n">fromTons2kWhmese</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+				<span class="n">tempMonthCosts</span> <span class="o">+=</span> <span class="p">((</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span><span class="o">.</span><span class="n">plantDimension</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">bioHoursXMonth</span> <span class="o">*</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span><span class="o">.</span><span class="n">efficiency</span><span class="o">**</span><span class="n">tempTechAge</span><span class="p">))</span> <span class="o">-</span> \
+									<span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nrgPropReceipt</span><span class="p">[</span><span class="n">idtech</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span><span class="o">.</span><span class="n">efficiency</span><span class="o">**</span><span class="n">tempTechAge</span><span class="p">)))</span> <span class="o">*</span> \
+									<span class="p">(</span><span class="n">tmpPolicies</span><span class="p">[</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span><span class="o">.</span><span class="n">policy</span><span class="p">]</span><span class="o">.</span><span class="n">carbonTax</span> <span class="o">+</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span><span class="o">.</span><span class="n">cost</span> <span class="o">-</span> \
+									 <span class="n">tmpPolicies</span><span class="p">[</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span><span class="o">.</span><span class="n">policy</span><span class="p">]</span><span class="o">.</span><span class="n">feedIN</span><span class="p">)</span>
+
+			<span class="c"># If the technology is bio-energy, so I must pay suppliers and have money from clients</span>
+			<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">suppliers</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+				<span class="k">for</span> <span class="n">sup</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">suppliers</span><span class="p">:</span> <span class="n">tempMonthCosts</span> <span class="o">+=</span> <span class="n">sup</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>				
+			<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+				<span class="k">for</span> <span class="n">cli</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">client</span><span class="p">:</span> <span class="n">tempMonthCosts</span> <span class="o">-=</span> <span class="n">cli</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+							
+			<span class="c"># If the incentive is still valid the tax credit on the investment is computed	</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">tmpPolicies</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">techPolicy</span><span class="p">[</span><span class="n">idtech</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">taxCreditInv</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">techPolicy</span><span class="p">[</span><span class="n">idtech</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+				<span class="k">if</span><span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span><span class="o">.</span><span class="n">solarBased</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+					<span class="n">tempMonthCosts</span> <span class="o">-=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nrgPropReceipt</span><span class="p">[</span><span class="n">idtech</span><span class="p">]</span> <span class="o">/</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span><span class="o">.</span><span class="n">fromKWH2KW</span> <span class="o">*</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span><span class="o">.</span><span class="n">plantCost</span><span class="p">)</span> \
+									  <span class="o">*</span> <span class="n">tmpPolicies</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">techPolicy</span><span class="p">[</span><span class="n">idtech</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">taxCreditInv</span> <span class="o">/</span> <span class="n">tmpPolicies</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">techPolicy</span><span class="p">[</span><span class="n">idtech</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">length</span>
+				<span class="k">elif</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span><span class="o">.</span><span class="n">solarBased</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span><span class="o">.</span><span class="n">fromTons2kWhmese</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">):</span>
+					<span class="n">tempMonthCosts</span> <span class="o">-=</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span><span class="o">.</span><span class="n">plantDimension</span> <span class="o">*</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span><span class="o">.</span><span class="n">plantCost</span><span class="p">)</span> \
+									  <span class="o">*</span> <span class="n">tmpPolicies</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">techPolicy</span><span class="p">[</span><span class="n">idtech</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">taxCreditInv</span> <span class="o">/</span> <span class="n">tmpPolicies</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">techPolicy</span><span class="p">[</span><span class="n">idtech</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">length</span>
+				
+			
+			<span class="c"># If the technology has a negative price (e.g. solar or bio), then it means that the agent sells energy and it has to buy normal energy</span>
+			<span class="k">if</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span><span class="o">.</span><span class="n">cost</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+				<span class="n">tempMonthCosts</span> <span class="o">+=</span> <span class="n">tmpTechs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cost</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrgPropReceipt</span><span class="p">[</span><span class="n">idtech</span><span class="p">]</span>
+							
+			<span class="c"># Check policy validity </span>
+			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">techPolicy</span><span class="p">[</span><span class="n">idtech</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">techPolicy</span><span class="p">[</span><span class="n">idtech</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">techPolicy</span><span class="p">[</span><span class="n">idtech</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">techPolicy</span><span class="p">[</span><span class="n">idtech</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+				
+			<span class="c"># Update technology age</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">nrgTechAges</span><span class="p">[</span><span class="n">idtech</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+				
+			<span class="c">#raw_input(&quot;...&quot;)</span>
+				
+			<span class="c"># .. update statistic variables</span>
+			<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrgPropReceipt</span><span class="p">[</span><span class="n">idtech</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+				<span class="n">tmpTechs</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span><span class="o">.</span><span class="n">incrementNRGdist</span><span class="p">((</span><span class="n">tmpTime</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+				<span class="n">tmpTechs</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span><span class="o">.</span><span class="n">incrementKWHdist</span><span class="p">((</span><span class="n">tmpTime</span> <span class="o">-</span> <span class="mi">1</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrgPropReceipt</span><span class="p">[</span><span class="n">idtech</span><span class="p">])</span>
+			
+			<span class="c"># .. compute pollution</span>
+			<span class="n">tempPoll</span> <span class="o">=</span> <span class="n">tempPoll</span> <span class="o">+</span> <span class="p">(</span><span class="n">tmpTechs</span><span class="p">[</span><span class="n">tech</span><span class="p">]</span><span class="o">.</span><span class="n">co2</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">nrgPropReceipt</span><span class="p">[</span><span class="n">idtech</span><span class="p">])</span>
+			
+			
+		<span class="c"># ... Update agent variables. </span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">month_balance</span> <span class="o">=</span> <span class="n">tempMonthCosts</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">balance</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">balance</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">month_balance</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">co2</span> <span class="o">=</span> <span class="n">tempPoll</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">+=</span> <span class="mi">1</span>
+		</div>
+<div class="viewcode-block" id="agents.defineTechAttraction"><a class="viewcode-back" href="../../../lib.classes.html#lib.classes.agents.agents.defineTechAttraction">[docs]</a>	<span class="k">def</span> <span class="nf">defineTechAttraction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tmpTechs</span><span class="p">,</span> <span class="n">tmpAgents</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;Define technology attraction according to the neighborhood characteristics&#39;&#39;&#39;</span>
+		
+		<span class="n">tmpTotTech</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">tmpTechs</span><span class="p">)</span>
+		<span class="n">tmpRelTech</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">tmpTechs</span><span class="p">)</span>
+		<span class="n">tmpHaTech</span>  <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">tmpTechs</span><span class="p">)</span>
+		
+		<span class="k">for</span> <span class="n">sngT</span> <span class="ow">in</span> <span class="n">tmpTechs</span><span class="p">:</span> <span class="c"># For each tech</span>
+			<span class="k">for</span> <span class="n">sngA</span> <span class="ow">in</span> <span class="n">tmpAgents</span><span class="p">:</span> <span class="c"># For each agent</span>
+				<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ID</span> <span class="o">!=</span> <span class="n">sngA</span><span class="o">.</span><span class="n">ID</span><span class="p">:</span> <span class="c"># if the agent is not itself</span>
+					<span class="k">if</span> <span class="n">sngT</span><span class="o">.</span><span class="n">ID</span> <span class="ow">in</span> <span class="n">sngA</span><span class="o">.</span><span class="n">nrgTechsReceipt</span><span class="p">:</span> <span class="c"># For each technology used by the agent</span>
+						<span class="k">if</span> <span class="n">sngA</span><span class="o">.</span><span class="n">nrgPropReceipt</span><span class="p">[</span><span class="n">sngA</span><span class="o">.</span><span class="n">nrgTechsReceipt</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">sngT</span><span class="o">.</span><span class="n">ID</span><span class="p">)]</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+							<span class="c"># Attractiveness is measured by the energy dimension and physical dimension of the agent over the square distance</span>
+							<span class="n">tmpTotTech</span><span class="p">[</span><span class="n">sngT</span><span class="o">.</span><span class="n">ID</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">sngA</span><span class="o">.</span><span class="n">totEnergyNeed</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">distanceList</span><span class="p">[</span><span class="n">sngA</span><span class="o">.</span><span class="n">ID</span><span class="p">],</span><span class="mi">2</span><span class="p">))</span>
+							<span class="n">tmpHaTech</span><span class="p">[</span><span class="n">sngT</span><span class="o">.</span><span class="n">ID</span><span class="p">]</span>  <span class="o">+=</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">sngA</span><span class="o">.</span><span class="n">ha</span><span class="p">)</span> <span class="o">/</span> <span class="nb">pow</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">distanceList</span><span class="p">[</span><span class="n">sngA</span><span class="o">.</span><span class="n">ID</span><span class="p">],</span><span class="mi">2</span><span class="p">))</span>
+
+		<span class="k">for</span> <span class="n">cnt</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tmpRelTech</span><span class="p">):</span>
+			<span class="n">tmpRelTech</span><span class="p">[</span><span class="n">cnt</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tmpTotTech</span><span class="p">[</span><span class="n">cnt</span><span class="p">]</span> <span class="o">+</span> <span class="n">tmpHaTech</span><span class="p">[</span><span class="n">cnt</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">tmpTotTech</span><span class="p">))</span> <span class="o">+</span> <span class="nb">float</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">tmpHaTech</span><span class="p">)))</span>
+			<span class="n">cnt</span> <span class="o">+=</span> <span class="mi">1</span>	
+			
+		<span class="k">return</span> <span class="n">tmpRelTech</span>
+	
+	<span class="c"># --------------------------------------------------------------|</span>
+	<span class="c"># DEFINE TECHNOLOGIES ATTRACTION</span>
+	<span class="c"># --------------------------------------------------------------|</span>
+</div>
+<div class="viewcode-block" id="agents.genLogFun"><a class="viewcode-back" href="../../../lib.classes.html#lib.classes.agents.agents.genLogFun">[docs]</a>	<span class="k">def</span> <span class="nf">genLogFun</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tmpX</span><span class="p">,</span> <span class="n">tmpExp</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">tmpM</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">tmpUpper</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">tmpLower</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">tmpGrowth</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">tmpQ</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">			Function to return the general logistic value according to the different paramerts</span>
+<span class="sd">			Default values are those of the logistic function</span>
+<span class="sd">			</span>
+<span class="sd">			:param tmpX: maximum investment length - payback period</span>
+<span class="sd">			:param tmpExp: agent health</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		
+		<span class="n">e</span> <span class="o">=</span> <span class="mf">2.71828182845904523536</span>
+		<span class="n">tmpY</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="n">valToAdd</span> <span class="o">=</span> <span class="n">tmpM</span>
+		<span class="n">M</span> <span class="o">=</span> <span class="p">((</span><span class="mi">1</span><span class="o">-</span><span class="n">tmpExp</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span><span class="p">)</span> <span class="o">+</span> <span class="n">valToAdd</span>
+		<span class="n">tmpQ</span> <span class="o">=</span> <span class="n">tmpExp</span>
+		<span class="k">try</span><span class="p">:</span>
+			<span class="n">tmpY</span> <span class="o">=</span> <span class="n">tmpLower</span> <span class="o">+</span> <span class="p">(</span> <span class="p">(</span><span class="n">tmpUpper</span> <span class="o">-</span> <span class="n">tmpLower</span><span class="p">)</span> <span class="o">/</span> \
+						<span class="p">(</span> <span class="nb">pow</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="p">(</span><span class="n">tmpQ</span> <span class="o">*</span> <span class="nb">pow</span><span class="p">(</span><span class="n">e</span><span class="p">,(</span><span class="o">-</span><span class="n">tmpGrowth</span><span class="o">*</span><span class="p">(</span><span class="n">tmpX</span><span class="o">-</span><span class="p">(</span><span class="n">M</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">riskPredisposition</span><span class="p">)))))),(</span><span class="mi">1</span><span class="o">/</span><span class="n">tmpExp</span><span class="p">))</span> <span class="p">)</span> <span class="p">)</span>
+			<span class="c">#tmpY = tmpLower + ( (tmpUpper - tmpLower) / \</span>
+			<span class="c">#			( pow(1 + (tmpQ * pow(e,(-tmpGrowth*(tmpX-M)))),(1/tmpExp)) ) )</span>
+		<span class="k">except</span><span class="p">:</span>
+			<span class="n">tmpY</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="k">return</span> <span class="n">tmpY</span>
+	
+	</div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">SENSOR 20141022 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Alessandro.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
+    </div>
+  </body>
+</html>
