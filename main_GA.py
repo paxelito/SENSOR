@@ -73,13 +73,13 @@ if __name__ == '__main__':
 				for sTech in envi.allTechs:
 					print "\t\t\t|- Tech: {0}, Solar Based: {1}, Total Amount: {2}".format(sTech.ID, sTech.solarBased, sum(sTech.techKWHdist))	
 		
-		print envi.totSolarBasedKW
+		#print envi.totSolarBasedKW
 		
 		dynActFid.close()
 		
 		# LINEAR REGRESSION METHOD 2
-		st.linearregression(envi.months, envi.totSolarBasedKW)
-		st.polynomialregression(range(envi.months), envi.totSolarBasedKW, 2)
+		#st.linearregression(envi.months, envi.totSolarBasedKW)
+		pol, res = st.polynomialregression(range(envi.months), envi.totSolarBasedKW, 2)
 
 		
 	del envi

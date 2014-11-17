@@ -11,8 +11,11 @@ Comments: The presence of [C] string within comments indicates a WaRNING. Model 
 2014 - 10 - 24 ver.1.3
 	- Configuration file has been extended with new params
 	- Policy end time has been added to the policy class
-	- main_GA.py (main devoted to the introduction of a genetic algorithm) has been 
-	- !!! Add and remove agents each month (%)
+	- main_GA.py (main devoted to the introduction of a genetic algorithm) has been created
+	- !!! Add and remove agents each month (%) (each month an agent randomly selected is removed and a new casual agent is added)
+	- a = [np.random.randn() for i in range(1000)] - np.random.normal(mu, sigma, 1000)
+	- beta distribution http://en.wikipedia.org/wiki/Beta_distribution
+	- http://docs.scipy.org/doc/numpy/reference/generated/numpy.random.beta.html#numpy.random.beta
 
 2014 - 05 - 08 ver.1.2
 	- bioenergy year yield has been added

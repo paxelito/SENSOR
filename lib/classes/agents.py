@@ -692,6 +692,8 @@ class agents:
 		'''
 			Function to return the general logistic value according to the different paramerts
 			Default values are those of the logistic function
+			1 - self.riskPredisposition move the curve on the axis
+			1 / ( pow(1 + (1 * pow(e,(-1*(x-(4*(0.5-0.01)))))),(1/0.5)) ) 
 			
 			:param tmpX: maximum investment length - payback period
 			:param tmpExp: agent health
