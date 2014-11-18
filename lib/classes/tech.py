@@ -43,6 +43,8 @@ class tech:
 				
 		self.fromKWH2KW = tmpFromKWH2KW
 		
+		self.totTime = tmpTotTime
+		
 		# Technology distribution in time
 		self.techNRGdist = [0] * tmpTotTime
 		self.techKWHdist = [0] * tmpTotTime
@@ -52,6 +54,20 @@ class tech:
 		self.currentDiffusion = 0
 		self.currentKWinstalled = 0
 		self.currentKWhinstalled = 0
+	
+	def resetTechToInit(self):
+		'''
+			Reset technologies to initial conditions
+		'''
+		# Technology distribution in time
+		self.techNRGdist = [0] * self.totTime
+		self.techKWHdist = [0] * self.totTime
+		self.techKWdist = [0] * self.totTime
+		
+		# Current adoption
+		self.currentDiffusion = 0
+		self.currentKWinstalled = 0
+		self.currentKWhinstalled = 0		
 		
 	def incrementNRGdist(self, tmpPos):
 		'''

@@ -54,7 +54,11 @@ class agents:
 		self.client = []
 		
 		# FINANCIAL PARAMETERS
-		self.int_capital = tmpIntCap
+		# the equity capital is randomly modified to create variability 
+		self.int_capital = ran.uniform(tmpIntCap * 0.9, tmpIntCap * 1.1)
+		if self.int_capital < 0: self.int_capital = 0
+		if self.int_capital > 1: self.int_capital = 1
+		
 		self.equityCost = tmpEquityCost
 		self.balance = tmpBalance
 		self.month_balance = tmpMBalance
@@ -74,6 +78,40 @@ class agents:
 		self.distanceList = [] # initialize distance list 
 		self.attraction = [] # define social attraction of the other technologies. 
 		self.bioHoursXMonth = 650 # (7800 hours per year)
+		
+	def printAgent(self):
+		print self.__dict__
+		
+	def resetAgentToInit(self):
+		# Technology Parameters
+		self.nrgTechsReceipt = [0] # technologies vectors
+		self.nrgPropReceipt = [self.totEnergyNeed] # KW provided by the different technologies. 
+		self.techPolicy = [[0,0]] # tmpPolicy tmpPolicyLength. 
+		self.nrgTechAges = [0] # technology ages. Time elapsed from the installation 
+		self.flagFree = True
+		self.techawareness = False # The agent at the beginning does not know anything about the technology of the system
+		self.age = 0
+				
+		# Physical Parameters of the agent
+		self.co2 = 0
+		
+		# BUSINESS PARAMETERS
+		self.suppliers = []
+		self.client = []
+		
+		# FINANCIAL PARAMETERS
+		self.balance = 0
+		self.month_balance = 0
+		self.debts = [0] # initial debts list of the agent
+		self.RemainingDebts = [0] # List of the remaining part of the debt for each technology
+		self.debtTime = [0] # Time elapsed from the beginning of the investment for each technology
+		self.debtLength = [0] # length of the different investments
+		self.debtMonthRepayment = [0] # month payment for each investment
+		
+	
+	def set_new_socialobby_and_committiment(self, tmpSL):
+		self.social_lobby = tmpSL # How much the agent can be influenced by the neighborhoods
+		self.riskPredisposition = 1 - self.social_lobby # We assume that the risk predisposition is a function of the imitation 		
 		
 	def newTech(self, tmpTechID, tmpProp, tmpDistance, tmpPolicy, tmpPolicyLength):
 		'''
@@ -418,7 +456,7 @@ class agents:
 							strReg = str(tmpTime) + '\t' + str(self.ID) + '\t' + str(self.x) + '\t' + str(self.y) + \
 							         '\t' + str(self.totEnergyNeed) + '\t' + str(tmpTechs[tmpTechsID[tmpAvaiableTechs[betterTechPos]]].ID) + \
 							         '\t' + str(self.riskPredisposition) + '\t' + str(self.social_lobby) + '\t' + str(self.health) + '\n'
-							tmp_dynFileFID.write(strReg)
+							if tmp_dynFileFID is not None: tmp_dynFileFID.write(strReg)
 									
 							
 							if self.debugLevel > 0:
@@ -499,11 +537,6 @@ class agents:
 				tmpCosts += tmpCosts * sngLobby * self.social_lobby
 			
 		# WACC (Weighted Average Cost of Capital) Computation (incentive amount on interests is computed later)
-		# the equity capital is randomly modified to create variability 
-		self.int_capital = ran.uniform(self.int_capital * 0.9, self.int_capital * 1.1)
-		if self.int_capital < 0: self.int_capital = 0
-		if self.int_capital > 1: self.int_capital = 1
-		
 		tmp_INTplantCost = tmp_overallPlantCost * self.int_capital
 		tmp_EXTplantCost = tmp_overallPlantCost - tmp_INTplantCost
 		tmp_wacc = (tmp_INTplantCost / tmp_overallPlantCost * self.equityCost) + \
@@ -697,6 +730,7 @@ class agents:
 			
 			:param tmpX: maximum investment length - payback period
 			:param tmpExp: agent health
+			:param tmpGrowth: curve slope
 		'''
 		
 		e = 2.71828182845904523536
@@ -706,9 +740,8 @@ class agents:
 		tmpQ = tmpExp
 		try:
 			tmpY = tmpLower + ( (tmpUpper - tmpLower) / \
-						( pow(1 + (tmpQ * pow(e,(-tmpGrowth*(tmpX-(M*(1-self.riskPredisposition)))))),(1/tmpExp)) ) )
-			#tmpY = tmpLower + ( (tmpUpper - tmpLower) / \
-			#			( pow(1 + (tmpQ * pow(e,(-tmpGrowth*(tmpX-M)))),(1/tmpExp)) ) )
+								( pow(1 + (tmpQ * pow(e,(-tmpGrowth*(tmpX-(M*((1-tmpExp)-self.riskPredisposition)))))),(1/tmpExp)) ) \
+							   )
 		except:
 			tmpY = 0
 		return tmpY

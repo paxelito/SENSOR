@@ -14,13 +14,10 @@
 import sys, os
 import time
 import agents as ag
-#import tech
-#import policy
 import random as ran
 import cPickle as pickle
-import shutil 
-#import copy
-#from ..classes import agents
+import shutil
+import numpy as np
 from ..classes import policy
 from ..classes import tech
 
@@ -77,8 +74,10 @@ class environment:
 				self.loanLength = int(strLine[1]); continue	
 			if strLine[0] == "intRiskRate":
 				self.intRiskRate = float(strLine[1]); continue
-			if strLine[0] == "socialLobby":
-				self.socialLobby = float(strLine[1]); continue
+			if strLine[0] == "socialLobby_betadist_alpha":
+				self.socialLobby_betadist_alpha = float(strLine[1]); continue
+			if strLine[0] == "socialLobby_betadist_beta":
+				self.socialLobby_betadist_beta = float(strLine[1]); continue
 			if strLine[0] == "health":
 				self.H = float(strLine[1]); continue           
 			if strLine[0] == "debugLevel":
@@ -183,8 +182,11 @@ class environment:
 			print 'No rndstate.dat, seeding a random state'
 			ran.seed(int(time.time()))	
 
-	def createFolderAndSaveInitialConditions(self, tmpPar, tmpPar2, tmpPar3):
-		'''Function to create the simulation folder and save the initial conditions'''
+	def createFolderAndSaveInitialConditions(self, tmpPar=None, tmpPar2=None, tmpPar3=None):
+		'''
+			Function to create the simulation folder and save the initial conditions
+		
+		'''
 		#: this is the folder name
 		self.simFolder = time.strftime("%y%m%d_%H_%M") + "_" + str(tmpPar) + "_" + str(tmpPar2)  + "_" + str(tmpPar3)
 		
@@ -286,7 +288,7 @@ class environment:
 							sngTech.policy = 0
 		self.totAids.append(tmp_tAids)
 
-	def agentMonthNRGAct_and_newTechAss(self, tmpTime, tmpDynFileFID):
+	def agentMonthNRGAct_and_newTechAss(self, tmpTime, tmpDynFileFID=None):
 		''' 
 			This function perform all the activity of the agent during the month
 			
@@ -341,17 +343,27 @@ class environment:
 		self.allTechsID.append(2)
 
 	def createPopulation(self):
-		'''Function to create the population
+		'''
+			Function to create the population
+			
+			To assign the social lobby parameter (1-sociallobby is the committiment) the beta distribution is used. 
     	'''
 		# if agentCreationMethod is equal to 0 random population is created otherwise it is uploaded from file
 		if self.agentCreationMethod == 0:
+			sl = []
 			for i in range(0,self.Nagents):
-				if self.H == 1: tmprndHealth = ran.random()
+				if self.H == 1: 
+					tmprndHealth = (0.1 * np.random.randn(1)) + 0.5
+					if tmprndHealth > 1: tmprndHealth = 1
+					if tmprndHealth < 0: tmprndHealth = 0
 				else: tmprndHealth = 0.5
+				# Accordind to parameters alpha and beta, the social lobby is provided 
+				socialLobby = np.random.beta(self.socialLobby_betadist_alpha, self.socialLobby_betadist_beta)
 				self.allAgents.append(ag.agents(self.debugLevel, i, ran.uniform(0,self.xMaxPos),ran.uniform(0,self.yMaxPos), \
 			    	                            ran.randint(self.minNrgDim, self.maxNrgDim),ran.uniform(0,self.agroMaxDim),\
-			    	                            ran.uniform(0,self.socialLobby),ran.uniform(self.minIrradiation,1), self.intRiskRate,\
+			    	                            socialLobby,ran.uniform(self.minIrradiation,1), self.intRiskRate,\
 			    	                            self.ratioInternalCapital,self.invLength, tmprndHealth) )
+			
 		else:
 			self.importAgents()
 			
@@ -823,3 +835,28 @@ class environment:
 		tempstr = '</xml>'
 		xmlFile.write(tempstr)
 		xmlFile.close()
+		
+	def resetAll(self):
+		'''
+			Reset all variables but of the initial system conditions
+		'''
+		
+		del self.totSolarBasedInstallation[:]
+		del self.totSolarBasedKWh[:]
+		del self.totSolarBasedKW[:]			
+
+		del self.totCO2[:]
+		del self.totDebt[:]
+		del self.totCosts[:]	
+		del self.totAids[:]
+		
+		del self.totTechNRGdist[:]
+		del self.totTechKWHdist[:]
+		del self.totTechKWdist[:]
+
+		del self.tottotTechNRGdist[:]
+		del self.tottotTechKWHdist[:]
+		del self.tottotTechKWdist[:]
+		
+		map(lambda x: x.resetAgentToInit(), self.allAgents) # Reset agents
+		map(lambda x: x.resetTechToInit(), self.allTechs) # reset Techs
