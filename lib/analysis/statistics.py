@@ -9,7 +9,9 @@
 #from numpy import arange#,array,ones,linalg
 from numpy import arange, poly1d, polyfit, linspace
 from scipy import stats
+from scipy.optimize import curve_fit 
 import pylab
+import numpy as np
 # from pylab import plot,show
 
 def linearregression(tmpTime, tmpY):
@@ -45,6 +47,16 @@ def polynomialregression(x, y, polDegree):
 	pylab.show()
 	
 	return z, res
+	
+def curveFitting(x,y):
+	'''
+		Curve fitting function
+		:param x: curve to fit
+		:param y: banchmark curve
+	'''
+
+	return np.sqrt((sum([pow(i - x[id],2) for id, i in enumerate(y)])) / (len(x)-1))
+	
 
 
 	

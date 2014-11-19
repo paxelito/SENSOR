@@ -16,7 +16,8 @@ Comments: The presence of [C] string within comments indicates a WaRNING. Model 
 	- a = [np.random.randn() for i in range(1000)] - np.random.normal(mu, sigma, 1000)
 	- beta distribution http://en.wikipedia.org/wiki/Beta_distribution
 	- http://docs.scipy.org/doc/numpy/reference/generated/numpy.random.beta.html#numpy.random.beta
-	- !!! To fix che continue creation of the technologies and of the policie
+	- !!! To fix che continue creation of the technologies and of the policie at each run
+	- !!! CONTROL THE FITTING FUNCTION
 
 2014 - 05 - 08 ver.1.2
 	- bioenergy year yield has been added

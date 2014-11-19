@@ -125,7 +125,7 @@ if __name__ == '__main__':
 						#	print "\t\t\t|- Tech: {0}, Solar Based: {1}, Total Amount: {2}".format(sTech.ID, sTech.solarBased, sum(sTech.techKWHdist))	
 					
 					# Sto annual values
-					if gen % 12 == 0: 
+					if (gen % 12 == 0) or (gen == 1): 
 						yMW.append(envi.totSolarBasedInstallation[-1])
 						yP.append(envi.totSolarBasedKW[-1])
 				
@@ -135,22 +135,61 @@ if __name__ == '__main__':
 				if max(yP) > 0: yPn = [float(x) / max(yP) for x in yP]
 				else: yPn = [0 for x in yP]
 				
-				allyMW.append(yMW[:])
+				allyMW.append(yMWn[:])
 				allyP.append(yPn[:])
 				
 				envi.resetAll()
 			
-							
-			print allyMW
-			print allyP
-			raw_input("ciao")
-				
-			# LINEAR REGRESSION METHOD 2
-			# Compute the average number of MW and planta
-			
-			# Fitting assessment
-			#st.linearregression(envi.months, envi.totSolarBasedKW)
-			#pol, res = st.polynomialregression(range(envi.months), envi.totSolarBasedKW, 2)
+			# Compute average behavior
+			alluMW_mean = map(np.mean,[[allyMW[j][i] for j in range(len(allyMW))] for i in range(len(allyMW[0]))])
+			allallyP_mean = map(np.mean,[[allyP[j][i] for j in range(len(allyP))] for i in range(len(allyP[0]))])	
+	
+			ERmwmatrix[alphaid][betaid] = st.curveFitting(alluMW_mean,ERNmw)
+			ERplantmatrix[alphaid][betaid] = st.curveFitting(allallyP_mean,ERNi)
 
+			PUmwmatrix[alphaid][betaid] = st.curveFitting(alluMW_mean,PUNmw)
+			PUplantmatrix[alphaid][betaid] = st.curveFitting(allallyP_mean,PUNi)
+			
+			LOmwmatrix[alphaid][betaid] = st.curveFitting(alluMW_mean,LONmw)
+			LOplantmatrix[alphaid][betaid] = st.curveFitting(allallyP_mean,LONi)
+			
+			CAmwmatrix[alphaid][betaid] = st.curveFitting(alluMW_mean,CANmw)
+			CAplantmatrix[alphaid][betaid] = st.curveFitting(allallyP_mean,CANi)
+			
+	
+	# Save all on file 
+	np.savetxt(os.path.join(StrPath,envi.simFolder,'ERmwmatrix.csv'),ERmwmatrix,fmt='%.4f')
+	np.savetxt(os.path.join(StrPath,envi.simFolder,'ERplantmatrix.csv'),ERplantmatrix,fmt='%.4f')
+	np.savetxt(os.path.join(StrPath,envi.simFolder,'PUmwmatrix.csv'),PUmwmatrix,fmt='%.4f')
+	np.savetxt(os.path.join(StrPath,envi.simFolder,'PUplantmatrix.csv'),PUplantmatrix,fmt='%.4f')
+	np.savetxt(os.path.join(StrPath,envi.simFolder,'LOmwmatrix.csv'),LOmwmatrix,fmt='%.4f')
+	np.savetxt(os.path.join(StrPath,envi.simFolder,'LOplantmatrix.csv'),LOplantmatrix,fmt='%.4f')
+	np.savetxt(os.path.join(StrPath,envi.simFolder,'CAmwmatrix.csv'),CAmwmatrix,fmt='%.4f')
+	np.savetxt(os.path.join(StrPath,envi.simFolder,'CAplantmatrix.csv'),CAplantmatrix,fmt='%.4f')
+	
+	MIN_ERmwmatrix = np.where(ERmwmatrix == np.min(ERmwmatrix))
+	MIN_ERplantmatrix = np.where(ERplantmatrix == np.min(ERplantmatrix))
+	MIN_PUmwmatrix = np.where(PUmwmatrix == np.min(PUmwmatrix))
+	MIN_PUplantmatrix = np.where(PUplantmatrix == np.min(PUplantmatrix))
+	MIN_LOmwmatrix = np.where(LOmwmatrix == np.min(LOmwmatrix))
+	MIN_LOplantmatrix = np.where(LOplantmatrix == np.min(LOplantmatrix))
+	MIN_CAmwmatrix = np.where(CAmwmatrix == np.min(CAmwmatrix))
+	MIN_CAplantmatrix = np.where(CAplantmatrix == np.min(CAplantmatrix))
+	
+	# Extract beta distribution params selected
+	fidalphabetafid = open(os.path.join(StrPath,envi.simFolder,'betaparams.csv'),'w')
+	fidalphabetafid.write('Region\ttype\talpha\tbeta\n')
+	fidalphabetafid.write(('Emilia Romagna\tMW\t{0}\t{1}\n').format(alphalist[MIN_ERmwmatrix[0]],betalist[MIN_ERmwmatrix[1]]))
+	fidalphabetafid.write(('Emilia Romagna\tPs\t{0}\t{1}\n').format(alphalist[MIN_ERplantmatrix[0]],betalist[MIN_ERplantmatrix[1]]))
+	fidalphabetafid.write(('Puglia\tMW\t{0}\t{1}\n').format(alphalist[MIN_PUmwmatrix[0]],betalist[MIN_PUmwmatrix[1]]))
+	fidalphabetafid.write(('Puglia\tPs\t{0}\t{1}\n').format(alphalist[MIN_PUplantmatrix[0]],betalist[MIN_PUplantmatrix[1]]))
+	fidalphabetafid.write(('Lombardia\tMW\t{0}\t{1}\n').format(alphalist[MIN_LOmwmatrix[0]],betalist[MIN_LOmwmatrix[1]]))
+	fidalphabetafid.write(('Lombardia\tPs\t{0}\t{1}\n').format(alphalist[MIN_LOplantmatrix[0]],betalist[MIN_LOplantmatrix[1]]))
+	fidalphabetafid.write(('Campania\tMW\t{0}\t{1}\n').format(alphalist[MIN_CAmwmatrix[0]],betalist[MIN_CAmwmatrix[1]]))
+	fidalphabetafid.write(('Campania\tPs\t{0}\t{1}\n').format(alphalist[MIN_CAplantmatrix[0]],betalist[MIN_CAplantmatrix[1]]))
+	
+	fidalphabetafid.close()
+	
+	
 		
 	del envi

@@ -326,7 +326,7 @@ class environment:
 		else: 
 			"an other function to implement... random technology creation"	
 
-		self.promptTechs()
+		#self.promptTechs()
 		self.numOfTechs = len(self.allTechs)
 
 	def createThreeDefaultTechs(self):
@@ -395,7 +395,7 @@ class environment:
 			# 100 is a temporary value representing the average transformation from kWh to kWp
 			sngPol.defineTotFinance(self.overallEnergyNeed, 100)
 			
-		self.promptPolicies()
+		#self.promptPolicies()
 
 	def createDefaultNoPolicy(self):
 		'''Function to create the default policy, i.e. no incentives at all'''
@@ -434,7 +434,7 @@ class environment:
 
 	def importPolicies(self):
 		'''Function to import policies from a file previously prepared'''
-		print '\n|- Policies import process...'
+		print '\t\t|- Policies import process...'
 		# file name
 		tmpFileName = os.path.join(self.simPath,'initPolicies.csv')
 		try:
@@ -454,7 +454,7 @@ class environment:
 			
 	def importTechs(self):
 		'''Function to import technologies from a file previously prepared'''
-		print '\n|- Technology import process...'
+		print '\t\t|- Technology import process...'
 		# file name
 		tmpFileName = os.path.join(self.simPath,'initTechs.csv')
 		try:
