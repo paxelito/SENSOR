@@ -363,7 +363,7 @@ class agents:
 					betterTechPos = 0
 					betterNPV = 0
 					betterPayBack = 0
-					if len(npvList) > 1:
+					if len(npvList) >= 1:
 						tmpFinID = 0
 						#print npvList
 						#print pbpList

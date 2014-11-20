@@ -713,7 +713,8 @@ class environment:
 	
 	def checkTimeAndSetPolicy(self, tmpTime):
 		for pol in self.allPolicies:
-			if pol.introTime == tmpTime: self.allTechs[pol.introTech].policy = pol.ID
+			if pol.introTime == tmpTime: 
+				self.allTechs[pol.introTech].policy = pol.ID
 			elif pol.endTime == tmpTime: self.allTechs[pol.introTech].policy = 0
 			
 	def saveAgentsXMLformat(self):
