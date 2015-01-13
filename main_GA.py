@@ -38,23 +38,28 @@ if __name__ == '__main__':
 	ERmw = [0,0,0,0,0,0,0,0,39.8,95,364,1267,1610] # EMILIA ROMAGNA
 	PUmw = [0,0,0,0,0,0,0,0,53.3,214.4,683.4,2186.2,2449] # PUGLIA
 	LOmw = [0,0,0,0,0,0,0,0,49.8,126.3,372,1321.6,1822] # LOMBARDIA
-	CAmw = [0,0,0,0,0,0,0,0,15.5,31.7,84.4,376,546] # LOMBARDIA
+	CAmw = [0,0,0,0,0,0,0,0,15.5,31.7,84.4,376,546] # CALABRIA
+	# COMPUTE TOTAL MAX
+	totmaxmw = max(max(ERmw),max(PUmw),max(LOmw),max(CAmw))
 	# DATI NORMALIZZATI DA 0 a 1
-	ERNmw = [float(x) / max(ERmw) for x in ERmw]
-	PUNmw = [float(x) / max(PUmw) for x in PUmw]
-	LONmw = [float(x) / max(LOmw) for x in LOmw]
-	CANmw	 = [float(x) / max(CAmw) for x in CAmw]
+	ERNmw = [float(x) / totmaxmw or x in ERmw]
+	PUNmw = [float(x) / totmaxmw or x in PUmw]
+	LONmw = [float(x) / totmaxmw or x in LOmw]
+	CANmw = [float(x) / totmaxmw or x in CAmw]
 	
 	# DATI SOLARE PERIODO 2000 - 2012 (IMPIANTI)
 	ERi = [0,0,0,0,0,0,0,0,3420,6657,14486,31010,44940] # EMILIA ROMAGNA
 	PUi = [0,0,0,0,0,0,0,0,2496,5290,9679,22926,33562] # PUGLIA
 	LOi = [0,0,0,0,0,0,0,0,5148,10814,23274,48692,68434] # LOMBARDIA
 	CAi = [0,0,0,0,0,0,0,0,627,1710,4006,10071,16571] # LOMBARDIA
+	# COMPUTE TOTAL MAX
+	totmaxi = max(max(ERi),max(PUi),max(LOi),max(CAi))
+	
 	# DATI NORMALIZZATI DA 0 a 1
-	ERNi = [float(x) / max(ERi) for x in ERi]
-	PUNi = [float(x) / max(PUi) for x in PUi]
-	LONi = [float(x) / max(LOi) for x in LOi]
-	CANi = [float(x) / max(CAi) for x in CAi]
+	ERNi = [float(x) / totmaxi for x in ERi]
+	PUNi = [float(x) / totmaxi for x in PUi]
+	LONi = [float(x) / totmaxi for x in LOi]
+	CANi = [float(x) / totmaxi for x in CAi]
 	
 	# Initialization of alpha and beta vectors
 	alphalist = np.arange(0.5,10.5,0.5)
