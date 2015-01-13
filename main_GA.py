@@ -42,10 +42,10 @@ if __name__ == '__main__':
 	# COMPUTE TOTAL MAX
 	totmaxmw = max(max(ERmw),max(PUmw),max(LOmw),max(CAmw))
 	# DATI NORMALIZZATI DA 0 a 1
-	ERNmw = [float(x) / totmaxmw or x in ERmw]
-	PUNmw = [float(x) / totmaxmw or x in PUmw]
-	LONmw = [float(x) / totmaxmw or x in LOmw]
-	CANmw = [float(x) / totmaxmw or x in CAmw]
+	ERNmw = [float(x) / totmaxmw for x in ERmw]
+	PUNmw = [float(x) / totmaxmw for x in PUmw]
+	LONmw = [float(x) / totmaxmw for x in LOmw]
+	CANmw = [float(x) / totmaxmw for x in CAmw]
 	
 	# DATI SOLARE PERIODO 2000 - 2012 (IMPIANTI)
 	ERi = [0,0,0,0,0,0,0,0,3420,6657,14486,31010,44940] # EMILIA ROMAGNA
