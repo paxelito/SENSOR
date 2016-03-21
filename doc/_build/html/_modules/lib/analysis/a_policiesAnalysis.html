@@ -1,63 +1,143 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>lib.analysis.a_policiesAnalysis &mdash; SENSOR 20141022 documentation</title>
-    
-    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../../',
-        VERSION:     '20141022',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SENSOR 20141022 documentation" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../../index.html">SENSOR 20141022 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>lib.analysis.a_policiesAnalysis &mdash; SENSOR 20141022 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="SENSOR 20141022 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> SENSOR
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../lib.html">lib package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../main.html">main module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">SENSOR</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>lib.analysis.a_policiesAnalysis</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <h1>Source code for lib.analysis.a_policiesAnalysis</h1><div class="highlight"><pre>
-<span class="c">#!/usr/bin/env python</span>
+<span></span><span class="ch">#!/usr/bin/env python</span>
 <span class="sd">&#39;&#39;&#39;Function to compute policy post-ante analysis</span>
 <span class="sd">&#39;&#39;&#39;</span>
 
-<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span> <span class="c"># Standard library</span>
+<span class="kn">import</span> <span class="nn">sys</span><span class="o">,</span> <span class="nn">os</span> <span class="c1"># Standard library</span>
 <span class="kn">import</span> <span class="nn">datetime</span> <span class="kn">as</span> <span class="nn">dt</span>
 <span class="kn">import</span> <span class="nn">linecache</span> <span class="kn">as</span> <span class="nn">lc</span>
 <span class="kn">import</span> <span class="nn">glob</span>
 <span class="kn">from</span> <span class="nn">argparse</span> <span class="kn">import</span> <span class="n">ArgumentParser</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span> <span class="c"># Scientific library</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span> <span class="c1"># Scientific library</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="o">*</span> 
 
 <span class="k">try</span><span class="p">:</span>
@@ -65,28 +145,28 @@
 <span class="k">except</span><span class="p">:</span>
     <span class="k">pass</span>
    
-<span class="c">#--------------------------------------------------------------------------------------</span>
-<span class="c"># Function to create string zero string vector before graph filename. </span>
-<span class="c"># According to the total number of reactions N zeros will be add before the instant reaction number </span>
-<span class="c"># (e.g. reaction 130 of 10000 the string became &#39;00130&#39;)</span>
+<span class="c1">#--------------------------------------------------------------------------------------</span>
+<span class="c1"># Function to create string zero string vector before graph filename. </span>
+<span class="c1"># According to the total number of reactions N zeros will be add before the instant reaction number </span>
+<span class="c1"># (e.g. reaction 130 of 10000 the string became &#39;00130&#39;)</span>
 <div class="viewcode-block" id="zeroBeforeStrNum"><a class="viewcode-back" href="../../../lib.analysis.html#lib.analysis.a_policiesAnalysis.zeroBeforeStrNum">[docs]</a><span class="k">def</span> <span class="nf">zeroBeforeStrNum</span><span class="p">(</span><span class="n">tmpl</span><span class="p">,</span> <span class="n">tmpL</span><span class="p">):</span>
-	<span class="n">strZero</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+	<span class="n">strZero</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 	<span class="n">nZeros</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">tmpL</span><span class="p">))</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">tmpl</span><span class="p">))</span>
 	<span class="k">if</span> <span class="n">nZeros</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">nZeros</span><span class="p">):</span> <span class="n">strZero</span> <span class="o">=</span> <span class="n">strZero</span> <span class="o">+</span> <span class="s">&#39;0&#39;</span>
-	<span class="k">return</span> <span class="n">strZero</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">nZeros</span><span class="p">):</span> <span class="n">strZero</span> <span class="o">=</span> <span class="n">strZero</span> <span class="o">+</span> <span class="s1">&#39;0&#39;</span>
+	<span class="k">return</span> <span class="n">strZero</span></div>
 
-<span class="c"># Input parameters definition </span></div>
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="c1"># Input parameters definition </span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
 	<span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">(</span>
-				<span class="n">description</span><span class="o">=</span><span class="s">&#39;ELDA (Emergent Levell Dynamic	 Assessment).&#39;</span>
-				<span class="p">,</span> <span class="n">epilog</span><span class="o">=</span><span class="s">&#39;&#39;&#39;Copyright Alessandro Filisetti 2013 &#39;&#39;&#39;</span><span class="p">)</span> 
-	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-p&#39;</span><span class="p">,</span> <span class="s">&#39;--StrPath&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;Path where files are stored&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s">&#39;./&#39;</span><span class="p">)</span>
-	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">&#39;-t&#39;</span><span class="p">,</span> <span class="s">&#39;--tech&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&#39;Technology to Analyse&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s">&#39;2&#39;</span><span class="p">)</span>
+				<span class="n">description</span><span class="o">=</span><span class="s1">&#39;ELDA (Emergent Levell Dynamic	 Assessment).&#39;</span>
+				<span class="p">,</span> <span class="n">epilog</span><span class="o">=</span><span class="s1">&#39;&#39;&#39;Copyright Alessandro Filisetti 2013 &#39;&#39;&#39;</span><span class="p">)</span> 
+	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-p&#39;</span><span class="p">,</span> <span class="s1">&#39;--StrPath&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Path where files are stored&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;./&#39;</span><span class="p">)</span>
+	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-t&#39;</span><span class="p">,</span> <span class="s1">&#39;--tech&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Technology to Analyse&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;2&#39;</span><span class="p">)</span>
 	<span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
 	
 	
-	<span class="k">print</span> <span class="s">&quot;Simulation Results Path: &quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">StrPath</span>
+	<span class="k">print</span> <span class="s2">&quot;Simulation Results Path: &quot;</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">StrPath</span>
 	
 	<span class="n">StrPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">StrPath</span><span class="p">)</span>
 	
@@ -94,9 +174,9 @@
 	
 	<span class="n">StrPath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">StrPath</span><span class="p">)</span>
 	
-	<span class="k">print</span> <span class="s">&#39;&#39;</span>
-	<span class="k">print</span> <span class="s">&#39;POLICIES ANALYSIS&#39;</span>
-	<span class="k">print</span> <span class="s">&#39;&#39;</span>
+	<span class="k">print</span> <span class="s1">&#39;&#39;</span>
+	<span class="k">print</span> <span class="s1">&#39;POLICIES ANALYSIS&#39;</span>
+	<span class="k">print</span> <span class="s1">&#39;&#39;</span>
 	
 	<span class="n">tmpX</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
 	<span class="n">tmpY</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
@@ -106,111 +186,111 @@
 	<span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
 	
 	<span class="k">for</span> <span class="n">tmpDir</span> <span class="ow">in</span> <span class="n">tmpDirs</span><span class="p">:</span>
-		<span class="k">print</span> <span class="s">&quot;Directory &quot;</span><span class="p">,</span> <span class="n">tmpDir</span>
+		<span class="k">print</span> <span class="s2">&quot;Directory &quot;</span><span class="p">,</span> <span class="n">tmpDir</span>
 		<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">StrPath</span><span class="p">)</span>
 		<span class="n">totDirName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">StrPath</span><span class="p">,</span><span class="n">tmpDir</span><span class="p">)</span>
 		<span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">totDirName</span><span class="p">):</span>
-			<span class="c"># Move to the directory </span>
+			<span class="c1"># Move to the directory </span>
 			<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">totDirName</span><span class="p">)</span>
 			
-			<span class="c"># POLICIES</span>
-			<span class="n">tmpFileName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">totDirName</span><span class="p">,</span><span class="s">&#39;policies_0.csv&#39;</span><span class="p">)</span>
+			<span class="c1"># POLICIES</span>
+			<span class="n">tmpFileName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">totDirName</span><span class="p">,</span><span class="s1">&#39;policies_0.csv&#39;</span><span class="p">)</span>
 			<span class="k">try</span><span class="p">:</span>
-				<span class="n">fileFID</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpFileName</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
+				<span class="n">fileFID</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpFileName</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
 			<span class="k">except</span><span class="p">:</span>
-				<span class="k">print</span> <span class="s">&quot;Policies file has not been found: &quot;</span><span class="p">,</span> <span class="n">tmpFileName</span><span class="p">;</span> <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-			<span class="n">fileFID</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpFileName</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
-			<span class="c">#read file</span>
+				<span class="k">print</span> <span class="s2">&quot;Policies file has not been found: &quot;</span><span class="p">,</span> <span class="n">tmpFileName</span><span class="p">;</span> <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+			<span class="n">fileFID</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpFileName</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+			<span class="c1">#read file</span>
 			<span class="n">policies</span> <span class="o">=</span> <span class="n">fileFID</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-			<span class="c"># for each policy</span>
+			<span class="c1"># for each policy</span>
 			<span class="n">FIlist</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">TCIList</span> <span class="o">=</span> <span class="p">[];</span> <span class="n">AmountList</span> <span class="o">=</span> <span class="p">[];</span>
 			<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">policies</span><span class="p">:</span>
-				<span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;#&#39;</span><span class="p">:</span>
-					<span class="c">#tmpID, tmpFI, tmpTC, tmpTCI, tmpCT, tmpL, tmpIT, tmpA, tmpR, tmpIT = t.split()</span>
+				<span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;#&#39;</span><span class="p">:</span>
+					<span class="c1">#tmpID, tmpFI, tmpTC, tmpTCI, tmpCT, tmpL, tmpIT, tmpA, tmpR, tmpIT = t.split()</span>
 					<span class="n">tmpID</span><span class="p">,</span> <span class="n">tmpFI</span><span class="p">,</span> <span class="n">tmpTC</span><span class="p">,</span> <span class="n">tmpTCI</span><span class="p">,</span> <span class="n">tmpCT</span><span class="p">,</span> <span class="n">tmpL</span><span class="p">,</span> <span class="n">tmpIT</span><span class="p">,</span> <span class="n">tmpA</span><span class="p">,</span> <span class="n">tmpR</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
-					<span class="c"># Insert technology</span>
+					<span class="c1"># Insert technology</span>
 					<span class="n">FIlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">tmpFI</span><span class="p">))</span>
 					<span class="n">TCIList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">tmpTCI</span><span class="p">))</span>
 					<span class="n">AmountList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">tmpA</span><span class="p">))</span>				
 			<span class="n">fileFID</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 			
-			<span class="n">tmpFnane</span> <span class="o">=</span> <span class="s">&#39;_overall_tech_&#39;</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">tech</span> <span class="o">+</span> <span class="s">&#39;.csv&#39;</span>
+			<span class="n">tmpFnane</span> <span class="o">=</span> <span class="s1">&#39;_overall_tech_&#39;</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">tech</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span>
 			<span class="n">tmpFileName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">totDirName</span><span class="p">,</span><span class="n">tmpFnane</span><span class="p">)</span>
 			<span class="k">try</span><span class="p">:</span>
-				<span class="n">fileFID</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpFileName</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
+				<span class="n">fileFID</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpFileName</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
 			<span class="k">except</span><span class="p">:</span>
-				<span class="k">print</span> <span class="n">tmpFnane</span><span class="p">,</span> <span class="s">&quot; file has not been found: &quot;</span><span class="p">,</span> <span class="n">tmpFileName</span><span class="p">;</span> <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-			<span class="n">fileFID</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpFileName</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
-			<span class="c">#read file</span>
+				<span class="k">print</span> <span class="n">tmpFnane</span><span class="p">,</span> <span class="s2">&quot; file has not been found: &quot;</span><span class="p">,</span> <span class="n">tmpFileName</span><span class="p">;</span> <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+			<span class="n">fileFID</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpFileName</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+			<span class="c1">#read file</span>
 			<span class="n">solarN</span> <span class="o">=</span> <span class="n">fileFID</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-			<span class="c"># for each time number of agents</span>
+			<span class="c1"># for each time number of agents</span>
 			<span class="n">nAgentsSolar</span> <span class="o">=</span> <span class="p">[]</span>
 			<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">solarN</span><span class="p">:</span>
-				<span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;#&#39;</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;#&#39;</span><span class="p">:</span>
 					<span class="n">nAgentsSolar</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>				
 			<span class="n">fileFID</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>	
 	
-			<span class="c"># OVERALL AIDS</span>
-			<span class="n">tmpFileName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">totDirName</span><span class="p">,</span><span class="s">&#39;_overall_aids.csv&#39;</span><span class="p">)</span>
+			<span class="c1"># OVERALL AIDS</span>
+			<span class="n">tmpFileName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">totDirName</span><span class="p">,</span><span class="s1">&#39;_overall_aids.csv&#39;</span><span class="p">)</span>
 			<span class="k">try</span><span class="p">:</span>
-				<span class="n">fileFID</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpFileName</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
+				<span class="n">fileFID</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpFileName</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
 			<span class="k">except</span><span class="p">:</span>
-				<span class="k">print</span> <span class="s">&quot;_overall_aids file has not been found: &quot;</span><span class="p">,</span> <span class="n">tmpFileName</span><span class="p">;</span> <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-			<span class="n">fileFID</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpFileName</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
-			<span class="c">#read file</span>
+				<span class="k">print</span> <span class="s2">&quot;_overall_aids file has not been found: &quot;</span><span class="p">,</span> <span class="n">tmpFileName</span><span class="p">;</span> <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+			<span class="n">fileFID</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpFileName</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+			<span class="c1">#read file</span>
 			<span class="n">aids</span> <span class="o">=</span> <span class="n">fileFID</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-			<span class="c"># for each time number of agents</span>
+			<span class="c1"># for each time number of agents</span>
 			<span class="n">tmpTotAids</span> <span class="o">=</span> <span class="mi">0</span>
 			<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">aids</span><span class="p">:</span>
-				<span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;#&#39;</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;#&#39;</span><span class="p">:</span>
 					<span class="n">tmpTotAids</span> <span class="o">+=</span> <span class="nb">float</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>			
 			<span class="n">fileFID</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>		
 	
-			<span class="c"># OVERALL C02</span>
-			<span class="n">tmpFileName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">totDirName</span><span class="p">,</span><span class="s">&#39;_overall_CO2.csv&#39;</span><span class="p">)</span>
+			<span class="c1"># OVERALL C02</span>
+			<span class="n">tmpFileName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">totDirName</span><span class="p">,</span><span class="s1">&#39;_overall_CO2.csv&#39;</span><span class="p">)</span>
 			<span class="k">try</span><span class="p">:</span>
-				<span class="n">fileFID</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpFileName</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
+				<span class="n">fileFID</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpFileName</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
 			<span class="k">except</span><span class="p">:</span>
-				<span class="k">print</span> <span class="s">&quot;_overall_CO2 file has not been found: &quot;</span><span class="p">,</span> <span class="n">tmpFileName</span><span class="p">;</span> <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-			<span class="n">fileFID</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpFileName</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
-			<span class="c">#read file</span>
+				<span class="k">print</span> <span class="s2">&quot;_overall_CO2 file has not been found: &quot;</span><span class="p">,</span> <span class="n">tmpFileName</span><span class="p">;</span> <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+			<span class="n">fileFID</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpFileName</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+			<span class="c1">#read file</span>
 			<span class="n">CO2file</span> <span class="o">=</span> <span class="n">fileFID</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-			<span class="c"># for each time number of agents</span>
+			<span class="c1"># for each time number of agents</span>
 			<span class="n">nCO2List</span> <span class="o">=</span> <span class="p">[]</span>
 			<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">CO2file</span><span class="p">:</span>
-				<span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;#&#39;</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;#&#39;</span><span class="p">:</span>
 					<span class="n">nCO2List</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>				
 			<span class="n">fileFID</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>	
 			
-			<span class="c"># OVERALL DEBT</span>
-			<span class="n">tmpFileName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">totDirName</span><span class="p">,</span><span class="s">&#39;_overall_debt.csv&#39;</span><span class="p">)</span>
+			<span class="c1"># OVERALL DEBT</span>
+			<span class="n">tmpFileName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">totDirName</span><span class="p">,</span><span class="s1">&#39;_overall_debt.csv&#39;</span><span class="p">)</span>
 			<span class="k">try</span><span class="p">:</span>
-				<span class="n">fileFID</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpFileName</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
+				<span class="n">fileFID</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpFileName</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
 			<span class="k">except</span><span class="p">:</span>
-				<span class="k">print</span> <span class="s">&quot;_overall_debt file has not been found: &quot;</span><span class="p">,</span> <span class="n">tmpFileName</span><span class="p">;</span> <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-			<span class="n">fileFID</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpFileName</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
-			<span class="c">#read file</span>
+				<span class="k">print</span> <span class="s2">&quot;_overall_debt file has not been found: &quot;</span><span class="p">,</span> <span class="n">tmpFileName</span><span class="p">;</span> <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+			<span class="n">fileFID</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpFileName</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+			<span class="c1">#read file</span>
 			<span class="n">debtfile</span> <span class="o">=</span> <span class="n">fileFID</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-			<span class="c"># for each time number of agents</span>
+			<span class="c1"># for each time number of agents</span>
 			<span class="n">debtList</span> <span class="o">=</span> <span class="p">[]</span>
 			<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">debtfile</span><span class="p">:</span>
-				<span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;#&#39;</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;#&#39;</span><span class="p">:</span>
 					<span class="n">debtList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>				
 			<span class="n">fileFID</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>		
 			
-			<span class="c"># OVERALL COSTS</span>
-			<span class="n">tmpFileName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">totDirName</span><span class="p">,</span><span class="s">&#39;_overall_costs.csv&#39;</span><span class="p">)</span>
+			<span class="c1"># OVERALL COSTS</span>
+			<span class="n">tmpFileName</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">totDirName</span><span class="p">,</span><span class="s1">&#39;_overall_costs.csv&#39;</span><span class="p">)</span>
 			<span class="k">try</span><span class="p">:</span>
-				<span class="n">fileFID</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpFileName</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
+				<span class="n">fileFID</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpFileName</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
 			<span class="k">except</span><span class="p">:</span>
-				<span class="k">print</span> <span class="s">&quot;_overall_costs file has not been found: &quot;</span><span class="p">,</span> <span class="n">tmpFileName</span><span class="p">;</span> <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-			<span class="n">fileFID</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpFileName</span><span class="p">,</span> <span class="s">&#39;r&#39;</span><span class="p">)</span>
-			<span class="c">#read file</span>
+				<span class="k">print</span> <span class="s2">&quot;_overall_costs file has not been found: &quot;</span><span class="p">,</span> <span class="n">tmpFileName</span><span class="p">;</span> <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+			<span class="n">fileFID</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tmpFileName</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span>
+			<span class="c1">#read file</span>
 			<span class="n">costfile</span> <span class="o">=</span> <span class="n">fileFID</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
-			<span class="c"># for each time number of agents</span>
+			<span class="c1"># for each time number of agents</span>
 			<span class="n">costsList</span> <span class="o">=</span> <span class="p">[]</span>
 			<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">costfile</span><span class="p">:</span>
-				<span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;#&#39;</span><span class="p">:</span>
+				<span class="k">if</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;#&#39;</span><span class="p">:</span>
 					<span class="n">costsList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">t</span><span class="p">))</span>				
 			<span class="n">fileFID</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>					
 					 
@@ -218,7 +298,7 @@
 						<span class="n">nCO2List</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">nCO2List</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">nCO2List</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span> <span class="o">-</span> <span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">nCO2List</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="n">nCO2List</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span>\
 						<span class="n">debtList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">costsList</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
 	
-	<span class="c">#print results		</span>
+	<span class="c1">#print results		</span>
 	<span class="n">tempDim</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">pow</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">),</span><span class="mf">0.5</span><span class="p">))</span>
 	<span class="n">agents_N_perc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">tempDim</span><span class="p">,</span><span class="n">tempDim</span><span class="p">))</span>
 	<span class="n">agents_N</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">tempDim</span><span class="p">,</span><span class="n">tempDim</span><span class="p">))</span>
@@ -248,104 +328,104 @@
 		
 	<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">StrPath</span><span class="p">)</span>
 		
-	<span class="k">print</span> <span class="s">&#39;   |- Saving RESULTS...&#39;</span>
-	<span class="n">outFnameStat</span> <span class="o">=</span> <span class="s">&#39;0_results.csv&#39;</span>
-	<span class="n">saveFileStat</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">outFnameStat</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
-	<span class="n">strTypes</span> <span class="o">=</span> <span class="s">&#39;# FEED_IN</span><span class="se">\t</span><span class="s">TAX_CRED_INV</span><span class="se">\t</span><span class="s">nAGENT_SOLAR</span><span class="se">\t</span><span class="s">AIDS</span><span class="se">\t</span><span class="s">CO2</span><span class="se">\t</span><span class="s">CO2saved</span><span class="se">\t</span><span class="s">CO2savedperc</span><span class="se">\t</span><span class="s">DEBT</span><span class="se">\t</span><span class="s">COSTS</span><span class="se">\n</span><span class="s">&#39;</span>
+	<span class="k">print</span> <span class="s1">&#39;   |- Saving RESULTS...&#39;</span>
+	<span class="n">outFnameStat</span> <span class="o">=</span> <span class="s1">&#39;0_results.csv&#39;</span>
+	<span class="n">saveFileStat</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">outFnameStat</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
+	<span class="n">strTypes</span> <span class="o">=</span> <span class="s1">&#39;# FEED_IN</span><span class="se">\t</span><span class="s1">TAX_CRED_INV</span><span class="se">\t</span><span class="s1">nAGENT_SOLAR</span><span class="se">\t</span><span class="s1">AIDS</span><span class="se">\t</span><span class="s1">CO2</span><span class="se">\t</span><span class="s1">CO2saved</span><span class="se">\t</span><span class="s1">CO2savedperc</span><span class="se">\t</span><span class="s1">DEBT</span><span class="se">\t</span><span class="s1">COSTS</span><span class="se">\n</span><span class="s1">&#39;</span>
 	<span class="n">saveFileStat</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">strTypes</span><span class="p">)</span>
 	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
-		<span class="n">strTypes</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+		<span class="n">strTypes</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 		<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">:</span>
-			<span class="n">strTypes</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span>	
-		<span class="n">strTypes</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+			<span class="n">strTypes</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span>	
+		<span class="n">strTypes</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 		<span class="n">saveFileStat</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">strTypes</span><span class="p">)</span>
 	<span class="n">saveFileStat</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 	
-	<span class="k">print</span> <span class="s">&#39;   |- Saving THE PERCENTAGE OF AGENTS ADOPTING THE INNOVATION...&#39;</span>
-	<span class="n">outFnameStat</span> <span class="o">=</span> <span class="s">&#39;0_agents_perc_&#39;</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">tech</span> <span class="o">+</span> <span class="s">&#39;.csv&#39;</span>
-	<span class="n">saveFileStat</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">outFnameStat</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+	<span class="k">print</span> <span class="s1">&#39;   |- Saving THE PERCENTAGE OF AGENTS ADOPTING THE INNOVATION...&#39;</span>
+	<span class="n">outFnameStat</span> <span class="o">=</span> <span class="s1">&#39;0_agents_perc_&#39;</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">tech</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span>
+	<span class="n">saveFileStat</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">outFnameStat</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
 	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tempDim</span><span class="p">):</span>
-		<span class="n">strTypes</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+		<span class="n">strTypes</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 		<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tempDim</span><span class="p">):</span>
-			<span class="n">strTypes</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">agents_N_perc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">])</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span>	
-		<span class="n">strTypes</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+			<span class="n">strTypes</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">agents_N_perc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span>	
+		<span class="n">strTypes</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 		<span class="n">saveFileStat</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">strTypes</span><span class="p">)</span>
 	<span class="n">saveFileStat</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 	
-	<span class="k">print</span> <span class="s">&#39;   |- Saving NUMBER OF AGENTS ADOPTING THE INNOVATION...&#39;</span>
-	<span class="n">outFnameStat</span> <span class="o">=</span> <span class="s">&#39;0_agents_N_&#39;</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">tech</span> <span class="o">+</span> <span class="s">&#39;.csv&#39;</span>
-	<span class="n">saveFileStat</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">outFnameStat</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+	<span class="k">print</span> <span class="s1">&#39;   |- Saving NUMBER OF AGENTS ADOPTING THE INNOVATION...&#39;</span>
+	<span class="n">outFnameStat</span> <span class="o">=</span> <span class="s1">&#39;0_agents_N_&#39;</span> <span class="o">+</span> <span class="n">args</span><span class="o">.</span><span class="n">tech</span> <span class="o">+</span> <span class="s1">&#39;.csv&#39;</span>
+	<span class="n">saveFileStat</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">outFnameStat</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
 	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tempDim</span><span class="p">):</span>
-		<span class="n">strTypes</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+		<span class="n">strTypes</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 		<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tempDim</span><span class="p">):</span>
-			<span class="n">strTypes</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">agents_N</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">])</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span>	
-		<span class="n">strTypes</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+			<span class="n">strTypes</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">agents_N</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span>	
+		<span class="n">strTypes</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 		<span class="n">saveFileStat</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">strTypes</span><span class="p">)</span>
 	<span class="n">saveFileStat</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 	
-	<span class="k">print</span> <span class="s">&#39;   |- Saving CO2...&#39;</span>
-	<span class="n">outFnameStat</span> <span class="o">=</span> <span class="s">&#39;0_CO2.csv&#39;</span>
-	<span class="n">saveFileStat</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">outFnameStat</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+	<span class="k">print</span> <span class="s1">&#39;   |- Saving CO2...&#39;</span>
+	<span class="n">outFnameStat</span> <span class="o">=</span> <span class="s1">&#39;0_CO2.csv&#39;</span>
+	<span class="n">saveFileStat</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">outFnameStat</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
 	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tempDim</span><span class="p">):</span>
-		<span class="n">strTypes</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+		<span class="n">strTypes</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 		<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tempDim</span><span class="p">):</span>
-			<span class="n">strTypes</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">CO2_N</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">])</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span>	
-		<span class="n">strTypes</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+			<span class="n">strTypes</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">CO2_N</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span>	
+		<span class="n">strTypes</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 		<span class="n">saveFileStat</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">strTypes</span><span class="p">)</span>
 	<span class="n">saveFileStat</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 	
-	<span class="k">print</span> <span class="s">&#39;   |- Saving CO2 saved...&#39;</span>
-	<span class="n">outFnameStat</span> <span class="o">=</span> <span class="s">&#39;0_CO2_saved.csv&#39;</span>
-	<span class="n">saveFileStat</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">outFnameStat</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+	<span class="k">print</span> <span class="s1">&#39;   |- Saving CO2 saved...&#39;</span>
+	<span class="n">outFnameStat</span> <span class="o">=</span> <span class="s1">&#39;0_CO2_saved.csv&#39;</span>
+	<span class="n">saveFileStat</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">outFnameStat</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
 	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tempDim</span><span class="p">):</span>
-		<span class="n">strTypes</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+		<span class="n">strTypes</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 		<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tempDim</span><span class="p">):</span>
-			<span class="n">strTypes</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">CO2_N_saved</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">])</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span>	
-		<span class="n">strTypes</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+			<span class="n">strTypes</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">CO2_N_saved</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span>	
+		<span class="n">strTypes</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 		<span class="n">saveFileStat</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">strTypes</span><span class="p">)</span>
 	<span class="n">saveFileStat</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 	
-	<span class="k">print</span> <span class="s">&#39;   |- Saving CO2 saved...&#39;</span>
-	<span class="n">outFnameStat</span> <span class="o">=</span> <span class="s">&#39;0_CO2_saved_perc.csv&#39;</span>
-	<span class="n">saveFileStat</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">outFnameStat</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+	<span class="k">print</span> <span class="s1">&#39;   |- Saving CO2 saved...&#39;</span>
+	<span class="n">outFnameStat</span> <span class="o">=</span> <span class="s1">&#39;0_CO2_saved_perc.csv&#39;</span>
+	<span class="n">saveFileStat</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">outFnameStat</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
 	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tempDim</span><span class="p">):</span>
-		<span class="n">strTypes</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+		<span class="n">strTypes</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 		<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tempDim</span><span class="p">):</span>
-			<span class="n">strTypes</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">CO2_N_saved_perc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">])</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span>	
-		<span class="n">strTypes</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+			<span class="n">strTypes</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">CO2_N_saved_perc</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span>	
+		<span class="n">strTypes</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 		<span class="n">saveFileStat</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">strTypes</span><span class="p">)</span>
 	<span class="n">saveFileStat</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 	
-	<span class="k">print</span> <span class="s">&#39;   |- Saving debt...&#39;</span>
-	<span class="n">outFnameStat</span> <span class="o">=</span> <span class="s">&#39;0_debt.csv&#39;</span>
-	<span class="n">saveFileStat</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">outFnameStat</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+	<span class="k">print</span> <span class="s1">&#39;   |- Saving debt...&#39;</span>
+	<span class="n">outFnameStat</span> <span class="o">=</span> <span class="s1">&#39;0_debt.csv&#39;</span>
+	<span class="n">saveFileStat</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">outFnameStat</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
 	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tempDim</span><span class="p">):</span>
-		<span class="n">strTypes</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+		<span class="n">strTypes</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 		<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tempDim</span><span class="p">):</span>
-			<span class="n">strTypes</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">debt_N</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">])</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span>	
-		<span class="n">strTypes</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+			<span class="n">strTypes</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">debt_N</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span>	
+		<span class="n">strTypes</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 		<span class="n">saveFileStat</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">strTypes</span><span class="p">)</span>
 	<span class="n">saveFileStat</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 	
-	<span class="k">print</span> <span class="s">&#39;   |- Saving costs...&#39;</span>
-	<span class="n">outFnameStat</span> <span class="o">=</span> <span class="s">&#39;0_costs.csv&#39;</span>
-	<span class="n">saveFileStat</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">outFnameStat</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+	<span class="k">print</span> <span class="s1">&#39;   |- Saving costs...&#39;</span>
+	<span class="n">outFnameStat</span> <span class="o">=</span> <span class="s1">&#39;0_costs.csv&#39;</span>
+	<span class="n">saveFileStat</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">outFnameStat</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
 	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tempDim</span><span class="p">):</span>
-		<span class="n">strTypes</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+		<span class="n">strTypes</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 		<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tempDim</span><span class="p">):</span>
-			<span class="n">strTypes</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">costs_N</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">])</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span>	
-		<span class="n">strTypes</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+			<span class="n">strTypes</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">costs_N</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span>	
+		<span class="n">strTypes</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 		<span class="n">saveFileStat</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">strTypes</span><span class="p">)</span>
 	<span class="n">saveFileStat</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 	
-	<span class="k">print</span> <span class="s">&#39;   |- Saving OVERALL AIDS...&#39;</span>
-	<span class="n">outFnameStat</span> <span class="o">=</span> <span class="s">&#39;0_aids.csv&#39;</span>
-	<span class="n">saveFileStat</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">outFnameStat</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+	<span class="k">print</span> <span class="s1">&#39;   |- Saving OVERALL AIDS...&#39;</span>
+	<span class="n">outFnameStat</span> <span class="o">=</span> <span class="s1">&#39;0_aids.csv&#39;</span>
+	<span class="n">saveFileStat</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">outFnameStat</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
 	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tempDim</span><span class="p">):</span>
-		<span class="n">strTypes</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+		<span class="n">strTypes</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 		<span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tempDim</span><span class="p">):</span>
-			<span class="n">strTypes</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">aids_N</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">])</span> <span class="o">+</span> <span class="s">&#39;</span><span class="se">\t</span><span class="s">&#39;</span>	
-		<span class="n">strTypes</span> <span class="o">+=</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span>
+			<span class="n">strTypes</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="n">aids_N</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span>	
+		<span class="n">strTypes</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
 		<span class="n">saveFileStat</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">strTypes</span><span class="p">)</span>
 	<span class="n">saveFileStat</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
@@ -355,44 +435,63 @@
 	
 </pre></div>
 
+           </div>
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../../index.html">SENSOR 20141022 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
         &copy; Copyright 2014, Alessandro.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
-    </div>
-  </body>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'20141022',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

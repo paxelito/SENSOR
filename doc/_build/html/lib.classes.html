@@ -1,59 +1,151 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>lib.classes package &mdash; SENSOR 20141022 documentation</title>
-    
-    <link rel="stylesheet" href="_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '20141022',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SENSOR 20141022 documentation" href="index.html" />
-    <link rel="up" title="lib package" href="lib.html" />
-    <link rel="next" title="main module" href="main.html" />
-    <link rel="prev" title="lib.analysis package" href="lib.analysis.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="main.html" title="main module"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="lib.analysis.html" title="lib.analysis package"
-             accesskey="P">previous</a> |</li>
-        <li><a href="index.html">SENSOR 20141022 documentation</a> &raquo;</li>
-          <li><a href="lib.html" accesskey="U">lib package</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>lib.classes package &mdash; SENSOR 20141022 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="SENSOR 20141022 documentation" href="index.html"/>
+        <link rel="up" title="lib package" href="lib.html"/>
+        <link rel="next" title="main module" href="main.html"/>
+        <link rel="prev" title="lib.analysis package" href="lib.analysis.html"/> 
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html" class="icon icon-home"> SENSOR
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="lib.html">lib package</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="lib.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="lib.analysis.html">lib.analysis package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="">lib.classes package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-lib.classes.agents">lib.classes.agents module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-lib.classes.env">lib.classes.env module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-lib.classes.policy">lib.classes.policy module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-lib.classes.tech">lib.classes.tech module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#module-lib.classes">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="lib.html#module-lib">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="main.html">main module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="index.html">SENSOR</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+ 
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="lib.html">lib package</a> &raquo;</li>
+      
+    <li>lib.classes package</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/lib.classes.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <div class="section" id="lib-classes-package">
 <h1>lib.classes package<a class="headerlink" href="#lib-classes-package" title="Permalink to this headline">¶</a></h1>
@@ -64,22 +156,22 @@
 <span id="lib-classes-agents-module"></span><h2>lib.classes.agents module<a class="headerlink" href="#module-lib.classes.agents" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="lib.classes.agents.agents">
-<em class="property">class </em><tt class="descclassname">lib.classes.agents.</tt><tt class="descname">agents</tt><big>(</big><em>tmpDL=0</em>, <em>tmpID=0</em>, <em>tmpX=0</em>, <em>tmpY=0</em>, <em>tmpNrgDim=100</em>, <em>tmpha=0</em>, <em>tmpSocialLobby=0</em>, <em>tmpSolPot=0.9385112983868991</em>, <em>tmpEquityCost=0.05</em>, <em>tmpIntCap=0.5</em>, <em>tmpInvLength=50</em>, <em>tmpHealth=1</em>, <em>tmpYield=55</em>, <em>tmpAge=0</em>, <em>tmpNrgTech=None</em>, <em>tmpNrgTechProp=None</em>, <em>tmpTechPolicy=None</em>, <em>tmpTechAges=None</em>, <em>tmpBalance=0</em>, <em>tmpMBalance=0</em>, <em>tmpDebts=None</em>, <em>tmpRemDebt=None</em>, <em>tmpDebtTime=None</em>, <em>tmpDebtLen=None</em>, <em>tmpMrep=None</em><big>)</big><a class="reference internal" href="_modules/lib/classes/agents.html#agents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">lib.classes.agents.</code><code class="descname">agents</code><span class="sig-paren">(</span><em>tmpDL=0</em>, <em>tmpID=0</em>, <em>tmpX=0</em>, <em>tmpY=0</em>, <em>tmpNrgDim=100</em>, <em>tmpha=0</em>, <em>tmpSocialLobby=0</em>, <em>tmpSolPot=0.5348923872089623</em>, <em>tmpEquityCost=0.05</em>, <em>tmpIntCap=0.5</em>, <em>tmpInvLength=50</em>, <em>tmpHealth=1</em>, <em>tmpYield=55</em>, <em>tmpAge=0</em>, <em>tmpNrgTech=None</em>, <em>tmpNrgTechProp=None</em>, <em>tmpTechPolicy=None</em>, <em>tmpTechAges=None</em>, <em>tmpBalance=0</em>, <em>tmpMBalance=0</em>, <em>tmpDebts=None</em>, <em>tmpRemDebt=None</em>, <em>tmpDebtTime=None</em>, <em>tmpDebtLen=None</em>, <em>tmpMrep=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/agents.html#agents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
 <dt id="lib.classes.agents.agents.awarenessAssessment">
-<tt class="descname">awarenessAssessment</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/lib/classes/agents.html#agents.awarenessAssessment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.awarenessAssessment" title="Permalink to this definition">¶</a></dt>
+<code class="descname">awarenessAssessment</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/agents.html#agents.awarenessAssessment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.awarenessAssessment" title="Permalink to this definition">¶</a></dt>
 <dd><p>If the agent does not know the available technologies, it can get them</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.agents.agents.computeAnnualCostandIncs">
-<tt class="descname">computeAnnualCostandIncs</tt><big>(</big><em>tmpSngTechID</em>, <em>tmp_newNrgProp</em>, <em>tmp_NrgPropReceipt</em>, <em>tmp_techs</em>, <em>tmp_policies</em>, <em>tmpRelativeAttractions</em>, <em>tmp_overallPlantCost</em>, <em>tmpTime</em><big>)</big><a class="reference internal" href="_modules/lib/classes/agents.html#agents.computeAnnualCostandIncs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.computeAnnualCostandIncs" title="Permalink to this definition">¶</a></dt>
+<code class="descname">computeAnnualCostandIncs</code><span class="sig-paren">(</span><em>tmpSngTechID</em>, <em>tmp_newNrgProp</em>, <em>tmp_NrgPropReceipt</em>, <em>tmp_techs</em>, <em>tmp_policies</em>, <em>tmpRelativeAttractions</em>, <em>tmp_overallPlantCost</em>, <em>tmpTime</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/agents.html#agents.computeAnnualCostandIncs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.computeAnnualCostandIncs" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function computes annual costs and annual feed-in incentives according to the technology energy drops</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.agents.agents.computeLoanAnnualInterest">
-<tt class="descname">computeLoanAnnualInterest</tt><big>(</big><em>tmpCapital</em>, <em>tmpYears</em>, <em>tmpRate</em><big>)</big><a class="reference internal" href="_modules/lib/classes/agents.html#agents.computeLoanAnnualInterest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.computeLoanAnnualInterest" title="Permalink to this definition">¶</a></dt>
+<code class="descname">computeLoanAnnualInterest</code><span class="sig-paren">(</span><em>tmpCapital</em>, <em>tmpYears</em>, <em>tmpRate</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/agents.html#agents.computeLoanAnnualInterest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.computeLoanAnnualInterest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute investment annual interests</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -98,7 +190,7 @@
 
 <dl class="method">
 <dt id="lib.classes.agents.agents.computeMonthNrgCostsAndPoll">
-<tt class="descname">computeMonthNrgCostsAndPoll</tt><big>(</big><em>tmpTechs</em>, <em>tmpTime</em>, <em>tmpPolicies</em><big>)</big><a class="reference internal" href="_modules/lib/classes/agents.html#agents.computeMonthNrgCostsAndPoll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.computeMonthNrgCostsAndPoll" title="Permalink to this definition">¶</a></dt>
+<code class="descname">computeMonthNrgCostsAndPoll</code><span class="sig-paren">(</span><em>tmpTechs</em>, <em>tmpTime</em>, <em>tmpPolicies</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/agents.html#agents.computeMonthNrgCostsAndPoll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.computeMonthNrgCostsAndPoll" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to assess the monthly energy costs according to the monthly energy needs</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -117,15 +209,17 @@
 
 <dl class="method">
 <dt id="lib.classes.agents.agents.defineTechAttraction">
-<tt class="descname">defineTechAttraction</tt><big>(</big><em>tmpTechs</em>, <em>tmpAgents</em><big>)</big><a class="reference internal" href="_modules/lib/classes/agents.html#agents.defineTechAttraction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.defineTechAttraction" title="Permalink to this definition">¶</a></dt>
+<code class="descname">defineTechAttraction</code><span class="sig-paren">(</span><em>tmpTechs</em>, <em>tmpAgents</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/agents.html#agents.defineTechAttraction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.defineTechAttraction" title="Permalink to this definition">¶</a></dt>
 <dd><p>Define technology attraction according to the neighborhood characteristics</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.agents.agents.genLogFun">
-<tt class="descname">genLogFun</tt><big>(</big><em>tmpX</em>, <em>tmpExp=1</em>, <em>tmpM=4</em>, <em>tmpUpper=1</em>, <em>tmpLower=0</em>, <em>tmpGrowth=1</em>, <em>tmpQ=1</em><big>)</big><a class="reference internal" href="_modules/lib/classes/agents.html#agents.genLogFun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.genLogFun" title="Permalink to this definition">¶</a></dt>
+<code class="descname">genLogFun</code><span class="sig-paren">(</span><em>tmpX</em>, <em>tmpExp=1</em>, <em>tmpM=4</em>, <em>tmpUpper=1</em>, <em>tmpLower=0</em>, <em>tmpGrowth=1</em>, <em>tmpQ=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/agents.html#agents.genLogFun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.genLogFun" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to return the general logistic value according to the different paramerts
-Default values are those of the logistic function</p>
+Default values are those of the logistic function
+1 - self.riskPredisposition move the curve on the axis
+1 / ( pow(1 + (1 * pow(e,(-1*(x-(4*(0.5-0.01)))))),(1/0.5)) )</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -133,6 +227,7 @@ Default values are those of the logistic function</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>tmpX</strong> &#8211; maximum investment length - payback period</li>
 <li><strong>tmpExp</strong> &#8211; agent health</li>
+<li><strong>tmpGrowth</strong> &#8211; curve slope</li>
 </ul>
 </td>
 </tr>
@@ -142,25 +237,30 @@ Default values are those of the logistic function</p>
 
 <dl class="method">
 <dt id="lib.classes.agents.agents.invAssessment">
-<tt class="descname">invAssessment</tt><big>(</big><em>tmpTechs</em>, <em>tmpTechsID</em>, <em>tmpTime</em>, <em>tmpAgents</em>, <em>tmpPolicies</em>, <em>tmpAgroPrice</em>, <em>tmp_dynFileFID</em>, <em>tmpCreditAssessment</em><big>)</big><a class="reference internal" href="_modules/lib/classes/agents.html#agents.invAssessment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.invAssessment" title="Permalink to this definition">¶</a></dt>
+<code class="descname">invAssessment</code><span class="sig-paren">(</span><em>tmpTechs</em>, <em>tmpTechsID</em>, <em>tmpTime</em>, <em>tmpAgents</em>, <em>tmpPolicies</em>, <em>tmpAgroPrice</em>, <em>tmp_dynFileFID</em>, <em>tmpCreditAssessment</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/agents.html#agents.invAssessment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.invAssessment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to assess the possible investment</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.agents.agents.newTech">
-<tt class="descname">newTech</tt><big>(</big><em>tmpTechID</em>, <em>tmpProp</em>, <em>tmpDistance</em>, <em>tmpPolicy</em>, <em>tmpPolicyLength</em><big>)</big><a class="reference internal" href="_modules/lib/classes/agents.html#agents.newTech"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.newTech" title="Permalink to this definition">¶</a></dt>
+<code class="descname">newTech</code><span class="sig-paren">(</span><em>tmpTechID</em>, <em>tmpProp</em>, <em>tmpDistance</em>, <em>tmpPolicy</em>, <em>tmpPolicyLength</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/agents.html#agents.newTech"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.newTech" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to insert a new technology in the agent receipt</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.agents.agents.performFinancialActivities">
-<tt class="descname">performFinancialActivities</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/lib/classes/agents.html#agents.performFinancialActivities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.performFinancialActivities" title="Permalink to this definition">¶</a></dt>
+<code class="descname">performFinancialActivities</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/agents.html#agents.performFinancialActivities"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.performFinancialActivities" title="Permalink to this definition">¶</a></dt>
 <dd><p>This procedure performs all the month financial activities, monthly debts payments</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="lib.classes.agents.agents.printAgent">
+<code class="descname">printAgent</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/agents.html#agents.printAgent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.printAgent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="lib.classes.agents.agents.rearrangeTechPropList">
-<tt class="descname">rearrangeTechPropList</tt><big>(</big><em>tmpNewProp</em><big>)</big><a class="reference internal" href="_modules/lib/classes/agents.html#agents.rearrangeTechPropList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.rearrangeTechPropList" title="Permalink to this definition">¶</a></dt>
+<code class="descname">rearrangeTechPropList</code><span class="sig-paren">(</span><em>tmpNewProp</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/agents.html#agents.rearrangeTechPropList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.rearrangeTechPropList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to rearrange the proportion of the different technology according to a possible new one</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -173,8 +273,18 @@ Default values are those of the logistic function</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="lib.classes.agents.agents.resetAgentToInit">
+<code class="descname">resetAgentToInit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/agents.html#agents.resetAgentToInit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.resetAgentToInit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="lib.classes.agents.agents.set_new_socialobby_and_committiment">
+<code class="descname">set_new_socialobby_and_committiment</code><span class="sig-paren">(</span><em>tmpSL</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/agents.html#agents.set_new_socialobby_and_committiment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.set_new_socialobby_and_committiment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="lib.classes.agents.agents.updateEnergyPropAccordingToEfficiencyDrop">
-<tt class="descname">updateEnergyPropAccordingToEfficiencyDrop</tt><big>(</big><em>tmpAllTechs</em><big>)</big><a class="reference internal" href="_modules/lib/classes/agents.html#agents.updateEnergyPropAccordingToEfficiencyDrop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.updateEnergyPropAccordingToEfficiencyDrop" title="Permalink to this definition">¶</a></dt>
+<code class="descname">updateEnergyPropAccordingToEfficiencyDrop</code><span class="sig-paren">(</span><em>tmpAllTechs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/agents.html#agents.updateEnergyPropAccordingToEfficiencyDrop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.agents.agents.updateEnergyPropAccordingToEfficiencyDrop" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update energy tech proportions list according to the efficiency prop parameter of the technologies</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -194,17 +304,11 @@ Default values are those of the logistic function</p>
 <p>Class environment definition.</p>
 <span class="target" id="module-env"></span><dl class="class">
 <dt id="lib.classes.env.environment">
-<em class="property">class </em><tt class="descclassname">lib.classes.env.</tt><tt class="descname">environment</tt><big>(</big><em>tmpPath</em><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">lib.classes.env.</code><code class="descname">environment</code><span class="sig-paren">(</span><em>tmpPath</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class environment definition.</p>
 <dl class="method">
-<dt id="lib.classes.env.environment.agentMonthEnergyActivity">
-<tt class="descname">agentMonthEnergyActivity</tt><big>(</big><em>tmpGen</em><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.agentMonthEnergyActivity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.agentMonthEnergyActivity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bridge function from the main the agent class</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="lib.classes.env.environment.agentMonthNRGAct_and_newTechAss">
-<tt class="descname">agentMonthNRGAct_and_newTechAss</tt><big>(</big><em>tmpTime</em>, <em>tmpDynFileFID</em><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.agentMonthNRGAct_and_newTechAss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.agentMonthNRGAct_and_newTechAss" title="Permalink to this definition">¶</a></dt>
+<code class="descname">agentMonthNRGAct_and_newTechAss</code><span class="sig-paren">(</span><em>tmpTime</em>, <em>tmpDynFileFID=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.agentMonthNRGAct_and_newTechAss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.agentMonthNRGAct_and_newTechAss" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function perform all the activity of the agent during the month</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -222,92 +326,93 @@ Default values are those of the logistic function</p>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.checkTimeAndSetPolicy">
-<tt class="descname">checkTimeAndSetPolicy</tt><big>(</big><em>tmpTime</em><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.checkTimeAndSetPolicy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.checkTimeAndSetPolicy" title="Permalink to this definition">¶</a></dt>
+<code class="descname">checkTimeAndSetPolicy</code><span class="sig-paren">(</span><em>tmpTime</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.checkTimeAndSetPolicy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.checkTimeAndSetPolicy" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.computeTotEnergyNeed">
-<tt class="descname">computeTotEnergyNeed</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.computeTotEnergyNeed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.computeTotEnergyNeed" title="Permalink to this definition">¶</a></dt>
+<code class="descname">computeTotEnergyNeed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.computeTotEnergyNeed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.computeTotEnergyNeed" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute overall Financiable amount</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.createDefaultNoPolicy">
-<tt class="descname">createDefaultNoPolicy</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.createDefaultNoPolicy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.createDefaultNoPolicy" title="Permalink to this definition">¶</a></dt>
+<code class="descname">createDefaultNoPolicy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.createDefaultNoPolicy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.createDefaultNoPolicy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to create the default policy, i.e. no incentives at all</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.createFolderAndSaveInitialConditions">
-<tt class="descname">createFolderAndSaveInitialConditions</tt><big>(</big><em>tmpPar</em>, <em>tmpPar2</em>, <em>tmpPar3</em><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.createFolderAndSaveInitialConditions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.createFolderAndSaveInitialConditions" title="Permalink to this definition">¶</a></dt>
+<code class="descname">createFolderAndSaveInitialConditions</code><span class="sig-paren">(</span><em>tmpPar=None</em>, <em>tmpPar2=None</em>, <em>tmpPar3=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.createFolderAndSaveInitialConditions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.createFolderAndSaveInitialConditions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to create the simulation folder and save the initial conditions</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.createPolicies">
-<tt class="descname">createPolicies</tt><big>(</big><em>tmpP=None</em>, <em>tmpP2=None</em>, <em>tmpP3=None</em><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.createPolicies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.createPolicies" title="Permalink to this definition">¶</a></dt>
+<code class="descname">createPolicies</code><span class="sig-paren">(</span><em>tmpP=None</em>, <em>tmpP2=None</em>, <em>tmpP3=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.createPolicies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.createPolicies" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to create the population</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.createPopulation">
-<tt class="descname">createPopulation</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.createPopulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.createPopulation" title="Permalink to this definition">¶</a></dt>
+<code class="descname">createPopulation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.createPopulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.createPopulation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to create the population</p>
+<p>To assign the social lobby parameter (1-sociallobby is the committiment) the beta distribution is used.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.createTechnologies">
-<tt class="descname">createTechnologies</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.createTechnologies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.createTechnologies" title="Permalink to this definition">¶</a></dt>
+<code class="descname">createTechnologies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.createTechnologies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.createTechnologies" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to select, according to the techCreationMethod params, the technology creation function</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.createThreeDefaultTechs">
-<tt class="descname">createThreeDefaultTechs</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.createThreeDefaultTechs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.createThreeDefaultTechs" title="Permalink to this definition">¶</a></dt>
+<code class="descname">createThreeDefaultTechs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.createThreeDefaultTechs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.createThreeDefaultTechs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to create the three default technologies
-def __init__(self, tmpID = 0, tmpEff = 0, tmpST = 0, tmpTotTime = 0, tmpCost = 0, tmpPcost = 0, tmpRate = 0,                 tmpCo2 = 0, tmpTransportCosts = 0, tmpLoanLength = 10, tmpLifeDuration = 50, tmpPolicy = 0, tmpFromKWH2KW = 100,                tmpSolarBased = 0, tmpX = 0, tmpY = 0):</p>
+def __init__(self, tmpID = 0, tmpEff = 0, tmpST = 0, tmpTotTime = 0, tmpCost = 0, tmpPcost = 0, tmpRate = 0,                 tmpCo2 = 0, tmpTransportCosts = 0, tmpLoanLength = 10, tmpLifeDuration = 50, tmpPolicy = 0, tmpFromKWH2KW = 100,                  tmpSolarBased = 0, tmpX = 0, tmpY = 0):</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.genDistanceLists">
-<tt class="descname">genDistanceLists</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.genDistanceLists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.genDistanceLists" title="Permalink to this definition">¶</a></dt>
+<code class="descname">genDistanceLists</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.genDistanceLists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.genDistanceLists" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to generate the distances matrix containing all the distances between agents</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.importAgents">
-<tt class="descname">importAgents</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.importAgents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.importAgents" title="Permalink to this definition">¶</a></dt>
+<code class="descname">importAgents</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.importAgents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.importAgents" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to import agents from a file previously prepared</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.importPolicies">
-<tt class="descname">importPolicies</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.importPolicies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.importPolicies" title="Permalink to this definition">¶</a></dt>
+<code class="descname">importPolicies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.importPolicies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.importPolicies" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to import policies from a file previously prepared</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.importTechs">
-<tt class="descname">importTechs</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.importTechs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.importTechs" title="Permalink to this definition">¶</a></dt>
+<code class="descname">importTechs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.importTechs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.importTechs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to import technologies from a file previously prepared</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.loadRandomSeed">
-<tt class="descname">loadRandomSeed</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.loadRandomSeed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.loadRandomSeed" title="Permalink to this definition">¶</a></dt>
+<code class="descname">loadRandomSeed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.loadRandomSeed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.loadRandomSeed" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to load a previously saved random seed</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.newTechAssessment">
-<tt class="descname">newTechAssessment</tt><big>(</big><em>tmpTime</em><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.newTechAssessment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.newTechAssessment" title="Permalink to this definition">¶</a></dt>
+<code class="descname">newTechAssessment</code><span class="sig-paren">(</span><em>tmpTime</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.newTechAssessment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.newTechAssessment" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.printParams">
-<tt class="descname">printParams</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.printParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.printParams" title="Permalink to this definition">¶</a></dt>
+<code class="descname">printParams</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.printParams"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.printParams" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to print all simulation parameters (e.g.)</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="o">|-</span> <span class="n">SYSTEM</span> <span class="n">PARAMS</span> <span class="o">---</span><span class="s">&quot;</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="o">|-</span> <span class="n">SYSTEM</span> <span class="n">PARAMS</span> <span class="o">---</span><span class="s2">&quot;</span>
 <span class="go">|- Simulation results path: ~/path/of/the/sim</span>
 <span class="go">|- PARAMETERS ---</span>
 <span class="go">|- Random Seed: 0</span>
@@ -328,9 +433,9 @@ def __init__(self, tmpID = 0, tmpEff = 0, tmpST = 0, tmpTotTime = 0, tmpCost = 0
 
 <dl class="method">
 <dt id="lib.classes.env.environment.printPopulation">
-<tt class="descname">printPopulation</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.printPopulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.printPopulation" title="Permalink to this definition">¶</a></dt>
+<code class="descname">printPopulation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.printPopulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.printPopulation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to output some parameters of the population</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="o">--------------</span>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="o">--------------</span>
 <span class="go">- AGENT 4</span>
 <span class="go">|- Coordinates: 12.3243 32.3432 - EN: 345</span>
 </pre></div>
@@ -347,88 +452,94 @@ def __init__(self, tmpID = 0, tmpEff = 0, tmpST = 0, tmpTotTime = 0, tmpCost = 0
 
 <dl class="method">
 <dt id="lib.classes.env.environment.promptAgents">
-<tt class="descname">promptAgents</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.promptAgents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.promptAgents" title="Permalink to this definition">¶</a></dt>
+<code class="descname">promptAgents</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.promptAgents"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.promptAgents" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to prompt the present Agents</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.promptPolicies">
-<tt class="descname">promptPolicies</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.promptPolicies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.promptPolicies" title="Permalink to this definition">¶</a></dt>
+<code class="descname">promptPolicies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.promptPolicies"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.promptPolicies" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to prompt the present policies</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.promptTechs">
-<tt class="descname">promptTechs</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.promptTechs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.promptTechs" title="Permalink to this definition">¶</a></dt>
+<code class="descname">promptTechs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.promptTechs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.promptTechs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to prompt the present technologies</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="lib.classes.env.environment.resetAll">
+<code class="descname">resetAll</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.resetAll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.resetAll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset all variables but of the initial system conditions</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="lib.classes.env.environment.resetSimulation">
-<tt class="descname">resetSimulation</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.resetSimulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.resetSimulation" title="Permalink to this definition">¶</a></dt>
+<code class="descname">resetSimulation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.resetSimulation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.resetSimulation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to reset simulation</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.saveAgentsOnFile">
-<tt class="descname">saveAgentsOnFile</tt><big>(</big><em>tmpSeed</em><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.saveAgentsOnFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.saveAgentsOnFile" title="Permalink to this definition">¶</a></dt>
+<code class="descname">saveAgentsOnFile</code><span class="sig-paren">(</span><em>tmpSeed</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.saveAgentsOnFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.saveAgentsOnFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to save agents on file</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.saveAgentsXMLformat">
-<tt class="descname">saveAgentsXMLformat</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.saveAgentsXMLformat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.saveAgentsXMLformat" title="Permalink to this definition">¶</a></dt>
+<code class="descname">saveAgentsXMLformat</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.saveAgentsXMLformat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.saveAgentsXMLformat" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to save statistic on file</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.saveNet">
-<tt class="descname">saveNet</tt><big>(</big><em>tmpName</em><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.saveNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.saveNet" title="Permalink to this definition">¶</a></dt>
+<code class="descname">saveNet</code><span class="sig-paren">(</span><em>tmpName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.saveNet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.saveNet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save biomarket network</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.saveNoActiveAgent">
-<tt class="descname">saveNoActiveAgent</tt><big>(</big><em>tmpName</em><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.saveNoActiveAgent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.saveNoActiveAgent" title="Permalink to this definition">¶</a></dt>
+<code class="descname">saveNoActiveAgent</code><span class="sig-paren">(</span><em>tmpName</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.saveNoActiveAgent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.saveNoActiveAgent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Agents not participating to the bio market</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.saveOnFile">
-<tt class="descname">saveOnFile</tt><big>(</big><em>tmpSeed</em><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.saveOnFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.saveOnFile" title="Permalink to this definition">¶</a></dt>
+<code class="descname">saveOnFile</code><span class="sig-paren">(</span><em>tmpSeed</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.saveOnFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.saveOnFile" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.savePoliciesOnFile">
-<tt class="descname">savePoliciesOnFile</tt><big>(</big><em>tmpSeed</em><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.savePoliciesOnFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.savePoliciesOnFile" title="Permalink to this definition">¶</a></dt>
+<code class="descname">savePoliciesOnFile</code><span class="sig-paren">(</span><em>tmpSeed</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.savePoliciesOnFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.savePoliciesOnFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to save tech on file</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.saveRandomSeed">
-<tt class="descname">saveRandomSeed</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.saveRandomSeed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.saveRandomSeed" title="Permalink to this definition">¶</a></dt>
+<code class="descname">saveRandomSeed</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.saveRandomSeed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.saveRandomSeed" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to save the random seed</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.saveTechsOnFile">
-<tt class="descname">saveTechsOnFile</tt><big>(</big><em>tmpSeed</em><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.saveTechsOnFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.saveTechsOnFile" title="Permalink to this definition">¶</a></dt>
+<code class="descname">saveTechsOnFile</code><span class="sig-paren">(</span><em>tmpSeed</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.saveTechsOnFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.saveTechsOnFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to save tech on file</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.saveTotalOnFile">
-<tt class="descname">saveTotalOnFile</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.saveTotalOnFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.saveTotalOnFile" title="Permalink to this definition">¶</a></dt>
+<code class="descname">saveTotalOnFile</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.saveTotalOnFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.saveTotalOnFile" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.statFunctions">
-<tt class="descname">statFunctions</tt><big>(</big><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.statFunctions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.statFunctions" title="Permalink to this definition">¶</a></dt>
+<code class="descname">statFunctions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.statFunctions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.statFunctions" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.env.environment.writeSngStatOnFileWhereISay">
-<tt class="descname">writeSngStatOnFileWhereISay</tt><big>(</big><em>tmpName</em>, <em>tmpStats</em>, <em>tmpFormat</em><big>)</big><a class="reference internal" href="_modules/lib/classes/env.html#environment.writeSngStatOnFileWhereISay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.writeSngStatOnFileWhereISay" title="Permalink to this definition">¶</a></dt>
+<code class="descname">writeSngStatOnFileWhereISay</code><span class="sig-paren">(</span><em>tmpName</em>, <em>tmpStats</em>, <em>tmpFormat</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/env.html#environment.writeSngStatOnFileWhereISay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.env.environment.writeSngStatOnFileWhereISay" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to save statistic on file</p>
 </dd></dl>
 
@@ -440,10 +551,10 @@ def __init__(self, tmpID = 0, tmpEff = 0, tmpST = 0, tmpTotTime = 0, tmpCost = 0
 <p>Class tech definition.</p>
 <span class="target" id="module-policy"></span><dl class="class">
 <dt id="lib.classes.policy.policy">
-<em class="property">class </em><tt class="descclassname">lib.classes.policy.</tt><tt class="descname">policy</tt><big>(</big><em>tmpID=0</em>, <em>tmpFeedIn=0</em>, <em>tmpTcred=0</em>, <em>tmpTcredInv=0</em>, <em>tmpCT=0</em>, <em>tmpL=0</em>, <em>tmpIntroTime=0</em>, <em>tmpEndTime=0</em>, <em>tmpA=0</em>, <em>tmpRes=0</em>, <em>tmpIntroTech=0</em><big>)</big><a class="reference internal" href="_modules/lib/classes/policy.html#policy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.policy.policy" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">lib.classes.policy.</code><code class="descname">policy</code><span class="sig-paren">(</span><em>tmpID=0</em>, <em>tmpFeedIn=0</em>, <em>tmpTcred=0</em>, <em>tmpTcredInv=0</em>, <em>tmpCT=0</em>, <em>tmpL=0</em>, <em>tmpIntroTime=0</em>, <em>tmpEndTime=0</em>, <em>tmpA=0</em>, <em>tmpRes=0</em>, <em>tmpIntroTech=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/policy.html#policy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.policy.policy" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
 <dt id="lib.classes.policy.policy.defineTotFinance">
-<tt class="descname">defineTotFinance</tt><big>(</big><em>tmpTotEnergy</em>, <em>tmpConversion</em><big>)</big><a class="reference internal" href="_modules/lib/classes/policy.html#policy.defineTotFinance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.policy.policy.defineTotFinance" title="Permalink to this definition">¶</a></dt>
+<code class="descname">defineTotFinance</code><span class="sig-paren">(</span><em>tmpTotEnergy</em>, <em>tmpConversion</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/policy.html#policy.defineTotFinance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.policy.policy.defineTotFinance" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -454,17 +565,45 @@ def __init__(self, tmpID = 0, tmpEff = 0, tmpST = 0, tmpTotTime = 0, tmpCost = 0
 <p>Class tech definition.</p>
 <span class="target" id="module-tech"></span><dl class="class">
 <dt id="lib.classes.tech.tech">
-<em class="property">class </em><tt class="descclassname">lib.classes.tech.</tt><tt class="descname">tech</tt><big>(</big><em>tmpID=0</em>, <em>tmpRen=0</em>, <em>tmpEff=0</em>, <em>tmpST=0</em>, <em>tmpDim=0</em>, <em>tmpFromTons2kWhmese=0</em>, <em>tmpTotTime=0</em>, <em>tmpCost=0</em>, <em>tmpPcost=0</em>, <em>tmpRate=0</em>, <em>tmpCo2=0</em>, <em>tmpTransportCosts=0</em>, <em>tmpLoanLength=20</em>, <em>tmpLifeDuration=50</em>, <em>tmpPolicy=0</em>, <em>tmpFromKWH2KW=100</em>, <em>tmpSolarBased=0</em>, <em>tmpX=0</em>, <em>tmpY=0</em>, <em>tmpMinPow=0</em><big>)</big><a class="reference internal" href="_modules/lib/classes/tech.html#tech"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.tech.tech" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">lib.classes.tech.</code><code class="descname">tech</code><span class="sig-paren">(</span><em>tmpID=0</em>, <em>tmpRen=0</em>, <em>tmpEff=0</em>, <em>tmpST=0</em>, <em>tmpDim=0</em>, <em>tmpFromTons2kWhmese=0</em>, <em>tmpTotTime=0</em>, <em>tmpCost=0</em>, <em>tmpPcost=0</em>, <em>tmpRate=0</em>, <em>tmpCo2=0</em>, <em>tmpTransportCosts=0</em>, <em>tmpLoanLength=20</em>, <em>tmpLifeDuration=50</em>, <em>tmpPolicy=0</em>, <em>tmpFromKWH2KW=100</em>, <em>tmpSolarBased=0</em>, <em>tmpX=0</em>, <em>tmpY=0</em>, <em>tmpMinPow=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/tech.html#tech"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.tech.tech" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class tech definition.</p>
 <dl class="method">
 <dt id="lib.classes.tech.tech.incrementKWHdist">
-<tt class="descname">incrementKWHdist</tt><big>(</big><em>tmpPos</em>, <em>tmpInc</em><big>)</big><a class="reference internal" href="_modules/lib/classes/tech.html#tech.incrementKWHdist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.tech.tech.incrementKWHdist" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">incrementKWHdist</code><span class="sig-paren">(</span><em>tmpPos</em>, <em>tmpInc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/tech.html#tech.incrementKWHdist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.tech.tech.incrementKWHdist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Total amount of technology used in the system</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tmpPos</strong> &#8211; actually the current month</li>
+<li><strong>tmpInc</strong> &#8211; Energy Increment</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 <dl class="method">
 <dt id="lib.classes.tech.tech.incrementNRGdist">
-<tt class="descname">incrementNRGdist</tt><big>(</big><em>tmpPos</em><big>)</big><a class="reference internal" href="_modules/lib/classes/tech.html#tech.incrementNRGdist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.tech.tech.incrementNRGdist" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<code class="descname">incrementNRGdist</code><span class="sig-paren">(</span><em>tmpPos</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/tech.html#tech.incrementNRGdist"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.tech.tech.incrementNRGdist" title="Permalink to this definition">¶</a></dt>
+<dd><p>Increment energy distribution of this month</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tmpPos</strong> &#8211; actually the current month</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="lib.classes.tech.tech.resetTechToInit">
+<code class="descname">resetTechToInit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/lib/classes/tech.html#tech.resetTechToInit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lib.classes.tech.tech.resetTechToInit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset technologies to initial conditions</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -475,74 +614,72 @@ def __init__(self, tmpID = 0, tmpEff = 0, tmpST = 0, tmpTotTime = 0, tmpCost = 0
 </div>
 
 
+           </div>
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">lib.classes package</a><ul>
-<li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#module-lib.classes.agents">lib.classes.agents module</a></li>
-<li><a class="reference internal" href="#module-lib.classes.env">lib.classes.env module</a></li>
-<li><a class="reference internal" href="#module-lib.classes.policy">lib.classes.policy module</a></li>
-<li><a class="reference internal" href="#module-lib.classes.tech">lib.classes.tech module</a></li>
-<li><a class="reference internal" href="#module-lib.classes">Module contents</a></li>
-</ul>
-</li>
-</ul>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="main.html" class="btn btn-neutral float-right" title="main module" accesskey="n">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="lib.analysis.html" class="btn btn-neutral" title="lib.analysis package" accesskey="p"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="lib.analysis.html"
-                        title="previous chapter">lib.analysis package</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="main.html"
-                        title="next chapter">main module</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="_sources/lib.classes.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2014, Alessandro.
+
     </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
         </div>
       </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li class="right" >
-          <a href="main.html" title="main module"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="lib.analysis.html" title="lib.analysis package"
-             >previous</a> |</li>
-        <li><a href="index.html">SENSOR 20141022 documentation</a> &raquo;</li>
-          <li><a href="lib.html" >lib package</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
-        &copy; Copyright 2014, Alessandro.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
-    </div>
-  </body>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'20141022',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>

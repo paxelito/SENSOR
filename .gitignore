@@ -3,6 +3,5 @@
 *settings*
 *.csv
 *.pyc
-
-
-modelDataDemo/.DS_Store
+.DS_Store
+.idea

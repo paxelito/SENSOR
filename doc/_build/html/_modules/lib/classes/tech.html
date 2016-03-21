@@ -1,55 +1,135 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>lib.classes.tech &mdash; SENSOR 20141022 documentation</title>
-    
-    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../../../',
-        VERSION:     '20141022',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
-    <script type="text/javascript" src="../../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    <link rel="top" title="SENSOR 20141022 documentation" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" /> 
-  </head>
-  <body>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../../index.html">SENSOR 20141022 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
-      </ul>
-    </div>  
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>lib.classes.tech &mdash; SENSOR 20141022 documentation</title>
+  
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body">
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+    <link rel="top" title="SENSOR 20141022 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> SENSOR
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+                <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../lib.html">lib package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../main.html">main module</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../../../index.html">SENSOR</a>
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../../index.html">Docs</a> &raquo;</li>
+      
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      
+    <li>lib.classes.tech</li>
+      <li class="wy-breadcrumbs-aside">
+        
+          
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
             
   <h1>Source code for lib.classes.tech</h1><div class="highlight"><pre>
-<span class="c">#!/usr/bin/env python</span>
-<span class="c"># -*- coding: latin-1 -*-</span>
+<span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: latin-1 -*-</span>
 
 <span class="sd">&#39;&#39;&#39;Class tech definition.</span>
 
@@ -60,8 +140,8 @@
 <span class="sd">.. moduleauthor:: Alessandro Filisetti &lt;alessandro.filisetti@unibo.it&gt;</span>
 
 <span class="sd">&#39;&#39;&#39;</span>
-<span class="c">#import os</span>
-<span class="c">#import shutil as sh</span>
+<span class="c1">#import os</span>
+<span class="c1">#import shutil as sh</span>
 
 <div class="viewcode-block" id="tech"><a class="viewcode-back" href="../../../lib.classes.html#lib.classes.tech.tech">[docs]</a><span class="k">class</span> <span class="nc">tech</span><span class="p">:</span>
 	<span class="sd">&#39;&#39;&#39;Class tech definition.	</span>
@@ -73,18 +153,18 @@
 		
 		<span class="bp">self</span><span class="o">.</span><span class="n">ID</span> <span class="o">=</span> <span class="n">tmpID</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">renewable</span> <span class="o">=</span> <span class="n">tmpRen</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">efficiency</span> <span class="o">=</span> <span class="n">tmpEff</span> <span class="c"># Technology efficiency drop per year. </span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">efficiency</span> <span class="o">=</span> <span class="n">tmpEff</span> <span class="c1"># Technology efficiency drop per year. </span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">startTime</span> <span class="o">=</span> <span class="n">tmpST</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">fromTons2kWhmese</span> <span class="o">=</span> <span class="n">tmpFromTons2kWhmese</span> <span class="c"># from ha to kWh/month</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">minPow</span> <span class="o">=</span> <span class="n">tmpMinPow</span> <span class="c"># Minimum power of the technology</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="n">tmpCost</span> <span class="c"># Cost euro/KwH</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">transportCosts</span> <span class="o">=</span> <span class="n">tmpTransportCosts</span> <span class="c"># Cost for Kwh like with biomass energy</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">plantCost</span> <span class="o">=</span> <span class="n">tmpPcost</span> <span class="c"># cost of the investment for each KWh</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">plantDimension</span> <span class="o">=</span> <span class="n">tmpDim</span> <span class="c"># Plant dimension (ha)</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">interestRate</span> <span class="o">=</span> <span class="n">tmpRate</span> <span class="c"># Cost of the debit capital</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">loanLength</span> <span class="o">=</span> <span class="n">tmpLoanLength</span> <span class="c"># Loan length (years)</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="n">tmpLifeDuration</span> <span class="c"># Total life time of the technology</span>
-		<span class="bp">self</span><span class="o">.</span><span class="n">co2</span> <span class="o">=</span> <span class="n">tmpCo2</span> <span class="c"># total amount of CO2 produced per Kw/h</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">fromTons2kWhmese</span> <span class="o">=</span> <span class="n">tmpFromTons2kWhmese</span> <span class="c1"># from ha to kWh/month</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">minPow</span> <span class="o">=</span> <span class="n">tmpMinPow</span> <span class="c1"># Minimum power of the technology</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">cost</span> <span class="o">=</span> <span class="n">tmpCost</span> <span class="c1"># Cost euro/KwH</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">transportCosts</span> <span class="o">=</span> <span class="n">tmpTransportCosts</span> <span class="c1"># Cost for Kwh like with biomass energy</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">plantCost</span> <span class="o">=</span> <span class="n">tmpPcost</span> <span class="c1"># cost of the investment for each KWh</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">plantDimension</span> <span class="o">=</span> <span class="n">tmpDim</span> <span class="c1"># Plant dimension (ha)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">interestRate</span> <span class="o">=</span> <span class="n">tmpRate</span> <span class="c1"># Cost of the debit capital</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">loanLength</span> <span class="o">=</span> <span class="n">tmpLoanLength</span> <span class="c1"># Loan length (years)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">duration</span> <span class="o">=</span> <span class="n">tmpLifeDuration</span> <span class="c1"># Total life time of the technology</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">co2</span> <span class="o">=</span> <span class="n">tmpCo2</span> <span class="c1"># total amount of CO2 produced per Kw/h</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">policy</span> <span class="o">=</span> <span class="n">tmpPolicy</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">solarBased</span> <span class="o">=</span> <span class="n">tmpSolarBased</span>
 			
@@ -93,59 +173,112 @@
 				
 		<span class="bp">self</span><span class="o">.</span><span class="n">fromKWH2KW</span> <span class="o">=</span> <span class="n">tmpFromKWH2KW</span>
 		
-		<span class="c"># Technology distribution in time</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">totTime</span> <span class="o">=</span> <span class="n">tmpTotTime</span>
+		
+		<span class="c1"># Technology distribution in time</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">techNRGdist</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">tmpTotTime</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">techKWHdist</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">tmpTotTime</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">techKWdist</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">tmpTotTime</span>
 		
+		<span class="c1"># Current adoption</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">currentDiffusion</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">currentKWinstalled</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">currentKWhinstalled</span> <span class="o">=</span> <span class="mi">0</span>
+	
+<div class="viewcode-block" id="tech.resetTechToInit"><a class="viewcode-back" href="../../../lib.classes.html#lib.classes.tech.tech.resetTechToInit">[docs]</a>	<span class="k">def</span> <span class="nf">resetTechToInit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">			Reset technologies to initial conditions</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="c1"># Technology distribution in time</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">techNRGdist</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">totTime</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">techKWHdist</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">totTime</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">techKWdist</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">totTime</span>
+		
+		<span class="c1"># Current adoption</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">currentDiffusion</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">currentKWinstalled</span> <span class="o">=</span> <span class="mi">0</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">currentKWhinstalled</span> <span class="o">=</span> <span class="mi">0</span>		</div>
+		
 <div class="viewcode-block" id="tech.incrementNRGdist"><a class="viewcode-back" href="../../../lib.classes.html#lib.classes.tech.tech.incrementNRGdist">[docs]</a>	<span class="k">def</span> <span class="nf">incrementNRGdist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tmpPos</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">			Increment energy distribution of this month</span>
+<span class="sd">			</span>
+<span class="sd">			:param tmpPos: actually the current month</span>
+<span class="sd">		&#39;&#39;&#39;</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">techNRGdist</span><span class="p">[</span><span class="n">tmpPos</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">currentDiffusion</span> <span class="o">+=</span> <span class="mi">1</span></div>
 
-</div>
 <div class="viewcode-block" id="tech.incrementKWHdist"><a class="viewcode-back" href="../../../lib.classes.html#lib.classes.tech.tech.incrementKWHdist">[docs]</a>	<span class="k">def</span> <span class="nf">incrementKWHdist</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tmpPos</span><span class="p">,</span> <span class="n">tmpInc</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">			Total amount of technology used in the system</span>
+<span class="sd">			</span>
+<span class="sd">			:param tmpPos: actually the current month</span>
+<span class="sd">			:param tmpInc: Energy Increment</span>
+<span class="sd">		&#39;&#39;&#39;</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">techKWHdist</span><span class="p">[</span><span class="n">tmpPos</span><span class="p">]</span> <span class="o">+=</span> <span class="n">tmpInc</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">currentKWhinstalled</span> <span class="o">+=</span> <span class="n">tmpInc</span>
 		<span class="bp">self</span><span class="o">.</span><span class="n">techKWdist</span><span class="p">[</span><span class="n">tmpPos</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">tmpInc</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">fromKWH2KW</span><span class="p">)</span>
-		</div></div>
+		<span class="bp">self</span><span class="o">.</span><span class="n">currentKWinstalled</span> <span class="o">+=</span> <span class="p">(</span><span class="n">tmpInc</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">fromKWH2KW</span><span class="p">)</span></div></div>
+		
 </pre></div>
 
+           </div>
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar">
-        <div class="sphinxsidebarwrapper">
-<div id="searchbox" style="display: none">
-  <h3>Quick search</h3>
-    <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="related">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../../../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../../../py-modindex.html" title="Python Module Index"
-             >modules</a> |</li>
-        <li><a href="../../../index.html">SENSOR 20141022 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
-      </ul>
-    </div>
-    <div class="footer">
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
         &copy; Copyright 2014, Alessandro.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.2.2.
-    </div>
-  </body>
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'20141022',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
 </html>
