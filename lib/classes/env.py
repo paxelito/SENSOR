@@ -291,14 +291,14 @@ class environment:
                 ID_c = ID_c + 1
             ID_r = ID_r + 1
 
-        # 	def agentMonthEnergyActivity(self, tmpGen):
-        # 		'''Bridge function from the main the agent class'''
-        # 		for sngAgent in self.allAgents:
-        # 			sngAgent.computeMonthNrgCostsAndPoll(self.allTechs, tmpGen, self.allPolicies)
-        # 			sngAgent.performFinancialActivities()
-        # 			sngAgent.updateEnergyPropAccordingToEfficiencyDrop(self.allTechs)
-        # 		# Stat functions
-        # 		self.statFunctions()
+            # 	def agentMonthEnergyActivity(self, tmpGen):
+            # 		'''Bridge function from the main the agent class'''
+            # 		for sngAgent in self.allAgents:
+            # 			sngAgent.computeMonthNrgCostsAndPoll(self.allTechs, tmpGen, self.allPolicies)
+            # 			sngAgent.performFinancialActivities()
+            # 			sngAgent.updateEnergyPropAccordingToEfficiencyDrop(self.allTechs)
+            # 		# Stat functions
+            # 		self.statFunctions()
 
     def newTechAssessment(self, tmpTime):
         # According to the average investment evaluation time (once per year) and the agent wealth and policy aids are decreased
@@ -432,7 +432,7 @@ class environment:
             # 100 is a temporary value representing the average transformation from kWh to kWp
             sngPol.defineTotFinance(self.overallEnergyNeed, 100)
 
-        # self.promptPolicies()
+            # self.promptPolicies()
 
     def createDefaultNoPolicy(self):
         '''Function to create the default policy, i.e. no incentives at all'''

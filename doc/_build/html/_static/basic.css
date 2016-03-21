@@ -238,9 +238,9 @@ img.align-right, .figure.align-right, object.align-right {
 }
 
 img.align-center, .figure.align-center, object.align-center {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .align-left {
@@ -372,7 +372,6 @@ div.figure p.caption span.caption-number {
 div.figure p.caption span.caption-text {
 }
 
-
 /* -- other body styles ----------------------------------------------------- */
 
 ol.arabic {
@@ -449,7 +448,7 @@ dl.glossary dt {
     border: 3px solid red;
 }
 
-.footnote:target  {
+.footnote:target {
     background-color: #ffa;
 }
 
@@ -486,7 +485,7 @@ abbr, acronym {
 
 pre {
     overflow: auto;
-    overflow-y: hidden;  /* fixes display issues on Chrome browsers */
+    overflow-y: hidden; /* fixes display issues on Chrome browsers */
 }
 
 td.linenos pre {

@@ -1,7 +1,7 @@
 .. SENSOR documentation master file, created by
-   sphinx-quickstart on Wed Oct 22 11:25:10 2014.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+sphinx-quickstart on Wed Oct 22 11:25:10 2014.
+You can adapt this file completely to your liking, but it should at least
+contain the root `toctree` directive.
 
 Welcome to SENSOR's documentation!
 ==================================
@@ -9,10 +9,10 @@ Welcome to SENSOR's documentation!
 Contents:
 
 .. toctree::
-   :maxdepth: 4
+:maxdepth: 4
 
-   lib
-   main
+       lib
+       main
 
 
 Indices and tables
