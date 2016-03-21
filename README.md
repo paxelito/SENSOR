@@ -8,8 +8,7 @@ Comments: The presence of [C] string within comments indicates a WaRNING. Model 
 RELEASE NOTES
 -------------
 
-2014 - 10 - 24 ver.1.3
-^^^^^^^^^^^^^^^^^^^^^^
+**2014 - 10 - 24 ver.1.3**
 
 * Configuration file has been extended with new params
 * Policy end time has been added to the policy class
@@ -21,8 +20,7 @@ RELEASE NOTES
 * !!! To fix che continue creation of the technologies and of the policie at each run
 * !!! CONTROL THE FITTING FUNCTION
 
-2014 - 05 - 08 ver.1.2
-^^^^^^^^^^^^^^^^^^^^^^
+**2014 - 05 - 08 ver.1.2**
 
 * bioenergy year yield has been added
 * Attractiveness is now based on both the energetic and the physical dimension of the agents.
@@ -31,15 +29,13 @@ RELEASE NOTES
 * Several Bugs Fixed
 
 
-2014 - 04 - 16 ver.1.1
-^^^^^^^^^^^^^^^^^^^^^^
+**2014 - 04 - 16 ver.1.1**
 
 * The technology awareness behavior has been added
 * The acceptance of the financial investment has been implemented
 * Several bugs fixed
 
-2014 - 02 - 19 ver.1.0
-^^^^^^^^^^^^^^^^^^^^^^
+**2014 - 02 - 19 ver.1.0**
 
 * The introduction time is now considered for each technology
 
