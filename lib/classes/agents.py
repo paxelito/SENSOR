@@ -127,6 +127,7 @@ class agents:
 
         '''
         if self.techawareness == False:
+            # TODO check this assumption, if ran.random() < (self.riskPredisposition ** 2) is definitely aleatory
             if ran.random() < (self.riskPredisposition ** 2):  # Check this parameters!!! [C]
                 self.techawareness = True
                 if self.debugLevel > 0:  "Agent ", self.ID, " H=", self.health, " just discovered the available technologies"
@@ -134,7 +135,7 @@ class agents:
     def invAssessment(self, tmpTechs, tmpTechsID, tmpTime, tmpAgents, tmpPolicies, tmpAgroPrice, tmp_dynFileFID,
                       tmpCreditAssessment):
         '''
-            Function to assess the possible investment
+            Function to assess possible investments
 
         '''
         # first position the policy, second position the total amount of used incentive. To update only if a new technology is used.
@@ -142,6 +143,7 @@ class agents:
         # Evaluate the technology awareness of the agent
         self.awarenessAssessment()
 
+        # ONce a year
         if 12 - ran.randint(1, 12) == 0:
             if self.debugLevel < 0:
                 print "\t	\_ AGENT ", self.ID, " is assessing its strategy"
@@ -265,7 +267,7 @@ class agents:
                             if tmpNewNrgProp > 0:
                                 tmpNrgPropReceipt = self.rearrangeTechPropList(
                                     tmpNewNrgProp)  # Create a temporary new energy proportion list
-                                # Compute the overall cost of the plan according to the relation between kWh and kW.
+                                # Compute the overall cost of the plant according to the relation between kWh and kW.
                                 if (tmpTechs[sngTechID].solarBased == 0) & (
                                     tmpTechs[sngTechID].fromTons2kWhmese > 0):  # (BIOENERGY)
                                     tmpOverallPlantCost = tmpTechs[sngTechID].plantDimension * tmpTechs[
@@ -652,6 +654,7 @@ class agents:
         '''
         annualInt = (tmpCapital * tmpYears * tmpRate) / tmpYears
         return annualInt
+    
 
     def performFinancialActivities(self):
         '''
@@ -669,6 +672,7 @@ class agents:
             cnt += 1
         if sum(self.RemainingDebts) == 0:
             self.flagFree = True
+            
 
     def computeMonthNrgCostsAndPoll(self, tmpTechs, tmpTime, tmpPolicies):
         '''
@@ -681,6 +685,7 @@ class agents:
         tempMonthCosts = 0
         tempPoll = 0
         # counter = 0
+        # FOR EACH TECHNOLOGY
         for idtech, tech in enumerate(self.nrgTechsReceipt):
 
             # .. compute costs and revenues
@@ -688,6 +693,7 @@ class agents:
                 pow(abs(self.x - tmpTechs[tech].X), 2) + pow(abs(self.y - tmpTechs[tech].Y), 2), 0.5)
             tmpDistanceFromSourceMultiplier *= tmpTechs[tech].transportCosts
 
+            # Compute costs of month
             tempMonthCosts += self.nrgPropReceipt[idtech] \
                               * (tmpTechs[tech].cost \
                                  + tmpDistanceFromSourceMultiplier \
@@ -711,6 +717,7 @@ class agents:
                 for cli in self.client: tempMonthCosts -= cli[1]
 
             # If the incentive is still valid the tax credit on the investment is computed
+            # TODO check function
             if (tmpPolicies[self.techPolicy[idtech][0]].taxCreditInv > 0) & (self.techPolicy[idtech][1] > 0):
                 if (tmpTechs[tech].solarBased == 1):
                     tempMonthCosts -= (self.nrgPropReceipt[idtech] / tmpTechs[tech].fromKWH2KW * tmpTechs[
@@ -764,6 +771,7 @@ class agents:
                     if sngT.ID in sngA.nrgTechsReceipt:  # For each technology used by the agent
                         if sngA.nrgPropReceipt[sngA.nrgTechsReceipt.index(sngT.ID)] > 0:
                             # Attractiveness is measured by the energy dimension and physical dimension of the agent over the square distance
+                            # TODO CHANGE THESE FUNCTION ACCORDING TO A NETWORK BASED APPROACH
                             tmpTotTech[sngT.ID] += (float(sngA.totEnergyNeed) / pow(self.distanceList[sngA.ID], 2))
                             tmpHaTech[sngT.ID] += (float(sngA.ha) / pow(self.distanceList[sngA.ID], 2))
 
@@ -788,6 +796,7 @@ class agents:
             :param tmpExp: agent health
             :param tmpGrowth: curve slope
         '''
+        # TODO possible enhancements?
 
         e = 2.71828182845904523536
         tmpY = 0

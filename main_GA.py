@@ -7,7 +7,7 @@
 	Fitting http://davidakenny.net/cm/fit.htm
 """
 
-import sys, os
+import os
 from time import time
 import numpy as np
 from argparse import ArgumentParser
@@ -61,7 +61,7 @@ if __name__ == '__main__':
     LONi = [float(x) / totmaxi for x in LOi]
     CANi = [float(x) / totmaxi for x in CAi]
 
-    # Initialization of alpha and beta vectors
+    # Initialization of alpha and beta vectors (USER FOR A SENSITIVITY ANALYSIS)
     alphalist = np.arange(0.5, 10.5, 0.5)
     betalist = np.arange(0.5, 10.5, 0.5)
 
@@ -76,7 +76,7 @@ if __name__ == '__main__':
     envi.createTechnologies()
     envi.createPolicies(None, None, None)
 
-    # create numpy arrays for results
+    # create numpy matrices for results. 
     mdim = len(alphalist)
     ERmwmatrix = np.zeros([mdim, mdim], dtype=float)
     ERplantmatrix = np.zeros([mdim, mdim], dtype=float)
@@ -87,7 +87,7 @@ if __name__ == '__main__':
     CAmwmatrix = np.zeros([mdim, mdim], dtype=float)
     CAplantmatrix = np.zeros([mdim, mdim], dtype=float)
 
-    # For each ALPHA and BETA of the BETA function
+    # For each ALPHA and BETA of the BETA function, sensitivity analysis on ALPHA BETA PARAMS
     for alphaid, temp_alpha in enumerate(alphalist):
         for betaid, temp_beta in enumerate(betalist):
 
@@ -150,7 +150,7 @@ if __name__ == '__main__':
 
                 envi.resetAll()
 
-            # Compute average behavior
+            # Compute average behavior from different random seeds
             alluMW_mean = map(np.mean, [[allyMW[j][i] for j in range(len(allyMW))] for i in range(len(allyMW[0]))])
             allallyP_mean = map(np.mean, [[allyP[j][i] for j in range(len(allyP))] for i in range(len(allyP[0]))])
 
@@ -166,7 +166,7 @@ if __name__ == '__main__':
             CAmwmatrix[alphaid][betaid] = st.curveFitting(alluMW_mean, CANmw)
             CAplantmatrix[alphaid][betaid] = st.curveFitting(allallyP_mean, CANi)
 
-    # Save all on file
+    # Save matrices on file
     np.savetxt(os.path.join(StrPath, envi.simFolder, 'ERmwmatrix.csv'), ERmwmatrix, fmt='%.4f')
     np.savetxt(os.path.join(StrPath, envi.simFolder, 'ERplantmatrix.csv'), ERplantmatrix, fmt='%.4f')
     np.savetxt(os.path.join(StrPath, envi.simFolder, 'PUmwmatrix.csv'), PUmwmatrix, fmt='%.4f')
@@ -176,6 +176,7 @@ if __name__ == '__main__':
     np.savetxt(os.path.join(StrPath, envi.simFolder, 'CAmwmatrix.csv'), CAmwmatrix, fmt='%.4f')
     np.savetxt(os.path.join(StrPath, envi.simFolder, 'CAplantmatrix.csv'), CAplantmatrix, fmt='%.4f')
 
+    # Search for minimum, i.e. the optimize alpha beta tuple, of each matrix. 
     MIN_ERmwmatrix = np.where(ERmwmatrix == np.min(ERmwmatrix))
     MIN_ERplantmatrix = np.where(ERplantmatrix == np.min(ERplantmatrix))
     MIN_PUmwmatrix = np.where(PUmwmatrix == np.min(PUmwmatrix))
@@ -185,7 +186,7 @@ if __name__ == '__main__':
     MIN_CAmwmatrix = np.where(CAmwmatrix == np.min(CAmwmatrix))
     MIN_CAplantmatrix = np.where(CAplantmatrix == np.min(CAplantmatrix))
 
-    # Extract beta distribution params selected
+    # Extract beta distribution params selected each region and save it in betaparams.csv
     fidalphabetafid = open(os.path.join(StrPath, envi.simFolder, 'betaparams.csv'), 'w')
     fidalphabetafid.write('Region\ttype\talpha\tbeta\n')
     fidalphabetafid.write(

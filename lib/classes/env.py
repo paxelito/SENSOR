@@ -326,6 +326,7 @@ class environment:
         '''
         tmp_tAids = 0
         for sngAgent in self.allAgents:
+            # Compute monthly costs and pollution
             sngAgent.computeMonthNrgCostsAndPoll(self.allTechs, tmpTime, self.allPolicies)
             sngAgent.performFinancialActivities()
             sngAgent.updateEnergyPropAccordingToEfficiencyDrop(self.allTechs)
@@ -393,8 +394,12 @@ class environment:
                     if tmprndHealth < 0: tmprndHealth = 0
                 else:
                     tmprndHealth = 0.5
-                # Accordind to parameters alpha and beta, the social lobby is provided
+                # According to parameters alpha and beta, the social lobby is provided
+                # TODO 
                 socialLobby = np.random.beta(self.socialLobby_betadist_alpha, self.socialLobby_betadist_beta)
+                # STEP 1: Uniform distribution for everything
+                # STEP 2: Change random distribution. (power law or exp... look at ER data)
+                # TODO
                 self.allAgents.append(
                     ag.agents(self.debugLevel, i, ran.uniform(0, self.xMaxPos), ran.uniform(0, self.yMaxPos), \
                               ran.randint(self.minNrgDim, self.maxNrgDim), ran.uniform(0, self.agroMaxDim), \
@@ -410,7 +415,8 @@ class environment:
         self.computeTotEnergyNeed()
 
     def createPolicies(self, tmpP=None, tmpP2=None, tmpP3=None):
-        '''Function to create the population
+        '''Function to create policies. If param policyCreationMethod is 0 policies are randomly created. Otherwise
+            They are uploaded from file. 
         '''
         # if agentCreationMethod is equal to 0 random population is created otherwise it is uploaded from file
         if self.policyCreationMethod == 0:
@@ -686,11 +692,11 @@ class environment:
             self.totTechKWdist.append(t.techKWdist)
 
         # Save overall stat on file
-        filename = 'stat_nrgDist' + str(tmpSeed)
+        filename = 'stat_nrgDist_' + str(tmpSeed)
         self.writeSngStatOnFileWhereISay(filename, self.totTechNRGdist, '%d')
-        filename = 'stat_kwhDist' + str(tmpSeed)
+        filename = 'stat_kwhDist_' + str(tmpSeed)
         self.writeSngStatOnFileWhereISay(filename, self.totTechKWHdist, '%f.2')
-        filename = 'stat_kwDist' + str(tmpSeed)
+        filename = 'stat_kwDist_' + str(tmpSeed)
         self.writeSngStatOnFileWhereISay(filename, self.totTechKWdist, '%f.2')
 
     def saveTotalOnFile(self):
@@ -755,13 +761,15 @@ class environment:
 
         saveFileStat.close()
         os.rename(outFnameStat, os.path.join(self.simPath, self.simFolder, outFnameStat))
+        
 
     def computeTotEnergyNeed(self):
         '''
-            Compute overall Financiable amount
+            Compute overall Financiable amount of the system 
         '''
         for sngAgent in self.allAgents:
             self.overallEnergyNeed += sngAgent.totEnergyNeed
+            
 
     def checkTimeAndSetPolicy(self, tmpTime):
         for pol in self.allPolicies:
@@ -769,6 +777,7 @@ class environment:
                 self.allTechs[pol.introTech].policy = pol.ID
             elif pol.endTime == tmpTime:
                 self.allTechs[pol.introTech].policy = 0
+                
 
     def saveAgentsXMLformat(self):
         '''
@@ -889,6 +898,7 @@ class environment:
         tempstr = '</xml>'
         xmlFile.write(tempstr)
         xmlFile.close()
+        
 
     def resetAll(self):
         '''

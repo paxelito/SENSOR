@@ -25,9 +25,9 @@ if __name__ == '__main__':
 
     initTime = time()
 
-    # varParList1 = [0.25, 0.5, 0.75, 1]
-    # varParList2 = [0.25, 0.5, 0.75, 1]
-    # varParList3 = [0.25, 0.5, 0.75, 1]
+    # varParList1 = [0.25, 0.5, 0.75, 1] # FEED IN analysis on 4 values
+    # varParList2 = [0.25, 0.5, 0.75, 1] # TAX CREDIT
+    # varParList3 = [0.25, 0.5, 0.75, 1] # TOTAL AMOUNT 
     varParList1 = [None]
     varParList2 = [None]
     varParList3 = [None]
