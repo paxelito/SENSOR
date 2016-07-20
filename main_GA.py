@@ -97,7 +97,7 @@ if __name__ == '__main__':
             yMW, allyMW = [], []
             yP, allyP = [], []
             for nseed in range(envi.nSeed):
-                print "\t|- alpha: {0} - beta: {1} - Run number {2} ".format(temp_alpha, temp_beta, nseed)
+                print "\t|- alpha: {0} - beta: {1} - Run number {2} ".format(temp_alpha, temp_beta, nseed + 1)
 
                 # Update commitments and social lobby values
                 print "\t\t|- Update agents committment"
@@ -124,8 +124,8 @@ if __name__ == '__main__':
                     if gen % _TIMEPROMPT_ == 0:
                         if len(envi.totSolarBasedInstallation) > 0:
                             print " - number of agents adopting a solar based tech: {0} - Total kWh: {1} - Total kW: {2}".format(
-                                envi.totSolarBasedInstallation[-1], \
-                                envi.totSolarBasedKWh[-1], \
+                                envi.totSolarBasedInstallation[-1],
+                                envi.totSolarBasedKWh[-1],
                                 envi.totSolarBasedKW[-1])
                         # for sTech in envi.allTechs:
                         #	print "\t\t\t|- Tech: {0}, Solar Based: {1}, Total Amount: {2}".format(sTech.ID, sTech.solarBased, sum(sTech.techKWHdist))

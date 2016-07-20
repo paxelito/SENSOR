@@ -6,6 +6,8 @@
 .DS_Store
 .idea
 _build
+modelDataDemo/input/rndstate.dat
+modelDataDemo/input/init.conf
 
 #ignore thumbnails created by windows
 Thumbs.db
