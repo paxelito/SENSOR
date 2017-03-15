@@ -150,6 +150,7 @@ class agents:
             if self.debugLevel < -1:
                 print "\t  	 \_ Total balance: ", u"\u20AC", "%.2f" % self.balance, " M: ", u"\u20AC", "%.2f" % self.month_balance, " CO2: ", "%.4f" % self.co2
             # If the agent is in health
+            # TODO MAR17
             if (self.flagFree == True) & (self.techawareness == True):
                 # Define technology attraction list
                 relativeAttractions = self.defineTechAttraction(tmpTechs, tmpAgents)
@@ -299,6 +300,7 @@ class agents:
                                 cashFlow = 0
                                 for y in range(1, self.invLength + 1):
                                     # Compute costs and intentives of the year
+                                    # TODO MAR17 Calcolo costi ed incentini della tech in valutazione
                                     tmpCostsAndIncs = self.computeAnnualCostandIncs(sngTechID, tmpNewNrgProp,
                                                                                     tmpNrgPropReceipt, tmpTechs,
                                                                                     tmpPolicies, relativeAttractions,
@@ -456,7 +458,7 @@ class agents:
 
                             # .. If a BETTER new technology exist, it is added to the agent
 
-                            self.flagFree = False  # Technology search is blocked
+                            self.flagFree = False  # Technology search is blocked when I have invested in an other one
                             self.nrgTechsReceipt.append(tmpTechsID[tmpAvaiableTechs[betterTechPos]])
                             self.nrgPropReceipt = recList[betterTechPos]
                             self.nrgTechAges.append(0)
@@ -561,6 +563,7 @@ class agents:
                          tmpDistanceFromSourceMultiplier - \
                          tmp_policies[self.techPolicy[tmpCnt][0]].feedIN)
 
+            # TODO MAR17 $var.feedIN sono gli incentivi, porre a 0 per escluderli
             # (1) Since feedIn has been theoretically used, it is updated
             tmpIncsAmount += tmpNewSngProp * tmp_policies[self.techPolicy[tmpCnt][0]].feedIN
 
